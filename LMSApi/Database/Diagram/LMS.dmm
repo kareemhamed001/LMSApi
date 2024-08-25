@@ -120,7 +120,8 @@
 				"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
 				"43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
 				"3e489b02-4d88-4b5a-837f-393289fd0e3b",
-				"fb062b14-e299-46c0-b8b8-bd156d9a9b7e"
+				"fb062b14-e299-46c0-b8b8-bd156d9a9b7e",
+				"565ee046-64b8-4ba0-858c-84c5c76565d0"
 			],
 			"lines": [],
 			"keys": [
@@ -206,7 +207,7 @@
 					"id": "33acce4c-11d8-4dac-b318-c54e65c293e1",
 					"name": "Phone",
 					"datatype": "varchar",
-					"param": "50",
+					"param": "20",
 					"pk": false,
 					"nn": false,
 					"list": false,
@@ -262,7 +263,8 @@
 				"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
 				"0df041d0-cbf2-4528-a92d-5720bf5547fd",
 				"98d24ee4-2bad-43ab-b0d3-119ef0fa6edc",
-				"67e7b96b-bc55-43c9-bdef-0221d69780d6"
+				"67e7b96b-bc55-43c9-bdef-0221d69780d6",
+				"618fdfa1-0201-485e-b51a-2136d6bbe966"
 			],
 			"lines": [],
 			"keys": [
@@ -1566,11 +1568,31 @@
 						"computed": ""
 					},
 					"estimatedSize": ""
+				},
+				{
+					"id": "b43d7b6a-856c-4fd2-a355-bececde5e4d5",
+					"name": "teachers_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
 				}
 			],
 			"relations": [
 				"ef3bc52b-8456-4508-81db-94a13ffeb231",
-				"e922a60f-dc3e-4b35-9cc8-5355bcbb5059"
+				"e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
+				"618fdfa1-0201-485e-b51a-2136d6bbe966"
 			],
 			"lines": [],
 			"keys": [
@@ -1587,6 +1609,285 @@
 							"colid": "f8a89ab5-3fdf-4594-b53f-258f7ffb95c0"
 						}
 					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"d820655f-7ee3-43bc-b8ce-c9a66083ac63": {
+			"id": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"visible": true,
+			"name": "Roles",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "121aabfb-405d-423f-ad48-404070238f5c",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"6ef99eb8-7b76-4cf7-a99c-d1509e9be36d",
+				"ff35e594-e211-452c-ad1b-6bb95ba8be03"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+					"name": "table1_pkey14",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "3360e0d1-6362-409a-b9f8-f386de96a2b5",
+							"colid": "5d775ff7-a70d-43a1-8456-31761dbcea39"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"c0cd176e-c8b2-41b2-b097-ede325c9065f": {
+			"id": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+			"visible": true,
+			"name": "Permissions",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "b2547765-0f7b-413a-88c5-8946200efcf7",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "7f51d94e-0f1a-4d82-bd87-8657410da8b7",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "5729389a-474c-4a0f-818a-0edccc7a8aa7",
+					"name": "Category",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "641cdf4f-b44e-40eb-816e-53bf52c9bc31",
+					"name": "RouteName",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "53fcdf57-15f9-4584-af37-e1013ec1d9f2",
+					"name": "Roles_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"6ef99eb8-7b76-4cf7-a99c-d1509e9be36d"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "05ccaefc-76b6-4fe3-a117-04d6041ffacc",
+					"name": "table1_pkey15",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "9867eb80-b67a-452a-a949-04c75b0b169b",
+							"colid": "b2547765-0f7b-413a-88c5-8946200efcf7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"b12089e5-28af-4676-b1ae-6cc36038b650": {
+			"id": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"visible": true,
+			"name": "UserRole",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "d7a24df5-6f60-4fe1-bf46-492be3a0dbe6",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "d8d57285-2cad-4373-a6fc-e2ea442300a2",
+					"name": "Roles_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"565ee046-64b8-4ba0-858c-84c5c76565d0",
+				"ff35e594-e211-452c-ad1b-6bb95ba8be03"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "049f5f4f-d807-47d2-a202-226e53801e7f",
+					"name": "table1_pkey16",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": []
 				}
 			],
 			"indexes": [],
@@ -2095,6 +2396,110 @@
 			"generate": true,
 			"generateCustomCode": true,
 			"customCode": ""
+		},
+		"6ef99eb8-7b76-4cf7-a99c-d1509e9be36d": {
+			"id": "6ef99eb8-7b76-4cf7-a99c-d1509e9be36d",
+			"visible": true,
+			"name": "Permissions_Roles_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+			"parent": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"child": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "db841138-f29d-471c-b0cb-5aef8000d14a",
+					"parentcol": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"childcol": "53fcdf57-15f9-4584-af37-e1013ec1d9f2"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"565ee046-64b8-4ba0-858c-84c5c76565d0": {
+			"id": "565ee046-64b8-4ba0-858c-84c5c76565d0",
+			"visible": true,
+			"name": "UserRole_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "6055a911-8675-4cb8-94a0-66e75d8cfd35",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "d7a24df5-6f60-4fe1-bf46-492be3a0dbe6"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"ff35e594-e211-452c-ad1b-6bb95ba8be03": {
+			"id": "ff35e594-e211-452c-ad1b-6bb95ba8be03",
+			"visible": true,
+			"name": "UserRole_Roles_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+			"parent": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"child": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "0f6e716b-a507-445b-8d19-334073ce5b40",
+					"parentcol": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"childcol": "d8d57285-2cad-4373-a6fc-e2ea442300a2"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"618fdfa1-0201-485e-b51a-2136d6bbe966": {
+			"id": "618fdfa1-0201-485e-b51a-2136d6bbe966",
+			"visible": true,
+			"name": "Subscriptions_teachers_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "22910883-91ea-42b5-bdd5-699cde8de622",
+			"parent": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"child": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "4b7c3dbd-c2d0-4ba0-8219-f016a2ed0aab",
+					"parentcol": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"childcol": "b43d7b6a-856c-4fd2-a355-bececde5e4d5"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
 		}
 	},
 	"notes": {},
@@ -2148,7 +2553,7 @@
 			"indexes": true,
 			"relations": true
 		},
-		"lastSaved": "Sun Aug 25 2024 17:35:55 GMT+0200 (Eastern European Standard Time)"
+		"lastSaved": "Sun Aug 25 2024 20:53:36 GMT+0200 (Eastern European Standard Time)"
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -2158,7 +2563,7 @@
 			"id": "1df221d9-e8e7-437b-b5f0-5fdc31f4ac16",
 			"keysgraphics": true,
 			"linegraphics": "detailed",
-			"zoom": 1,
+			"zoom": 0.9,
 			"background": "transparent",
 			"lineColor": "transparent",
 			"isOpen": true,
@@ -2166,8 +2571,8 @@
 			"diagramItems": {
 				"39731874-bebe-4315-9b12-e98f2890cd40": {
 					"referencedItemId": "39731874-bebe-4315-9b12-e98f2890cd40",
-					"x": 355,
-					"y": 66,
+					"x": 904,
+					"y": 448,
 					"gHeight": 135,
 					"gWidth": 217,
 					"color": "#ffffff",
@@ -2178,8 +2583,8 @@
 				},
 				"3dea7451-ccd1-4995-a735-633ea517dfce": {
 					"referencedItemId": "3dea7451-ccd1-4995-a735-633ea517dfce",
-					"x": 283,
-					"y": 355,
+					"x": 722,
+					"y": 1224,
 					"gHeight": 117,
 					"gWidth": 217,
 					"color": "#ffffff",
@@ -2190,8 +2595,8 @@
 				},
 				"3ca0d68d-29d6-468e-ba5e-da79fa63f885": {
 					"referencedItemId": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
-					"x": 773,
-					"y": 30,
+					"x": 1205,
+					"y": 452,
 					"gHeight": 99,
 					"gWidth": 232,
 					"color": "#ffffff",
@@ -2202,8 +2607,8 @@
 				},
 				"7bc236c9-a6f9-4a64-977e-857a7b9134c9": {
 					"referencedItemId": "7bc236c9-a6f9-4a64-977e-857a7b9134c9",
-					"x": 283,
-					"y": 231,
+					"x": 773,
+					"y": 896,
 					"gHeight": 81,
 					"gWidth": 179,
 					"color": "#ffffff",
@@ -2214,8 +2619,8 @@
 				},
 				"d222a2a9-8b80-44bf-8303-8be564606d5e": {
 					"referencedItemId": "d222a2a9-8b80-44bf-8303-8be564606d5e",
-					"x": 45,
-					"y": 48,
+					"x": 465,
+					"y": 432,
 					"gHeight": 63,
 					"gWidth": 161,
 					"color": "#ffffff",
@@ -2226,8 +2631,8 @@
 				},
 				"8473cab8-a6e1-4672-9c91-6756ca70ae7d": {
 					"referencedItemId": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
-					"x": 1255,
-					"y": 87,
+					"x": 1674,
+					"y": 459,
 					"gHeight": 81,
 					"gWidth": 193,
 					"color": "#ffffff",
@@ -2238,8 +2643,8 @@
 				},
 				"af061290-adb9-4f6d-a64b-17801610c67d": {
 					"referencedItemId": "af061290-adb9-4f6d-a64b-17801610c67d",
-					"x": 812,
-					"y": 332,
+					"x": 1244,
+					"y": 754,
 					"gHeight": 81,
 					"gWidth": 193,
 					"color": "#ffffff",
@@ -2250,8 +2655,8 @@
 				},
 				"13606abf-d162-471f-bdd4-8b942c3adaee": {
 					"referencedItemId": "13606abf-d162-471f-bdd4-8b942c3adaee",
-					"x": 1295,
-					"y": 318,
+					"x": 1720,
+					"y": 670,
 					"gHeight": 63,
 					"gWidth": 177,
 					"color": "#ffffff",
@@ -2262,8 +2667,8 @@
 				},
 				"60c8626d-98c3-480a-8407-76a1c729d96d": {
 					"referencedItemId": "60c8626d-98c3-480a-8407-76a1c729d96d",
-					"x": 826,
-					"y": 210,
+					"x": 1260,
+					"y": 654,
 					"gHeight": 63,
 					"gWidth": 177,
 					"color": "#ffffff",
@@ -2274,8 +2679,8 @@
 				},
 				"1f4d7eeb-4150-40bd-8145-95ccf5b4cd32": {
 					"referencedItemId": "1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
-					"x": 568,
-					"y": 315,
+					"x": 1005,
+					"y": 767,
 					"gHeight": 63,
 					"gWidth": 179,
 					"color": "#ffffff",
@@ -2286,8 +2691,8 @@
 				},
 				"2901c246-082c-43b4-97f6-9b786335be6d": {
 					"referencedItemId": "2901c246-082c-43b4-97f6-9b786335be6d",
-					"x": 813,
-					"y": 450,
+					"x": 1258,
+					"y": 892,
 					"gHeight": 153,
 					"gWidth": 193,
 					"color": "#ffffff",
@@ -2298,8 +2703,8 @@
 				},
 				"81ecafc0-1ca1-424e-9358-0394c034024d": {
 					"referencedItemId": "81ecafc0-1ca1-424e-9358-0394c034024d",
-					"x": 1118,
-					"y": 459,
+					"x": 1550,
+					"y": 881,
 					"gHeight": 117,
 					"gWidth": 202,
 					"color": "#ffffff",
@@ -2310,8 +2715,8 @@
 				},
 				"bd10779a-0ebc-4de7-9e64-94bf6809de3d": {
 					"referencedItemId": "bd10779a-0ebc-4de7-9e64-94bf6809de3d",
-					"x": 1122,
-					"y": 590,
+					"x": 1574,
+					"y": 1142,
 					"gHeight": 135,
 					"gWidth": 193,
 					"color": "#ffffff",
@@ -2322,10 +2727,46 @@
 				},
 				"556487ac-7100-4300-af2e-5c5a6b3e2666": {
 					"referencedItemId": "556487ac-7100-4300-af2e-5c5a6b3e2666",
-					"x": 832,
-					"y": 613,
-					"gHeight": 117,
+					"x": 1258,
+					"y": 1215,
+					"gHeight": 135,
 					"gWidth": 208,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"d820655f-7ee3-43bc-b8ce-c9a66083ac63": {
+					"referencedItemId": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+					"x": 438,
+					"y": 655,
+					"gHeight": 63,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"c0cd176e-c8b2-41b2-b097-ede325c9065f": {
+					"referencedItemId": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+					"x": 393,
+					"y": 891,
+					"gHeight": 117,
+					"gWidth": 209,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"b12089e5-28af-4676-b1ae-6cc36038b650": {
+					"referencedItemId": "b12089e5-28af-4676-b1ae-6cc36038b650",
+					"x": 723,
+					"y": 660,
+					"gHeight": 63,
+					"gWidth": 161,
 					"color": "#ffffff",
 					"background": "#03a9f4",
 					"resized": false,
@@ -2374,6 +2815,9 @@
 		"81ecafc0-1ca1-424e-9358-0394c034024d",
 		"bd10779a-0ebc-4de7-9e64-94bf6809de3d",
 		"556487ac-7100-4300-af2e-5c5a6b3e2666",
+		"d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+		"c0cd176e-c8b2-41b2-b097-ede325c9065f",
+		"b12089e5-28af-4676-b1ae-6cc36038b650",
 		"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
 		"43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
 		"3e489b02-4d88-4b5a-837f-393289fd0e3b",
@@ -2392,7 +2836,11 @@
 		"3455b0bd-2952-49be-879b-a9a3401c85a5",
 		"ef3bc52b-8456-4508-81db-94a13ffeb231",
 		"e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
-		"e8c93868-4e2e-4249-bbd5-abadb392c369"
+		"e8c93868-4e2e-4249-bbd5-abadb392c369",
+		"6ef99eb8-7b76-4cf7-a99c-d1509e9be36d",
+		"565ee046-64b8-4ba0-858c-84c5c76565d0",
+		"ff35e594-e211-452c-ad1b-6bb95ba8be03",
+		"618fdfa1-0201-485e-b51a-2136d6bbe966"
 	],
 	"collapsedTreeItems": [],
 	"reverseStats": {}
