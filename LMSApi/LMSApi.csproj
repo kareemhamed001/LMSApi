@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="App\Controllers\" />
     <Folder Include="App\Middlewares\" />
     <Folder Include="App\Filters\" />
     <Folder Include="Config\" />
