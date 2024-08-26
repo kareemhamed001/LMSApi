@@ -1,3 +1,4 @@
+using LMSApi.App.Interfaces;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
 using LMSApi.Database.Data;

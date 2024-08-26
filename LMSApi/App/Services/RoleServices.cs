@@ -1,4 +1,5 @@
-﻿using LMSApi.Database.Data;
+﻿using LMSApi.App.Interfaces;
+using LMSApi.Database.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

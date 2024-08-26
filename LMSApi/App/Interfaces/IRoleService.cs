@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LMSApi.App.Services
+namespace LMSApi.App.Interfaces
 {
     public interface IRoleService
     {
