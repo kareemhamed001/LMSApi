@@ -1,10 +1,12 @@
-﻿using LMSApi.App.Enums;
+﻿using LMSApi.App.Attributes;
+using LMSApi.App.Enums;
 using LMSApi.App.Interfaces.Teacher;
 using LMSApi.App.Options;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
 using LMSApi.Database.Data;
+using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace LMSApi.App.Controllers
@@ -20,6 +22,7 @@ namespace LMSApi.App.Controllers
 
         [HttpGet]
         [Route("")]
+        [CheckPermission("teacher.index")]
         public async Task<ActionResult<ApiResponse<TeacherIndexResponse>>> Index()
         {
             (ServicesMethodsResponsesEnum response, List<TeacherIndexResponse>? teachers) = await teacherService.Index();
@@ -104,6 +107,7 @@ namespace LMSApi.App.Controllers
             });
         }
         [HttpPost]
+        [CheckPermission("teacher.store")]
         public async Task<ActionResult<ApiResponse<TeacherResponse>>> Store([FromBody] CreateTeacherRequest teacherRequest)
         {
 

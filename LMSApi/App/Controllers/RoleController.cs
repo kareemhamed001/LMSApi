@@ -1,5 +1,6 @@
 ﻿using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
+using LMSApi.App.Requests.Role;
 using LMSApi.App.Responses;
 using LMSApi.Database.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,13 @@ namespace LMSApi.App.Controllers
         }
 
         [HttpPost]
-        [Route("create")]
-        public async Task<ActionResult<ApiResponse<Role>>> CreateRole([FromBody] string roleName)
+        [Route("")]
+        public async Task<ActionResult<ApiResponse<Role>>> CreateRole([FromBody] CreateRoleRequest request)
         {
-            var role = await _roleService.CreateRoleAsync(roleName);
+            var role = await _roleService.CreateRoleAsync(request);
             return Ok(new ApiResponse<Role>
             {
-               
+
                 Message = "Role created successfully",
                 Success = true,
                 Status = 201
@@ -46,7 +47,7 @@ namespace LMSApi.App.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
+        [Route("")]
         public async Task<ActionResult<ApiResponse<IEnumerable<Role>>>> GetAllRoles()
         {
             var roles = await _roleService.GetAllRolesAsync();
@@ -54,13 +55,13 @@ namespace LMSApi.App.Controllers
         }
 
         [HttpPut]
-        [Route("update/{roleId}")]
-        public async Task<ActionResult<ApiResponse<string>>> UpdateRole(int roleId, [FromBody] string newRoleName)
+        [Route("{roleId}")]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateRole(int roleId, [FromBody] CreateRoleRequest roleRequest)
         {
-            await _roleService.UpdateRoleAsync(roleId, newRoleName);
+            await _roleService.UpdateRoleAsync(roleId, roleRequest);
             return Ok(new ApiResponse<string>
             {
-               
+
                 Message = "Role updated successfully",
                 Success = true,
                 Status = 200
@@ -68,13 +69,13 @@ namespace LMSApi.App.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/{roleId}")]
+        [Route("{roleId}")]
         public async Task<ActionResult<ApiResponse<string>>> DeleteRole(int roleId)
         {
             await _roleService.DeleteRoleAsync(roleId);
             return Ok(new ApiResponse<string>
             {
-                
+
                 Message = "Role deleted successfully",
                 Success = true,
                 Status = 200
@@ -95,6 +96,14 @@ namespace LMSApi.App.Controllers
             await _roleService.AddRoleToUserAsync(userId, roleId);
 
             return Ok("Role assigned successfully");
+        }
+
+        [HttpGet]
+        [Route("seed-permissions")]
+        public async Task<ActionResult> seedPermissionsSeedPermissions()
+        {
+            await _roleService.SeedPermissions();
+            return Ok("Permissions seeded successfully");
         }
     }
 }
