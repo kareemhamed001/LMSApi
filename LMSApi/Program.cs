@@ -1,6 +1,8 @@
+using LMSApi.App.Filters;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Interfaces.Teacher;
 using LMSApi.App.Interfaces.Class;
+using LMSApi.App.Interfaces.Teacher;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
 using LMSApi.App.Services.Teacher;
@@ -13,7 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<PermissionCheckFilter>();
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +27,7 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IClassService, ClassServices>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 JwtOptions jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 builder.Services.AddSingleton(jwtOptions);

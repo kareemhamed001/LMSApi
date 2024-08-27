@@ -6,6 +6,7 @@ using LMSApi.App.DTOs;
 using LMSApi.App.Interfaces.Class;
 using LMSApi.App.Requests.Class;
 using AutoMapper;
+using LMSApi.App.Attributes;
 
 namespace LMSApi.Controllers
 {
@@ -23,6 +24,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [CheckPermission("class.getClassById")]
         public async Task<ActionResult<ClassRequest>> GetClassById(int id)
         {
             var classEntity = await _classService.GetClassByIdAsync(id);
@@ -33,6 +35,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpGet]
+        [CheckPermission("class.getAllClasses")]
         public async Task<ActionResult<IEnumerable<ClassRequest>>> GetAllClasses()
         {
             var classEntities = await _classService.GetAllClassesAsync();
@@ -42,6 +45,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpPost]
+        [CheckPermission("class.createClass")]
         public async Task<ActionResult> CreateClass(ClassRequest classDto)
         {
 
@@ -53,6 +57,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [CheckPermission("class.updateClass")]
         public async Task<ActionResult> UpdateClass(int id, ClassRequest classDto)
         {
 
@@ -65,6 +70,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [CheckPermission("class.deleteClass")]
         public async Task<ActionResult> DeleteClass(int id)
         {
             await _classService.DeleteClassAsync(id);
@@ -73,6 +79,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpGet("{classId}/students")]
+        [CheckPermission("class.getStudentsByClassId")]
         public async Task<ActionResult<GetStudentOfClassRequest>> GetStudentsByClassId(int classId)
         {
             var classEntity = await _classService.GetClassByIdAsync(classId);
