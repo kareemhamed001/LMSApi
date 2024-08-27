@@ -1,7 +1,9 @@
 using LMSApi.App.Interfaces;
+using LMSApi.App.Interfaces.Teacher;
 using LMSApi.App.Interfaces.Class;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
+using LMSApi.App.Services.Teacher;
 using LMSApi.Database.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,14 +19,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IClassService, ClassServices>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 JwtOptions jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
-if (string.IsNullOrEmpty(jwtOptions.Key))
-{
-    throw new ArgumentException("JWT Key is not configured properly.");
-}
 builder.Services.AddSingleton(jwtOptions);
 builder.Services.AddAuthentication()
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
