@@ -40,7 +40,7 @@ namespace LMSApi.App.Controllers.Auth
 
             return Ok(new ApiResponse<string>
             {
-                Data = new List<string> { user.GenerateJwtToken(_jwtOptions) },
+                Data = new List<string> { user.GenerateJwtToken(_jwtOptions, _appDbContext) },
                 Message = "Succeeded",
                 Success = true,
                 Status = 201
@@ -69,7 +69,7 @@ namespace LMSApi.App.Controllers.Auth
 
             return Ok(new ApiResponse<string>
             {
-                Data = new List<string> { user.GenerateJwtToken(_jwtOptions) },
+                Data = new List<string> { user.GenerateJwtToken(_jwtOptions, _appDbContext) },
                 Message = "User registered successfully",
                 Success = true,
                 Status = 201
