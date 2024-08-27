@@ -8,6 +8,5 @@
         public List<RolePermission> RolePermissions { get; set; }= new List<RolePermission>();
         public List<User> Users { get; set; }
         public List<UserRole> UserRoles { get; set; }
-
     }
 }
