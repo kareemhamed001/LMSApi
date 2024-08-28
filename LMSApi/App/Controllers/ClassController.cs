@@ -24,7 +24,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [CheckPermission("class.getClassById")]
+        [CheckPermission("Class.index")]
         public async Task<ActionResult<ClassRequest>> GetClassById(int id)
         {
             var classEntity = await _classService.GetClassByIdAsync(id);
@@ -35,7 +35,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpGet]
-        [CheckPermission("class.getAllClasses")]
+        [CheckPermission("Class.AllClass")]
         public async Task<ActionResult<IEnumerable<ClassRequest>>> GetAllClasses()
         {
             var classEntities = await _classService.GetAllClassesAsync();
@@ -45,7 +45,7 @@ namespace LMSApi.Controllers
         }
 
         [HttpPost]
-        [CheckPermission("class.createClass")]
+        [CheckPermission("Class.createClass")]
         public async Task<ActionResult> CreateClass(ClassRequest classDto)
         {
 

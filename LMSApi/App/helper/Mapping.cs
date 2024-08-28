@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMSApi.App.DTOs;
 using LMSApi.App.Requests.Class;
+using LMSApi.App.Requests.Course;
 using System.Diagnostics.Metrics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -16,6 +17,8 @@ namespace testApp.helper
             CreateMap<ClassRequest, Class>();
             CreateMap<Class, GetStudentOfClassRequest>();
             CreateMap<GetStudentOfClassRequest, Class>();
+            CreateMap<Course, CourseRequest>();
+            CreateMap<CourseRequest, Course>();
         }
 
     }
