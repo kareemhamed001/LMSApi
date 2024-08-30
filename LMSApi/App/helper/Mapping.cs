@@ -3,6 +3,7 @@ using LMSApi.App.DTOs;
 using LMSApi.App.Requests.Class;
 using LMSApi.App.Requests.Course;
 using LMSApi.App.Requests.Lesson;
+using LMSApi.App.Requests.LessonContent;
 using System.Diagnostics.Metrics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -22,6 +23,8 @@ namespace testApp.helper
             CreateMap<CourseRequest, Course>();
             CreateMap<Lesson, LessonRequest>();
             CreateMap<LessonRequest, Lesson>();
+            CreateMap<LessonContentRequest, LessonContent>();
+            CreateMap<LessonContent, LessonContentRequest>();
         }
 
     }
