@@ -1,6 +1,6 @@
 ﻿using LMSApi.App.Attributes;
 using LMSApi.App.Enums;
-using LMSApi.App.Interfaces.Teacher;
+using LMSApi.App.Interfaces;
 using LMSApi.App.Options;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
