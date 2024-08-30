@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LMSApi.App.DTOs;
-using LMSApi.App.Interfaces.Class;
+using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Class;
 using AutoMapper;
 using LMSApi.App.Attributes;
