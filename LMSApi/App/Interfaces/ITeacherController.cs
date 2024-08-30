@@ -1,9 +1,9 @@
 ﻿using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
-using TeacherEntity= LMSApi.Database.Enitities.Teacher;
+using TeacherEntity = LMSApi.Database.Enitities.Teacher;
 
-namespace LMSApi.App.Interfaces.Teacher
+namespace LMSApi.App.Interfaces
 {
     public interface ITeacherController
     {

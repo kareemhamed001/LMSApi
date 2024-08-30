@@ -1,12 +1,12 @@
 ﻿using LMSApi.App.Enums;
-using LMSApi.App.Interfaces.Teacher;
+using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses.Teacher;
 using LMSApi.Database.Data;
 using LMSApi.Database.Enitities;
 using TeacherEntity = LMSApi.Database.Enitities.Teacher;
 
-namespace LMSApi.App.Services.Teacher
+namespace LMSApi.App.Services
 {
     public class TeacherService(AppDbContext appDbContext) : ITeacherService
     {
@@ -101,7 +101,7 @@ namespace LMSApi.App.Services.Teacher
                     NickName = teacherRequest.NickName,
                     Phone = teacherRequest.CommunicationPhone ?? teacherRequest.Email,
                     Email = teacherRequest.CommunicationEmail ?? teacherRequest.Phone,
-                    User=user
+                    User = user
                 };
 
                 appDbContext.Teachers.Add(teacher);

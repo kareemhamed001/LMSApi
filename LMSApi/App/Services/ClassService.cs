@@ -1,4 +1,4 @@
-﻿using LMSApi.App.Interfaces.Class;
+﻿using LMSApi.App.Interfaces;
 using LMSApi.Database.Data;
 
 namespace LMSApi.App.Services
