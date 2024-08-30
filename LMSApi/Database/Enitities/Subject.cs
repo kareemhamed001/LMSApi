@@ -11,9 +11,9 @@
         public List<Teacher> Teachers { get; set; }
         public List<Student> Students { get; set; }
 
-        public List<StudentSubject> StudentSubjects { get; set; }=new List<StudentSubject>();
-        public List<ClassSubject> ClassSubjects { get; set; }=new List<ClassSubject>();
-        public List<TeacherSubject> TeacherSubjects { get; set; }=new List<TeacherSubject>();
+        public List<StudentSubject> StudentSubjects { get; set; } = new List<StudentSubject>();
+        public List<ClassSubject> ClassSubjects { get; set; } = new List<ClassSubject>();
+        public List<TeacherSubject> TeacherSubjects { get; set; } = new List<TeacherSubject>();
 
     }
 }
