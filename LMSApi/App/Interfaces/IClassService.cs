@@ -1,6 +1,6 @@
 ﻿
 using ClassService = LMSApi.Database.Enitities.Class;
-namespace LMSApi.App.Interfaces.Class
+namespace LMSApi.App.Interfaces
 {
     public interface IClassService
     {
