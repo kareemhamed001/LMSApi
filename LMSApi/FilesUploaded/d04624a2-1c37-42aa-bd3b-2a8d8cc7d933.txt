@@ -1,0 +1,270 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using LMSApi.App.DTOs;
+using LMSApi.App.Interfaces.Class;
+using LMSApi.App.Requests.Class;
+using AutoMapper;
+
+namespace LMSApi.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ClassController : ControllerBase
+    {
+        private readonly IClassService _classService;
+        private readonly IMapper _mapper;
+
+        public ClassController(IClassService classService, IMapper mapper)
+        {
+            _classService = classService;
+            _mapper = mapper;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClassRequest>> GetClassById(int id)
+        {
+            var classEntity = await _classService.GetClassByIdAsync(id);
+            if (classEntity == null) return NotFound();
+            var classDto = _mapper.Map<ClassRequest>(classEntity);
+
+            return Ok(classDto);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ClassRequest>>> GetAllClasses()
+        {
+            var classEntities = await _classService.GetAllClassesAsync();
+            var classDtos = _mapper.Map<IEnumerable<ClassRequest>>(classEntities);
+
+            return Ok(classDtos);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateClass(ClassRequest classDto)
+        {
+          
+            var classEntity = _mapper.Map<Class>(classDto);
+
+            await _classService.CreateClassAsync(classEntity);
+
+            return CreatedAtAction(nameof(GetClassById), new { id = classEntity.Id }, classDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateClass(int id, ClassRequest classDto)
+        {
+            
+            var classEntity = _mapper.Map<Class>(classDto);
+            classEntity.Id = id;
+
+            await _classService.UpdateClassAsync(id, classEntity);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteClass(int id)
+        {
+            await _classService.DeleteClassAsync(id);
+
+            return NoContent();
+        }
+
+        [HttpGet("{classId}/students")]
+        public async Task<ActionResult<GetStudentOfClassRequest>> GetStudentsByClassId(int classId)
+        {
+            var classEntity = await _classService.GetClassByIdAsync(classId);
+            if (classEntity == null) return NotFound();
+
+            // Get students for the class
+            var students = await _classService.GetStudentsByClassIdAsync(classId);
+
+            // Map the class entity to GetStudentOfClassRequest
+            var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
+
+            // Map students to StudentDto and set it in the request
+            getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
+
+            return Ok(getStudentOfClassRequest);
+        }
+    }
+}
+using ClassService = LMSApi.Database.Enitities.Class;
+namespace LMSApi.App.Interfaces.Class
+{
+    public interface IClassService
+    {
+        Task<ClassService> GetClassByIdAsync(int id);
+        Task<IEnumerable<ClassService>> GetAllClassesAsync();
+        Task CreateClassAsync(ClassService classEntity);
+        Task UpdateClassAsync(int id, ClassService classEntity);
+        Task DeleteClassAsync(int id);
+        Task<IEnumerable<Student>> GetStudentsByClassIdAsync(int classId);
+    }
+}
+namespace LMSApi.App.DTOs
+{
+    public class ClassRequest
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+
+
+
+}
+namespace LMSApi.App.Requests.Class
+{
+    public class GetStudentOfClassRequest
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<StudentDto> Students { get; set; } = new List<StudentDto>();
+    }
+
+    public class StudentDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
+using LMSApi.App.Interfaces.Class;
+using LMSApi.Database.Data;
+
+namespace LMSApi.App.Services
+{
+
+    public class ClassServices : IClassService
+    {
+        private readonly AppDbContext _context;
+
+        public ClassServices(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Class> GetClassByIdAsync(int id)
+        {
+            return await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Class>> GetAllClassesAsync()
+        {
+            return await _context.Classes.ToListAsync();
+        }
+
+        public async Task CreateClassAsync(Class classEntity)
+        {
+            _context.Classes.Add(classEntity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateClassAsync(int id, Class classEntity)
+        {
+            var existingClass = await _context.Classes.FindAsync(id);
+            if (existingClass == null) return;
+
+            existingClass.Name = classEntity.Name;
+            existingClass.Description = classEntity.Description;
+            
+
+            _context.Classes.Update(existingClass);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteClassAsync(int id)
+        {
+            var classEntity = await _context.Classes.FindAsync(id);
+            if (classEntity == null) return;
+
+            _context.Classes.Remove(classEntity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Student>> GetStudentsByClassIdAsync(int classId)
+        {
+            var classEntity = await _context.Classes
+                .Include(c => c.Students)
+                .FirstOrDefaultAsync(c => c.Id == classId);
+
+            return classEntity?.Students ?? new List<Student>();
+        }
+    }
+}
+using LMSApi.App.Interfaces;
+using LMSApi.App.Interfaces.Class;
+using LMSApi.App.Options;
+using LMSApi.App.Services;
+using LMSApi.Database.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IClassService, ClassServices>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+JwtOptions jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+builder.Services.AddSingleton(jwtOptions);
+builder.Services.AddAuthentication()
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+        };
+    });
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+using AutoMapper;
+using LMSApi.App.DTOs;
+using LMSApi.App.Requests.Class;
+using System.Diagnostics.Metrics;
+
+
+
+namespace testApp.helper
+{
+    public class MappingProfiles : Profile
+    {
+        public MappingProfiles()
+        {
+            CreateMap<Class, ClassRequest>();
+            CreateMap<ClassRequest, Class>();
+            CreateMap<Class, GetStudentOfClassRequest>();
+            CreateMap<GetStudentOfClassRequest, Class>();
+        }
+
+    }
+}
