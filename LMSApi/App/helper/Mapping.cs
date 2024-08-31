@@ -10,6 +10,7 @@ using LMSApi.App.Responses.Teacher;
 using LMSApi.App.Requests.LessonContent;
 using System.Diagnostics.Metrics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using LessonContentRequest = LMSApi.App.Requests.LessonContent.LessonContentRequest;
 
 
 
