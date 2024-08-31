@@ -7,6 +7,7 @@ using LMSApi.App.Requests.Lesson;
 using LMSApi.App.Requests.Role;
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
+using LMSApi.App.Requests.LessonContent;
 using System.Diagnostics.Metrics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -45,6 +46,8 @@ namespace testApp.helper
 
 
 
+            CreateMap<LessonContentRequest, LessonContent>();
+            CreateMap<LessonContent, LessonContentRequest>();
         }
 
     }

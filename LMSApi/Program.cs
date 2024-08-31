@@ -32,6 +32,7 @@ builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 
+builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 JwtOptions jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 builder.Services.AddSingleton(jwtOptions);
