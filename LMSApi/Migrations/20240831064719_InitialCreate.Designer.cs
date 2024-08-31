@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMSApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240828133147_first")]
-    partial class first
+    [Migration("20240831064719_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -471,7 +471,7 @@ namespace LMSApi.Migrations
                     b.HasOne("LMSApi.Database.Enitities.Class", "Class")
                         .WithMany("Courses")
                         .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LMSApi.Database.Enitities.Subject", "Subject")

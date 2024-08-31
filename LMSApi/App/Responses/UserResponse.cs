@@ -1,10 +1,6 @@
-﻿
-using LMSApi.App.Requests.Role;
-using LMSApi.App.Responses;
-
-namespace LMSApi.App.Requests
+﻿namespace LMSApi.App.Responses
 {
-    public class UserDto
+    public class UserResponse
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = null!;
@@ -12,5 +8,6 @@ namespace LMSApi.App.Requests
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public List<RoleResponse> Roles { get; set; } = new List<RoleResponse>();
+
     }
 }

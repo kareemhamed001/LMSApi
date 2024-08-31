@@ -2,7 +2,7 @@
 {
     public class ApiResponseFactory
     {
-        public static IApiResponse Create<T>(List<T> data, string message, int status, bool success)
+        public static IApiResponse Create<T>(IEnumerable<T>? data, string message, int status, bool success)
         {
             return new ApiResponseListStrategy<T>
             {

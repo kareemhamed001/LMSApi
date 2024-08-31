@@ -6,9 +6,6 @@
         public string NickName { get; set; }
         public string Phone { get; set; } 
         public string Email { get; set; }
-        public String FirstName { get; set; }
-        public String LastName { get; set; } 
-        public String CommunicationEmail { get; set; } 
-        public String CommunicationPhone { get; set; } 
+        public UserResponse User { get; set; }
     }
 }

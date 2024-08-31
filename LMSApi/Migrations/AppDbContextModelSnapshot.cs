@@ -468,7 +468,7 @@ namespace LMSApi.Migrations
                     b.HasOne("LMSApi.Database.Enitities.Class", "Class")
                         .WithMany("Courses")
                         .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LMSApi.Database.Enitities.Subject", "Subject")

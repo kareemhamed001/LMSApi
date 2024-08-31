@@ -2,6 +2,6 @@
 {
     public class ApiResponseListStrategy<T> : ApiResponseBase, IApiResponse
     {
-        public List<T>? Data { get; set; }
+        public IEnumerable<T>? Data { get; set; }
     }
 }

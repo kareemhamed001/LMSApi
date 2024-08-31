@@ -2,6 +2,7 @@
 using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Role;
 using LMSApi.Database.Data;
+using LMSApi.Database.Seeders;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace LMSApi.App.Services
 
         public async Task<Role> CreateRoleAsync(CreateRoleRequest roleRequest)
         {
-            var role = new Role { Name = roleRequest.RoleName };
+            var role = new Role { Name = roleRequest.Name };
             foreach (var permissionId in roleRequest.Permissions)
             {
                 var permission = await _context.Permissions.FindAsync(permissionId);
@@ -76,7 +77,7 @@ namespace LMSApi.App.Services
 
             if (role != null)
             {
-                role.Name = roleRequest.RoleName;
+                role.Name = roleRequest.Name;
 
                 // Find the permissions that need to be removed
                 var currentPermissionIds = role.RolePermissions.ToList();
@@ -112,24 +113,8 @@ namespace LMSApi.App.Services
         }
         public async Task SeedPermissions()
         {
-            var permissions = PermissionsHelper.GetPermissions();
-            foreach (var permission in permissions)
-            {
-                var existingPermission = await _context.Permissions.FirstOrDefaultAsync(p => p.RouteName == permission.RouteName);
-                if (existingPermission == null)
-                {
-                    _context.Permissions.Add(permission);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    existingPermission.Name = permission.Name;
-                    existingPermission.Category = permission.Category;
-                    existingPermission.RouteName = permission.RouteName;
-                    _context.Permissions.Update(existingPermission);
-                    await _context.SaveChangesAsync();
-                }
-            }
+            PermissionSeeder permissionSeeder = new PermissionSeeder(_context);
+            await permissionSeeder.Seed();
         }
 
     }

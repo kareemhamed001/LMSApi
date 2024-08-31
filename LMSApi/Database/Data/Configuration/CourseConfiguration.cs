@@ -31,7 +31,8 @@ namespace LMSApi.Database.Data.Configuration
 
             builder.HasOne(c=>c.Class)
                 .WithMany(c=>c.Courses)
-                .HasForeignKey(c=>c.ClassId);
+                .HasForeignKey(c=>c.ClassId)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
         }

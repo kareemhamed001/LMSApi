@@ -1,20 +1,36 @@
 ﻿using LMSApi.App.Enums;
+using LMSApi.App.helper;
 using LMSApi.App.Interfaces;
 using LMSApi.Database.Data;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LMSApi.App.Services
 {
-    public class CourseService:ICourseService
+    public class CourseService : ICourseService
     {
         private readonly AppDbContext _context;
-        public CourseService(AppDbContext context)
+        private readonly IMemoryCache _cache;
+        public CourseService(AppDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<Course>> GetAllAsync()
         {
-            return await _context.Courses.ToListAsync();
+
+            if (!_cache.TryGetValue(CacheKeys.Courses, out List<Course>? courses))
+            {
+                courses = await _context.Courses.ToListAsync();
+                MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions();
+                cacheOptions.SetSlidingExpiration(TimeSpan.FromSeconds(45));
+                cacheOptions.SetAbsoluteExpiration(TimeSpan.FromSeconds(3600));
+                cacheOptions.SetPriority(CacheItemPriority.Normal);
+
+                _cache.Set(CacheKeys.Courses, courses, cacheOptions);
+            }
+
+            return courses;
         }
 
         public async Task<Course> GetByIdAsync(int id)

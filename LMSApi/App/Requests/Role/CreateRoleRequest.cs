@@ -5,7 +5,7 @@ namespace LMSApi.App.Requests.Role
     public class CreateRoleRequest
     {
        
-        public string RoleName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [ValidateList(1)]

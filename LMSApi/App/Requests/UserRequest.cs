@@ -21,8 +21,8 @@ namespace LMSApi.App.Requests
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Password Is Required")]
-        [MinLength(6, ErrorMessage = "Password Must Be At Least 6 Characters")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9]*$", ErrorMessage = "Password Must Start With Capital Letter")]
+        [MinLength(8, ErrorMessage = "Password Must Be At Least 6 Characters")]
+        //[RegularExpression(@"^[A-Z]+[a-zA-Z0-9]*$", ErrorMessage = "Password Must Start With Capital Letter")]
         public string Password { get; set; }
 
         ////not greater than 100
