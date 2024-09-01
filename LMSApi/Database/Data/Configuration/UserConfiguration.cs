@@ -42,7 +42,8 @@ namespace LMSApi.Database.Data.Configuration
                         .HasForeignKey(ur => ur.RoleId),
                     j => j.HasOne(ur => ur.User)
                         .WithMany(u => u.UserRoles)
-                        .HasForeignKey(ur => ur.UserId)
+                        .HasForeignKey(ur => ur.UserId),
+                    j => j.ToTable("UserRoles")
                 );
 
 

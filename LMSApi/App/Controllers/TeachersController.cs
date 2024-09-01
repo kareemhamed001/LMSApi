@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
+using Hangfire;
 using LMSApi.App.Attributes;
 using LMSApi.App.Enums;
 using LMSApi.App.Exceptions;
@@ -9,6 +11,7 @@ using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
 using System.Security.Claims;
+using System.Text;
 
 namespace LMSApi.App.Controllers
 {
@@ -30,6 +33,7 @@ namespace LMSApi.App.Controllers
             try
             {
                 List<Teacher> teachers = await teacherService.Index();
+
                 return Ok(ApiResponseFactory.Create(mapper.Map<List<TeacherResponse>>(teachers), "Teachers fetched successfully", 200, true));
             }
             catch (Exception ex)
@@ -70,7 +74,6 @@ namespace LMSApi.App.Controllers
             try
             {
                 Teacher teacher = await teacherService.Show(teacherId);
-
                 return Ok(ApiResponseFactory.Create(mapper.Map<ShowTeacherResponse>(teacher), "Teacher fetched successfully", 200, true));
             }
             catch (NotFoundException ex)

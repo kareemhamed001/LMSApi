@@ -21,6 +21,7 @@ namespace testApp.helper
         public MappingProfiles()
         {
             CreateMap<Class, ClassRequest>();
+            CreateMap<ClassTranslationRequest, ClassTranslation>();
             CreateMap<Class, ClassResponse>();
             CreateMap<ClassResponse, Class>();
             CreateMap<ClassRequest, Class>();
@@ -44,9 +45,6 @@ namespace testApp.helper
             CreateMap<Teacher, TeacherResponse>();
             CreateMap<Teacher, ShowTeacherResponse>();
             CreateMap<User, UserResponse>();
-
-
-
             CreateMap<LessonContentRequest, LessonContent>();
             CreateMap<LessonContent, LessonContentRequest>();
         }

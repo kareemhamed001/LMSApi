@@ -28,6 +28,11 @@ namespace LMSApi.Database.Data.Configuration
                 .HasForeignKey(c => c.ClassId);
 
 
+            builder.HasMany(c => c.Translations)
+                .WithOne(c => c.Class)
+                .HasForeignKey(c => c.ClassId);
+
+
             builder.HasMany(c => c.Subjects)
                 .WithMany(s => s.Classes)
                 .UsingEntity<ClassSubject>(
