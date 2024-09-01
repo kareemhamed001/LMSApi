@@ -4,6 +4,7 @@ using LMSApi.App.Interfaces;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
 using LMSApi.Database.Data;
+using LMSApi.Database.Seeders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.Extensions.Caching.Memory;
@@ -31,7 +32,7 @@ builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
-
+builder.Services.AddScoped<PermissionSeeder>();
 
 JwtOptions? jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 if (jwtOptions == null)
@@ -69,6 +70,13 @@ builder.Services.AddHangfire(config =>
 builder.Services.AddHangfireServer();
 builder.Services.AddControllers(options =>{options.Filters.Add<PermissionCheckFilter>();});
 var app = builder.Build();
+
+
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<PermissionSeeder>();
+    await seeder.Seed();
+}
 
 if (app.Environment.IsDevelopment())
 {

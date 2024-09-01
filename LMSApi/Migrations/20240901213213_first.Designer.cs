@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMSApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240901200536_AddingClassTranslationsTable")]
-    partial class AddingClassTranslationsTable
+    [Migration("20240901213213_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

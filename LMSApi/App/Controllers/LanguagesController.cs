@@ -42,7 +42,7 @@ namespace LMSApi.App.Controllers
         }
 
         [HttpPost]
-        [CheckPermission("Language.createLanguage")]
+        //[CheckPermission("Language.createLanguage")]
         public async Task<ActionResult> CreateLanguage(LanguageRequest languageDto)
         {
 

@@ -5,7 +5,7 @@
 namespace LMSApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingClassTranslationsTable : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
