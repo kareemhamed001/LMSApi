@@ -20,14 +20,15 @@ namespace LMSApi.Database.Data.Configuration
                         .HasForeignKey(ur => ur.UserId),
                     j => j.HasOne(ur => ur.Role)
                         .WithMany(r => r.UserRoles)
-                        .HasForeignKey(ur => ur.RoleId)
+                        .HasForeignKey(ur => ur.RoleId),
+                    j => j.ToTable("UserRoles")
                 );
 
 
             builder.HasMany(r => r.Permissions)
              .WithMany(u => u.Roles)
              .UsingEntity<RolePermission>();
-             
+
 
 
 

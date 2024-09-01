@@ -22,6 +22,8 @@ namespace LMSApi.Database.Data
         public DbSet<Subscription> Subscriptions { get; set; } = null!;
         public DbSet<Lesson> Lessons { get; set; } = null!;
         public DbSet<LessonContent> LessonContents { get; set; } = null!;
+        public DbSet<Language> Languages { get; set; } = null!;
+        public DbSet<ClassTranslation> ClassTranslations { get; set; } = null!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

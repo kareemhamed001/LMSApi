@@ -4,6 +4,7 @@ using LMSApi.Database.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMSApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240901195333_AddingLanguagesTable")]
+    partial class AddingLanguagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,37 +60,6 @@ namespace LMSApi.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("ClassSubjects", (string)null);
-                });
-
-            modelBuilder.Entity("LMSApi.Database.Enitities.ClassTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("ClassTranslations");
                 });
 
             modelBuilder.Entity("LMSApi.Database.Enitities.Course", b =>
@@ -480,15 +452,20 @@ namespace LMSApi.Migrations
 
             modelBuilder.Entity("LMSApi.Database.Enitities.UserRole", b =>
                 {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("RoleId", "UserId");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserId");
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
 
                     b.ToTable("UserRoles", (string)null);
                 });
@@ -510,25 +487,6 @@ namespace LMSApi.Migrations
                     b.Navigation("Class");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("LMSApi.Database.Enitities.ClassTranslation", b =>
-                {
-                    b.HasOne("LMSApi.Database.Enitities.Class", "Class")
-                        .WithMany("Translations")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LMSApi.Database.Enitities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("LMSApi.Database.Enitities.Course", b =>
@@ -703,10 +661,14 @@ namespace LMSApi.Migrations
             modelBuilder.Entity("LMSApi.Database.Enitities.UserRole", b =>
                 {
                     b.HasOne("LMSApi.Database.Enitities.Role", "Role")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LMSApi.Database.Enitities.Role", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId1");
 
                     b.HasOne("LMSApi.Database.Enitities.User", "User")
                         .WithMany("UserRoles")
@@ -726,8 +688,6 @@ namespace LMSApi.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Students");
-
-                    b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("LMSApi.Database.Enitities.Course", b =>

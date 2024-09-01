@@ -10,6 +10,7 @@
         public List<Course> Courses { get; set; }=new List<Course>();
         public List<Subject> Subjects { get; set; }=new List<Subject>();
         public List<ClassSubject> ClassSubjects { get; set; }=new List<ClassSubject>();
+        public List<ClassTranslation> Translations { get; set; }=new List<ClassTranslation>();
 
 
     }

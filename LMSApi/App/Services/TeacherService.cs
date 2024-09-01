@@ -4,27 +4,25 @@ using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.Database.Data;
-using Microsoft.Extensions.Caching.Memory;
 using TeacherEntity = LMSApi.Database.Enitities.Teacher;
 
 namespace LMSApi.App.Services
 {
-    public class TeacherService(AppDbContext appDbContext, ILogger<TeacherService> logger, IMemoryCache cache) : ITeacherService
+    public class TeacherService(AppDbContext appDbContext, ILogger<TeacherService> logger, ICacheService cache) : ITeacherService
     {
         private readonly AppDbContext appDbContext = appDbContext;
         private readonly ILogger<TeacherService> logger = logger;
-        private readonly IMemoryCache cache = cache;
+        private readonly ICacheService cache = cache;
         public async Task<List<Teacher>> Index()
         {
             try
             {
-
-
-                if (!cache.TryGetValue(CacheKeys.Teachers, out List<Teacher>? teachers))
+                var teachers = cache.Get<List<Teacher>>(CacheKeys.Teachers);
+                if (teachers is null || teachers.Count() == 0)
                 {
                     teachers = await appDbContext.Teachers.ToListAsync();
-                 
-                    cache.Set(CacheKeys.Teachers, teachers);
+
+                    cache.Set(CacheKeys.Teachers, teachers,DateTimeOffset.Now.AddSeconds(45));
                     logger.LogInformation("Teachers from database");
                 }
                 else
@@ -32,7 +30,7 @@ namespace LMSApi.App.Services
                     logger.LogInformation("Teachers from cache");
                 }
 
-                return await appDbContext.Teachers.ToListAsync();
+                return teachers;
             }
             catch (Exception)
             {
@@ -169,7 +167,6 @@ namespace LMSApi.App.Services
                 throw;
             }
         }
-
         public async Task<List<Course>> CoursesAsync(int teacherId)
         {
             Teacher? teacher = await appDbContext.Teachers.Include(t => t.Courses).FirstOrDefaultAsync(t => t.Id == teacherId);
@@ -213,7 +210,6 @@ namespace LMSApi.App.Services
             }
             return classes;
         }
-
         public async Task<Course> StoreCourseAsync(int loggedUserId, StoreCourseRequest storeCourseRequest)
         {
             try
@@ -242,7 +238,9 @@ namespace LMSApi.App.Services
                 }
                 else
                 {
-                    teacher = await appDbContext.Teachers.Include(t => t.Subjects).FirstOrDefaultAsync(t => t.Id == storeCourseRequest.TeacherId);
+                    teacher = await appDbContext.Teachers
+                        .Include(t => t.Subjects.Where(s => s.Id == storeCourseRequest.SubjectId))
+                        .FirstOrDefaultAsync(t => t.Id == storeCourseRequest.TeacherId);
                 }
 
                 if (teacher is null)
@@ -258,16 +256,11 @@ namespace LMSApi.App.Services
                 //load subject class
                 await appDbContext.Entry(subject).Collection(s => s.Classes).LoadAsync();
 
-                logger.LogCritical("Subject {subject}, classes {classes}", subject.Name, subject.Classes);
-                if (subject.Classes is null)
+                if (subject.Classes is null || !subject.Classes.Any(c => c.Id == storeCourseRequest.ClassId))
                 {
                     throw new NotFoundException("This Subject is not in this class");
                 }
-                logger.LogInformation("Subject {subject}, classes {classes}", subject, subject.Classes);
-                if (subject.Classes.Count == 0 || !subject.Classes.Any(c => c.Id == storeCourseRequest.ClassId))
-                {
-                    throw new ForbidenException("Subject has no such class");
-                }
+
 
                 Course course = new Course
                 {
@@ -313,7 +306,6 @@ namespace LMSApi.App.Services
                 throw;
             }
         }
-
         public async Task<Subject> AddTeacherToSubjectAsync(int loggedUserId, AddTeacherToSubjectRequest addTeacherToSubjectRequest)
         {
             try
