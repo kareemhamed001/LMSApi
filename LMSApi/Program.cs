@@ -1,6 +1,7 @@
 using Hangfire;
 using LMSApi.App.Filters;
 using LMSApi.App.Interfaces;
+using LMSApi.App.Middlewares;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
 using LMSApi.Database.Data;
@@ -33,6 +34,8 @@ builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<PermissionSeeder>();
+
+builder.Services.AddHttpContextAccessor();
 
 JwtOptions? jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 if (jwtOptions == null)
@@ -86,6 +89,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<LanguageMiddleware>();
 
 app.UseAuthorization();
 

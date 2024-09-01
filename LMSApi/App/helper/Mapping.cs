@@ -47,6 +47,9 @@ namespace testApp.helper
             CreateMap<User, UserResponse>();
             CreateMap<LessonContentRequest, LessonContent>();
             CreateMap<LessonContent, LessonContentRequest>();
+            //new
+            CreateMap<ClassTranslation, ClassTranslationRequest>();
+            CreateMap<ClassTranslationRequest, ClassTranslation>();
         }
 
     }

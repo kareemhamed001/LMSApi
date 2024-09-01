@@ -1,5 +1,6 @@
 ﻿using LMSApi.App.Interfaces;
 using LMSApi.Database.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace LMSApi.App.Services
 {
@@ -7,17 +8,27 @@ namespace LMSApi.App.Services
     public class ClassServices : IClassService
     {
         private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ClassServices(AppDbContext context)
+        public ClassServices(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        private string GetCurrentLanguage()
+        {
+            var context = _httpContextAccessor.HttpContext;
+            return context?.Items["Language"]?.ToString() ?? "default"; // Fallback to default language
         }
 
         public async Task<Class> GetClassByIdAsync(int id)
         {
-            return await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
+            var language = GetCurrentLanguage();
+            // Use the language in your logic if needed
+            return await _context.Classes
+                .Include(c => c.Translations.Where(t => t.Language.Code == language))
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
-
         public async Task<IEnumerable<Class>> GetAllClassesAsync()
         {
             return await _context.Classes.ToListAsync();

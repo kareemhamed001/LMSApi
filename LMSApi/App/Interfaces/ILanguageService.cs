@@ -4,6 +4,7 @@ namespace LMSApi.App.Interfaces
 {
     public interface ILanguageService
     {
+
         public Task<Language> CreateLanguageAsync(LanguageRequest request);
         public Task<Language> GetLanguageByIdAsync(int id);
         public Task<IEnumerable<Language>> GetAllLanguagesAsync();
