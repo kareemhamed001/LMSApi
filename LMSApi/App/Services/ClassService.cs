@@ -1,4 +1,5 @@
-﻿using LMSApi.App.Interfaces;
+﻿using LMSApi.App.Exceptions;
+using LMSApi.App.Interfaces;
 using LMSApi.Database.Data;
 using Microsoft.AspNetCore.Http;
 
@@ -17,17 +18,19 @@ namespace LMSApi.App.Services
         }
         private string GetCurrentLanguage()
         {
-            var context = _httpContextAccessor.HttpContext;
-            return context?.Items["Language"]?.ToString() ?? "default"; // Fallback to default language
+            return Thread.CurrentThread.CurrentCulture.Name;
         }
 
         public async Task<Class> GetClassByIdAsync(int id)
         {
-            var language = GetCurrentLanguage();
-            // Use the language in your logic if needed
-            return await _context.Classes
-                .Include(c => c.Translations.Where(t => t.Language.Code == language))
+            var classEntity = await _context.Classes
+                .Include(c => c.Translations.Where(t => t.Language.Code == GetCurrentLanguage()))
                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (classEntity == null) 
+                throw new NotFoundException("Class Not Found");
+
+            return classEntity;
         }
         public async Task<IEnumerable<Class>> GetAllClassesAsync()
         {

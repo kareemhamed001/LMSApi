@@ -7,6 +7,9 @@ using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Class;
 using AutoMapper;
 using LMSApi.App.Attributes;
+using LMSApi.App.Exceptions;
+using LMSApi.Database.Data;
+using LMSApi.App.Extentions;
 
 namespace LMSApi.Controllers
 {
@@ -16,22 +19,40 @@ namespace LMSApi.Controllers
     {
         private readonly IClassService _classService;
         private readonly IMapper _mapper;
+        private readonly AppDbContext _context;
 
-        public ClassController(IClassService classService, IMapper mapper)
+        public ClassController(IClassService classService, IMapper mapper, AppDbContext context)
         {
             _classService = classService;
             _mapper = mapper;
+            _context = context;
+
         }
 
         [HttpGet("{id}")]
         [CheckPermission("Class.index")]
         public async Task<ActionResult<ClassRequest>> GetClassById(int id)
         {
-            var classEntity = await _classService.GetClassByIdAsync(id);
-            if (classEntity == null) return NotFound();
-            var classDto = _mapper.Map<ClassRequest>(classEntity);
+            try
+            {
+                var classEntity = await _classService.GetClassByIdAsync(id);
 
-            return Ok(classDto);
+                if (classEntity == null) return NotFound();
+                var classDto = _mapper.Map<ClassRequest>(classEntity);
+
+                return Ok(classDto);
+
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
         }
 
         [HttpGet]
@@ -82,19 +103,31 @@ namespace LMSApi.Controllers
         [CheckPermission("class.getStudentsByClassId")]
         public async Task<ActionResult<GetStudentOfClassRequest>> GetStudentsByClassId(int classId)
         {
-            var classEntity = await _classService.GetClassByIdAsync(classId);
-            if (classEntity == null) return NotFound();
+            try
+            {
+                var classEntity = await _classService.GetClassByIdAsync(classId);
+                if (classEntity == null) return NotFound();
 
-            // Get students for the class
-            var students = await _classService.GetStudentsByClassIdAsync(classId);
+                // Get students for the class
+                var students = await _classService.GetStudentsByClassIdAsync(classId);
 
-            // Map the class entity to GetStudentOfClassRequest
-            var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
+                // Map the class entity to GetStudentOfClassRequest
+                var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
 
-            // Map students to StudentDto and set it in the request
-            getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
+                // Map students to StudentDto and set it in the request
+                getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
 
-            return Ok(getStudentOfClassRequest);
+                return Ok(getStudentOfClassRequest);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }
