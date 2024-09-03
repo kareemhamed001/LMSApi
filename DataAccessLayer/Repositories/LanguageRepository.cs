@@ -1,5 +1,5 @@
 ﻿
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
     public class LanguageRepository(AppDbContext appDbContext) : ILanguageRepository
     {

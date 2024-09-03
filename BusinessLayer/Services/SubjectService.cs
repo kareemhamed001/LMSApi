@@ -1,11 +1,5 @@
-﻿using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Subject;
-using LMSApi.App.Exceptions;
+﻿using AutoMapper;
 
-using LMSApi.App.Responses;
-using LMSApi.App.Responses.Teacher;
-using AutoMapper;
-using LMSApi.App.Requests;
 
 namespace BusinessLayer.Services
 {

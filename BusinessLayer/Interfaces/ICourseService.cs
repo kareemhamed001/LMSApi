@@ -1,8 +1,4 @@
-﻿using DataAccessLayer.Entities;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
     public interface ICourseService
     {

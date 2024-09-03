@@ -1,11 +1,11 @@
 ﻿
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
-    public class RoleService : IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
         private readonly AppDbContext _context;
 
-        public RoleService(AppDbContext context)
+        public RoleRepository(AppDbContext context)
         {
             _context = context;
         }

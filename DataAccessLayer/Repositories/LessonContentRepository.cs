@@ -1,10 +1,10 @@
 ﻿
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
-    public class LessonContentService : ILessonContentRepository
+    public class LessonContentRepository : ILessonContentRepository
     {
         private readonly AppDbContext _context;
-        public LessonContentService(AppDbContext context)
+        public LessonContentRepository(AppDbContext context)
         {
             _context = context;
 

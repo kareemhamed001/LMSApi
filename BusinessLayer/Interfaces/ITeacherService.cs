@@ -1,10 +1,4 @@
-﻿using LMSApi.App.Enums;
-using LMSApi.App.Requests;
-using LMSApi.App.Requests.Teacher;
-using LMSApi.App.Responses;
-using LMSApi.App.Responses.Teacher;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
     public interface ITeacherService
     {

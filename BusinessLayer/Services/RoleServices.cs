@@ -1,24 +1,29 @@
 ﻿using DataAccessLayer.Interfaces;
-using LMSApi.App.Requests;
 using Microsoft.EntityFrameworkCore;
+using System.Security;
 
 namespace BusinessLayer.Services
 {
     public class RoleService : IRoleService
     {
         private readonly IRoleRepository roleRepository;
+        private readonly IPermissionRepository permissionRepository;
 
-        public RoleService(IRoleRepository roleRepository)
+        public RoleService(IRoleRepository roleRepository, IPermissionRepository permissionRepository)
         {
             this.roleRepository = roleRepository;
+            this.permissionRepository = permissionRepository;
+
         }
 
         public async Task<Role> CreateRoleAsync(CreateRoleRequest roleRequest)
         {
             var role = new Role { Name = roleRequest.Name };
+
+            var permissions = await permissionRepository.GetPermissionsByIdAsync(roleRequest.Permissions);
             foreach (var permissionId in roleRequest.Permissions)
             {
-                var permission = await _context.Permissions.FindAsync(permissionId);
+                var permission = permissions.FirstOrDefault(p => p.Id == permissionId);
                 if (permission != null)
                 {
                     var rolePermission = new RolePermission
@@ -31,14 +36,14 @@ namespace BusinessLayer.Services
                     role.RolePermissions.Add(rolePermission);
                 }
             }
-            _context.Roles.Add(role);
-            await _context.SaveChangesAsync();
+            role = await roleRepository.CreateRoleAsync(role);
+
             return role;
         }
         public async Task AddRoleToUserAsync(int userId, int roleId)
         {
             var user = await _context.Users.FindAsync(userId);
-            var role = await _context.Roles.FindAsync(roleId);
+            var role = await roleRepository.GetRoleByIdAsync(roleId);
 
             if (user != null && role != null)
             {

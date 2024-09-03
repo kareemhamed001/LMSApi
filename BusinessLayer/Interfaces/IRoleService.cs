@@ -1,8 +1,4 @@
-﻿using LMSApi.App.Requests.Role;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
     public interface IRoleService
     {

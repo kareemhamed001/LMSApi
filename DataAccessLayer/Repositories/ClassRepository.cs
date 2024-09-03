@@ -3,16 +3,16 @@ using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
 
-    public class ClassServices : IClassRepository
+    public class ClassRepository : IClassRepository
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
 
-        public ClassServices(AppDbContext context, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public ClassRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;

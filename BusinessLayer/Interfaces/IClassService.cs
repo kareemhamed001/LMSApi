@@ -1,5 +1,4 @@
-﻿
-using LMSApi.App.Requests;
+﻿using DataAccessLayer.Entities;
 
 
 namespace BusinessLayer.Interfaces

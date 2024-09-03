@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.Helpers;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using LMSApi.App.Exceptions;
-using LMSApi.App.Requests;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace BusinessLayer.Services

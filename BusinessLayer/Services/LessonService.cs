@@ -1,7 +1,5 @@
 ﻿using DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 namespace BusinessLayer.Services
 {
     public class LessonService : ILessonService
@@ -47,12 +45,12 @@ namespace BusinessLayer.Services
             var lesson = await lessonRepository.GetLessonByIdAsync(id);
             if (lesson != null)
             {
-                await lessonRepository.DeleteLessonAsync(id);
+                await lessonRepository.DeleteLessonAsync(lesson);
             }
         }
         public async Task<bool> CourseExistsAsync(int courseId)
         {
-            return await _context.Courses.AnyAsync(c => c.Id == courseId);
+            return await lessonRepository.CourseExistsAsync(courseId);
         }
     }
 }

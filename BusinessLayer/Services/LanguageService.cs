@@ -1,6 +1,4 @@
 ﻿using DataAccessLayer.Interfaces;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests;
 using ILanguageService = BusinessLayer.Interfaces.ILanguageService;
 
 namespace BusinessLayer.Services
