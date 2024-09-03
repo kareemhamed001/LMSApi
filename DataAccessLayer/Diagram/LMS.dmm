@@ -1,0 +1,3256 @@
+{
+	"tables": {
+		"39731874-bebe-4315-9b12-e98f2890cd40": {
+			"id": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"visible": true,
+			"name": "users",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "ba93be59-fe6e-4909-832b-62d0b5709719",
+					"name": "FirstName",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "d558139d-5e9e-4121-85da-0969ac7ffbe7",
+					"name": "LastName",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "ec4906ac-1df2-4175-b69a-716364f49a6c",
+					"name": "Email",
+					"datatype": "varchar",
+					"param": "100",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "11811f30-4a34-46ae-bf8d-8767b053ce7a",
+					"name": "Phone",
+					"datatype": "varchar",
+					"param": "20",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "25998d26-7a86-4d7f-9554-aa75424c3696",
+					"name": "Password",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
+				"43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
+				"3e489b02-4d88-4b5a-837f-393289fd0e3b",
+				"fb062b14-e299-46c0-b8b8-bd156d9a9b7e",
+				"565ee046-64b8-4ba0-858c-84c5c76565d0"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+					"name": "table1_pkey",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "de6d2b0a-1158-4f46-8780-3675d959a264",
+							"colid": "1bca870e-716a-46b5-aa22-a4185938a72c"
+						}
+					]
+				},
+				{
+					"id": "ea38852d-55cb-4745-b900-64db2455920f",
+					"isPk": false,
+					"name": "users_ak_1",
+					"cols": [],
+					"mssql": {
+						"clustered": true
+					}
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"3dea7451-ccd1-4995-a735-633ea517dfce": {
+			"id": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"visible": true,
+			"name": "teachers",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "2d014cfe-2262-4467-9f38-b623ccf0879b",
+					"name": "NickName",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "33acce4c-11d8-4dac-b318-c54e65c293e1",
+					"name": "Phone",
+					"datatype": "varchar",
+					"param": "20",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "af5c52e6-4d44-4a83-9f8d-d12f0e8bcdc4",
+					"name": "Email",
+					"datatype": "varchar",
+					"param": "100",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "12120c15-acb3-4c99-853b-17b9f2841ce7",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
+				"0df041d0-cbf2-4528-a92d-5720bf5547fd",
+				"98d24ee4-2bad-43ab-b0d3-119ef0fa6edc",
+				"67e7b96b-bc55-43c9-bdef-0221d69780d6",
+				"618fdfa1-0201-485e-b51a-2136d6bbe966"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "22910883-91ea-42b5-bdd5-699cde8de622",
+					"name": "table1_pkey1",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "a8a3f8c4-fe46-4815-9a5a-e1d44bd6cf2e",
+							"colid": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"3ca0d68d-29d6-468e-ba5e-da79fa63f885": {
+			"id": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+			"visible": true,
+			"name": "student",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "cf20c6d3-c46f-47e5-a52c-87404af2f27b",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "47f86902-2d89-4b25-a51c-eed903f989dd",
+					"name": "ParentPhone",
+					"datatype": "varchar",
+					"param": "20",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "55148b91-6201-4b78-ad7d-fee15c08be9e",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "20771f5d-19f3-4879-bcca-c25af825172f",
+					"name": "Classes_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
+				"56dc4491-a95f-4ac8-8c8e-6cfca27386b2",
+				"bc9eb782-5fda-47be-911e-2440c0cfbe96",
+				"ef3bc52b-8456-4508-81db-94a13ffeb231"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "67df9532-1723-4511-88af-c6a09f4a2b2b",
+					"name": "table1_pkey2",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "e3b95175-184b-4ad5-aa9f-9b895b741cd0",
+							"colid": "cf20c6d3-c46f-47e5-a52c-87404af2f27b"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"7bc236c9-a6f9-4a64-977e-857a7b9134c9": {
+			"id": "7bc236c9-a6f9-4a64-977e-857a7b9134c9",
+			"visible": true,
+			"name": "staff",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "da850977-357a-4390-b0f3-decf67a65e60",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "94880477-3f88-4330-9f79-cf03aa3c628f",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "0509647a-ee98-48a6-b788-076a1122519a",
+					"name": "teachers_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"3e489b02-4d88-4b5a-837f-393289fd0e3b",
+				"0df041d0-cbf2-4528-a92d-5720bf5547fd"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "8d136835-ae8c-45e7-bae6-1ab6e9be8f85",
+					"name": "table1_pkey3",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "e3e8b52b-a389-4536-bd49-9d6e90301500",
+							"colid": "da850977-357a-4390-b0f3-decf67a65e60"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"d222a2a9-8b80-44bf-8303-8be564606d5e": {
+			"id": "d222a2a9-8b80-44bf-8303-8be564606d5e",
+			"visible": true,
+			"name": "support",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "a0151233-9a17-40bf-8e31-fe17ed127a15",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "56b455a8-cb7c-4f2b-9cb7-d5c1b638ad6d",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"fb062b14-e299-46c0-b8b8-bd156d9a9b7e"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "227da2a7-f5fe-426b-ac2e-c9bd82ef96d8",
+					"name": "table1_pkey4",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "d184d002-360f-4532-be59-8c5e337e93bc",
+							"colid": "a0151233-9a17-40bf-8e31-fe17ed127a15"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"8473cab8-a6e1-4672-9c91-6756ca70ae7d": {
+			"id": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+			"visible": true,
+			"name": "Classes",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "e9c5c7cc-cc54-4536-b118-40a09141aa36",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "5055d9f3-edec-4e64-a8f3-3b6d25211b44",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "f2878713-f987-4dd2-ad30-32abb1b55f5d",
+					"name": "Description",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"56dc4491-a95f-4ac8-8c8e-6cfca27386b2",
+				"62686446-7f31-47ef-a9e8-b8dd71a18dbb",
+				"e8c93868-4e2e-4249-bbd5-abadb392c369",
+				"c35f28f4-e020-48f5-8a98-60ebcf7e3a9d"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "e87331ea-06fe-4d03-88b4-b7fca0af5cd9",
+					"name": "table1_pkey5",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "c214bcf0-e6f8-40d3-a18f-8af7ff9003af",
+							"colid": "e9c5c7cc-cc54-4536-b118-40a09141aa36"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"af061290-adb9-4f6d-a64b-17801610c67d": {
+			"id": "af061290-adb9-4f6d-a64b-17801610c67d",
+			"visible": true,
+			"name": "Subjects",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "688b108f-7bdb-4aaf-8338-ac9fa44c9615",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "deeccb2b-1323-40a3-8c62-bc423af3a528",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "4ac755e5-4255-40f2-9a25-2cd066f6695b",
+					"name": "Description",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"5518902f-74b5-4027-875c-7573deb81da4",
+				"2e30b957-35f0-4dd5-ab4b-760d55d104c5",
+				"564b9dc0-2193-4617-bd00-a026fa39a7e6",
+				"7d6c3022-4e61-4335-9ce9-df8014fc189b"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "36429753-bd41-46da-88c6-3f57e01728b4",
+					"name": "table1_pkey6",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "3118e806-bc00-4714-af15-1807917cd126",
+							"colid": "688b108f-7bdb-4aaf-8338-ac9fa44c9615"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"13606abf-d162-471f-bdd4-8b942c3adaee": {
+			"id": "13606abf-d162-471f-bdd4-8b942c3adaee",
+			"visible": true,
+			"name": "ClassSubject",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "7f2bff8c-2d5e-4966-a8af-4c028a019cca",
+					"name": "Classes_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "e1762aad-0bb2-46ca-9570-2bf0961aeda6",
+					"name": "Subjects_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"62686446-7f31-47ef-a9e8-b8dd71a18dbb",
+				"5518902f-74b5-4027-875c-7573deb81da4"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "11b5ed25-c1a2-47ad-9097-2c785268686d",
+					"name": "table1_pkey7",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "62adfc30-5d8e-4a6b-a62c-ce153f6258d2",
+							"colid": "7f2bff8c-2d5e-4966-a8af-4c028a019cca"
+						},
+						{
+							"id": "de070153-ef63-4ba5-9f88-815cabbbfc6b",
+							"colid": "e1762aad-0bb2-46ca-9570-2bf0961aeda6"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"60c8626d-98c3-480a-8407-76a1c729d96d": {
+			"id": "60c8626d-98c3-480a-8407-76a1c729d96d",
+			"visible": true,
+			"name": "StudentSubject",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "b8ac3ea9-642f-47f6-8a1d-58ccd794a4b4",
+					"name": "student_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "76f57369-5cba-4e7b-9f31-f14a10eeed31",
+					"name": "Subjects_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"bc9eb782-5fda-47be-911e-2440c0cfbe96",
+				"2e30b957-35f0-4dd5-ab4b-760d55d104c5"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "35c4e97a-e813-4ba2-96c3-a038eb4af4a1",
+					"name": "table1_pkey8",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "5809c10c-e327-436f-b5ec-66439a7a7fb6",
+							"colid": "b8ac3ea9-642f-47f6-8a1d-58ccd794a4b4"
+						},
+						{
+							"id": "741107b2-81c0-4031-a5e7-31372d9082fa",
+							"colid": "76f57369-5cba-4e7b-9f31-f14a10eeed31"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"1f4d7eeb-4150-40bd-8145-95ccf5b4cd32": {
+			"id": "1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
+			"visible": true,
+			"name": "TeacherSubject",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "6cd14e92-c66e-496d-ac7b-791676241586",
+					"name": "teachers_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "d06b5800-d70c-4ff2-b089-0f83240d1875",
+					"name": "Subjects_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"98d24ee4-2bad-43ab-b0d3-119ef0fa6edc",
+				"564b9dc0-2193-4617-bd00-a026fa39a7e6"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "2b1bf970-c919-4530-b50b-3d52630b658e",
+					"name": "table1_pkey9",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "a34a2cf8-4164-4691-ba67-1ce8dffd8e59",
+							"colid": "6cd14e92-c66e-496d-ac7b-791676241586"
+						},
+						{
+							"id": "ad40e617-c4b0-4100-9a97-d82f20bc2c4c",
+							"colid": "d06b5800-d70c-4ff2-b089-0f83240d1875"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"2901c246-082c-43b4-97f6-9b786335be6d": {
+			"id": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"visible": true,
+			"name": "Courses",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "fd3af0ae-bba9-4cf3-a1c8-65dc99ad564a",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "9e2d8ee3-9d79-4e93-a6bb-5a441edbc4d3",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "c50aaaee-4782-4f5e-8abf-a118a783cfa3",
+					"name": "Description",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "37a4dd68-be9c-4533-9b52-0a1ce86f298c",
+					"name": "teachers_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "3ba35983-4485-44c3-bee0-f1614ce2608b",
+					"name": "Subjects_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "2de4a488-745d-4f28-9bf7-80630970e2e9",
+					"name": "Price",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "4af9c98a-5ebd-41ec-bec7-959416bb2ed2",
+					"name": "Classes_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"67e7b96b-bc55-43c9-bdef-0221d69780d6",
+				"7d6c3022-4e61-4335-9ce9-df8014fc189b",
+				"d9f6920d-828b-4b8b-967a-c3beaa8d6592",
+				"e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
+				"e8c93868-4e2e-4249-bbd5-abadb392c369"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "7e2f1930-dda3-490a-8fa3-221dea01629e",
+					"name": "table1_pkey10",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "bf3741e6-40d2-438e-9b2b-0c832da8a297",
+							"colid": "fd3af0ae-bba9-4cf3-a1c8-65dc99ad564a"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"81ecafc0-1ca1-424e-9358-0394c034024d": {
+			"id": "81ecafc0-1ca1-424e-9358-0394c034024d",
+			"visible": true,
+			"name": "Lessons",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "8d18f09c-961e-4415-b3d0-4da63b82a904",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "fa94bf54-a218-4622-9a89-f3d013428008",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "98cdeccb-b564-47b8-91a7-fddd86e39b71",
+					"name": "Description",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "83262620-e08e-4ce8-a93f-7bcd05be0217",
+					"name": "Courses_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "d6f7eac4-4336-4c74-8bee-07d7ce2155a3",
+					"name": "SectionNumber",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"d9f6920d-828b-4b8b-967a-c3beaa8d6592",
+				"3455b0bd-2952-49be-879b-a9a3401c85a5"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "5c69e662-aa00-4a09-854f-e1c38a95cb69",
+					"name": "table1_pkey11",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "aa37ea01-008e-4ade-b47c-543ef26861af",
+							"colid": "8d18f09c-961e-4415-b3d0-4da63b82a904"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"bd10779a-0ebc-4de7-9e64-94bf6809de3d": {
+			"id": "bd10779a-0ebc-4de7-9e64-94bf6809de3d",
+			"visible": true,
+			"name": "LessonContent",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "c16ce304-7a2d-4b1b-a390-44a3a499606e",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "83aa6ed8-b8d0-4dc3-b64c-131e695b6d6c",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "ca943066-e645-4931-b0ca-09df2ae102ff",
+					"name": "Type",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "the type of resource",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "e9f1f026-9184-4b2a-9525-abcc14585886",
+					"name": "Link",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "258001d8-03cb-4875-9182-85b10fc92a84",
+					"name": "Content",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "87d9ff37-4d04-440b-8536-166d326b06fb",
+					"name": "Lessons_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"3455b0bd-2952-49be-879b-a9a3401c85a5"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "67b690cf-ba2e-4462-8659-d5ad6a19e609",
+					"name": "table1_pkey12",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "b0dc6f70-2967-4e69-ac01-ab7d04511f09",
+							"colid": "c16ce304-7a2d-4b1b-a390-44a3a499606e"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"556487ac-7100-4300-af2e-5c5a6b3e2666": {
+			"id": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+			"visible": true,
+			"name": "Subscriptions",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "f8a89ab5-3fdf-4594-b53f-258f7ffb95c0",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "3cebd7a6-f8cb-4544-855f-decfd1dbe0fd",
+					"name": "student_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "f01a53e4-cdd2-412f-8544-c139e2e9d88f",
+					"name": "Courses_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "8cf99707-8ac7-4a91-aa37-fe2ce5304049",
+					"name": "Price",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "9df95dc7-893f-4f8b-bd4c-b0acf9b088cc",
+					"name": "ExpiryDate",
+					"datatype": "datetime",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "b43d7b6a-856c-4fd2-a355-bececde5e4d5",
+					"name": "teachers_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"ef3bc52b-8456-4508-81db-94a13ffeb231",
+				"e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
+				"618fdfa1-0201-485e-b51a-2136d6bbe966"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "4b0b041f-1da8-4977-827c-f9e23ca93daa",
+					"name": "table1_pkey13",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "d990f286-4288-4818-8434-2fece684fdfa",
+							"colid": "f8a89ab5-3fdf-4594-b53f-258f7ffb95c0"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"d820655f-7ee3-43bc-b8ce-c9a66083ac63": {
+			"id": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"visible": true,
+			"name": "Roles",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "121aabfb-405d-423f-ad48-404070238f5c",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"ff35e594-e211-452c-ad1b-6bb95ba8be03",
+				"27729ad0-34a3-4c1c-8468-67bebcf084f0"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+					"name": "table1_pkey14",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "3360e0d1-6362-409a-b9f8-f386de96a2b5",
+							"colid": "5d775ff7-a70d-43a1-8456-31761dbcea39"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"c0cd176e-c8b2-41b2-b097-ede325c9065f": {
+			"id": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+			"visible": true,
+			"name": "Permissions",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "b2547765-0f7b-413a-88c5-8946200efcf7",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "7f51d94e-0f1a-4d82-bd87-8657410da8b7",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "5729389a-474c-4a0f-818a-0edccc7a8aa7",
+					"name": "Category",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "641cdf4f-b44e-40eb-816e-53bf52c9bc31",
+					"name": "RouteName",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"aad0dfa2-2167-40c5-bd38-c6a8db470b48"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "05ccaefc-76b6-4fe3-a117-04d6041ffacc",
+					"name": "table1_pkey15",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "9867eb80-b67a-452a-a949-04c75b0b169b",
+							"colid": "b2547765-0f7b-413a-88c5-8946200efcf7"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"b12089e5-28af-4676-b1ae-6cc36038b650": {
+			"id": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"visible": true,
+			"name": "UserRole",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "d7a24df5-6f60-4fe1-bf46-492be3a0dbe6",
+					"name": "users_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "d8d57285-2cad-4373-a6fc-e2ea442300a2",
+					"name": "Roles_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"565ee046-64b8-4ba0-858c-84c5c76565d0",
+				"ff35e594-e211-452c-ad1b-6bb95ba8be03"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "049f5f4f-d807-47d2-a202-226e53801e7f",
+					"name": "table1_pkey16",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": []
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"4337e4ab-8d27-4d47-960b-843710374815": {
+			"id": "4337e4ab-8d27-4d47-960b-843710374815",
+			"visible": true,
+			"name": "RolePermission",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "0c3a537f-bf9c-4913-8fb9-3ad2a376f8ae",
+					"name": "Roles_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "f6132095-6a1f-4a27-be1d-ee2aa2505c4a",
+					"name": "Permissions_id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"27729ad0-34a3-4c1c-8468-67bebcf084f0",
+				"aad0dfa2-2167-40c5-bd38-c6a8db470b48"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "d61faad1-8b60-4fcd-bbf6-5bf40c82ed16",
+					"name": "table1_pkey17",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "99fdbf60-2046-4366-94dc-c1da8aa2fe37",
+							"colid": "0c3a537f-bf9c-4913-8fb9-3ad2a376f8ae"
+						},
+						{
+							"id": "6278d4db-5d09-4a13-828c-086c385c8823",
+							"colid": "f6132095-6a1f-4a27-be1d-ee2aa2505c4a"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"66f3748d-e23c-46a8-bf5e-84d540735342": {
+			"id": "66f3748d-e23c-46a8-bf5e-84d540735342",
+			"visible": true,
+			"name": "ClassTranslations",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "a2818db1-7a5b-4eaa-b77e-73c5836755d6",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "d4fa0222-4d78-4a22-aa42-5fb4ab409f01",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "14ae248f-e84f-4ad9-a183-a754f56045b0",
+					"name": "Description",
+					"datatype": "text",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "7b77319e-75de-46ca-8e45-3d07915f81d1",
+					"name": "Languages_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "51c4bf9a-dd33-42cc-86c0-43be5f3e45fd",
+					"name": "Classes_id",
+					"datatype": "int",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"845916ce-e54b-460e-a3bb-0382e69b24a3",
+				"c35f28f4-e020-48f5-8a98-60ebcf7e3a9d"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "d8b99361-8575-4c57-9761-d941e06b0505",
+					"name": "table1_pkey18",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "fb3bab67-aef3-497d-9ade-2e2b55932c1e",
+							"colid": "a2818db1-7a5b-4eaa-b77e-73c5836755d6"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		},
+		"ff70f7e3-8687-4909-8e28-8b8bc4e6ba97": {
+			"id": "ff70f7e3-8687-4909-8e28-8b8bc4e6ba97",
+			"visible": true,
+			"name": "Languages",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "8d9009aa-ff11-49b5-ad9b-79a2b2c553c1",
+					"name": "id",
+					"datatype": "int",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "41f93433-cffb-4a19-8e15-d766b614eccd",
+					"name": "Name",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "71ebaaad-9e94-4971-bfaf-87936829bb50",
+					"name": "Code",
+					"datatype": "varchar",
+					"param": "50",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"mssql": {
+						"computed": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"845916ce-e54b-460e-a3bb-0382e69b24a3"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "71720962-d9ee-4841-8b59-ac6784fbdfb9",
+					"name": "table1_pkey19",
+					"isPk": true,
+					"mssql": {
+						"clustered": true
+					},
+					"cols": [
+						{
+							"id": "1290e08d-d449-4f39-9164-d9ec21570deb",
+							"colid": "8d9009aa-ff11-49b5-ad9b-79a2b2c553c1"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"mssql": {
+				"schema": ""
+			}
+		}
+	},
+	"relations": {
+		"1e05eede-0645-4c40-8abc-c3dc1f41cf86": {
+			"id": "1e05eede-0645-4c40-8abc-c3dc1f41cf86",
+			"visible": true,
+			"name": "teachers_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "one",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "48a0f372-b450-4e05-a062-94f363bab8a9",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "12120c15-acb3-4c99-853b-17b9f2841ce7"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"43f33bd3-4df1-46e8-9cee-af8c2afcb32d": {
+			"id": "43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
+			"visible": true,
+			"name": "student_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "one",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "983dc727-accb-4e1c-9f64-4b5a893b3e25",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "55148b91-6201-4b78-ad7d-fee15c08be9e"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"3e489b02-4d88-4b5a-837f-393289fd0e3b": {
+			"id": "3e489b02-4d88-4b5a-837f-393289fd0e3b",
+			"visible": true,
+			"name": "staff_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "7bc236c9-a6f9-4a64-977e-857a7b9134c9",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "97464fec-f7e4-493f-be32-e41f3060bc89",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "94880477-3f88-4330-9f79-cf03aa3c628f"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"0df041d0-cbf2-4528-a92d-5720bf5547fd": {
+			"id": "0df041d0-cbf2-4528-a92d-5720bf5547fd",
+			"visible": true,
+			"name": "staff_teachers_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "22910883-91ea-42b5-bdd5-699cde8de622",
+			"parent": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"child": "7bc236c9-a6f9-4a64-977e-857a7b9134c9",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "d0c5a4ca-bbbf-44b7-a71d-ff7dc4e75503",
+					"parentcol": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"childcol": "0509647a-ee98-48a6-b788-076a1122519a"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"fb062b14-e299-46c0-b8b8-bd156d9a9b7e": {
+			"id": "fb062b14-e299-46c0-b8b8-bd156d9a9b7e",
+			"visible": true,
+			"name": "support_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "d222a2a9-8b80-44bf-8303-8be564606d5e",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "7ca088ad-a30b-4654-bb1d-1ce5dbabbaa5",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "56b455a8-cb7c-4f2b-9cb7-d5c1b638ad6d"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"56dc4491-a95f-4ac8-8c8e-6cfca27386b2": {
+			"id": "56dc4491-a95f-4ac8-8c8e-6cfca27386b2",
+			"visible": true,
+			"name": "student_Classes_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "e87331ea-06fe-4d03-88b4-b7fca0af5cd9",
+			"parent": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+			"child": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "94517714-a010-4ab3-9f74-1c63e081c7c3",
+					"parentcol": "e9c5c7cc-cc54-4536-b118-40a09141aa36",
+					"childcol": "20771f5d-19f3-4879-bcca-c25af825172f"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"62686446-7f31-47ef-a9e8-b8dd71a18dbb": {
+			"id": "62686446-7f31-47ef-a9e8-b8dd71a18dbb",
+			"visible": true,
+			"name": "ClassSubject_Classes_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "e87331ea-06fe-4d03-88b4-b7fca0af5cd9",
+			"parent": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+			"child": "13606abf-d162-471f-bdd4-8b942c3adaee",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "e6f3fc91-2d9b-400d-93cf-e7087374e636",
+					"parentcol": "e9c5c7cc-cc54-4536-b118-40a09141aa36",
+					"childcol": "7f2bff8c-2d5e-4966-a8af-4c028a019cca"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"5518902f-74b5-4027-875c-7573deb81da4": {
+			"id": "5518902f-74b5-4027-875c-7573deb81da4",
+			"visible": true,
+			"name": "ClassSubject_Subjects_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "36429753-bd41-46da-88c6-3f57e01728b4",
+			"parent": "af061290-adb9-4f6d-a64b-17801610c67d",
+			"child": "13606abf-d162-471f-bdd4-8b942c3adaee",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "f82ef6b8-9b0e-4858-92da-5517407b42ce",
+					"parentcol": "688b108f-7bdb-4aaf-8338-ac9fa44c9615",
+					"childcol": "e1762aad-0bb2-46ca-9570-2bf0961aeda6"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"bc9eb782-5fda-47be-911e-2440c0cfbe96": {
+			"id": "bc9eb782-5fda-47be-911e-2440c0cfbe96",
+			"visible": true,
+			"name": "StudentSubject_student_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "67df9532-1723-4511-88af-c6a09f4a2b2b",
+			"parent": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+			"child": "60c8626d-98c3-480a-8407-76a1c729d96d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "5b7fee24-1d2b-4b20-a0d3-b780f2b5b2f6",
+					"parentcol": "cf20c6d3-c46f-47e5-a52c-87404af2f27b",
+					"childcol": "b8ac3ea9-642f-47f6-8a1d-58ccd794a4b4"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"2e30b957-35f0-4dd5-ab4b-760d55d104c5": {
+			"id": "2e30b957-35f0-4dd5-ab4b-760d55d104c5",
+			"visible": true,
+			"name": "StudentSubject_Subjects_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "36429753-bd41-46da-88c6-3f57e01728b4",
+			"parent": "af061290-adb9-4f6d-a64b-17801610c67d",
+			"child": "60c8626d-98c3-480a-8407-76a1c729d96d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "c62f0281-dd11-4fd9-be6a-35dba5f10a1d",
+					"parentcol": "688b108f-7bdb-4aaf-8338-ac9fa44c9615",
+					"childcol": "76f57369-5cba-4e7b-9f31-f14a10eeed31"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"98d24ee4-2bad-43ab-b0d3-119ef0fa6edc": {
+			"id": "98d24ee4-2bad-43ab-b0d3-119ef0fa6edc",
+			"visible": true,
+			"name": "TeacherSubject_teachers_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "22910883-91ea-42b5-bdd5-699cde8de622",
+			"parent": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"child": "1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "66ea3fcb-1e93-4102-b7a1-c313cdeccb06",
+					"parentcol": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"childcol": "6cd14e92-c66e-496d-ac7b-791676241586"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"564b9dc0-2193-4617-bd00-a026fa39a7e6": {
+			"id": "564b9dc0-2193-4617-bd00-a026fa39a7e6",
+			"visible": true,
+			"name": "TeacherSubject_Subjects_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "36429753-bd41-46da-88c6-3f57e01728b4",
+			"parent": "af061290-adb9-4f6d-a64b-17801610c67d",
+			"child": "1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "a5538fa3-f6e8-457f-b5d1-a23306092f27",
+					"parentcol": "688b108f-7bdb-4aaf-8338-ac9fa44c9615",
+					"childcol": "d06b5800-d70c-4ff2-b089-0f83240d1875"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"67e7b96b-bc55-43c9-bdef-0221d69780d6": {
+			"id": "67e7b96b-bc55-43c9-bdef-0221d69780d6",
+			"visible": true,
+			"name": "Courses_teachers_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "22910883-91ea-42b5-bdd5-699cde8de622",
+			"parent": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"child": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "bedd16f8-e154-4dc2-9470-004baaff5c95",
+					"parentcol": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"childcol": "37a4dd68-be9c-4533-9b52-0a1ce86f298c"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"7d6c3022-4e61-4335-9ce9-df8014fc189b": {
+			"id": "7d6c3022-4e61-4335-9ce9-df8014fc189b",
+			"visible": true,
+			"name": "Courses_Subjects_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "36429753-bd41-46da-88c6-3f57e01728b4",
+			"parent": "af061290-adb9-4f6d-a64b-17801610c67d",
+			"child": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "56f06d1a-41a2-41b0-929e-77dd19e6368b",
+					"parentcol": "688b108f-7bdb-4aaf-8338-ac9fa44c9615",
+					"childcol": "3ba35983-4485-44c3-bee0-f1614ce2608b"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"d9f6920d-828b-4b8b-967a-c3beaa8d6592": {
+			"id": "d9f6920d-828b-4b8b-967a-c3beaa8d6592",
+			"visible": true,
+			"name": "Lessons_Courses_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "7e2f1930-dda3-490a-8fa3-221dea01629e",
+			"parent": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"child": "81ecafc0-1ca1-424e-9358-0394c034024d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "d3ad804a-4201-4187-83f8-e563c131cd84",
+					"parentcol": "fd3af0ae-bba9-4cf3-a1c8-65dc99ad564a",
+					"childcol": "83262620-e08e-4ce8-a93f-7bcd05be0217"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"3455b0bd-2952-49be-879b-a9a3401c85a5": {
+			"id": "3455b0bd-2952-49be-879b-a9a3401c85a5",
+			"visible": true,
+			"name": "LessonContent_Lessons_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "5c69e662-aa00-4a09-854f-e1c38a95cb69",
+			"parent": "81ecafc0-1ca1-424e-9358-0394c034024d",
+			"child": "bd10779a-0ebc-4de7-9e64-94bf6809de3d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "94b36fb3-0fad-4aaf-9b73-5f94664ea9e2",
+					"parentcol": "8d18f09c-961e-4415-b3d0-4da63b82a904",
+					"childcol": "87d9ff37-4d04-440b-8536-166d326b06fb"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"ef3bc52b-8456-4508-81db-94a13ffeb231": {
+			"id": "ef3bc52b-8456-4508-81db-94a13ffeb231",
+			"visible": true,
+			"name": "Subscriptions_student_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "67df9532-1723-4511-88af-c6a09f4a2b2b",
+			"parent": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+			"child": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "141ed747-91b8-4fd8-b102-7cfce5e94ad9",
+					"parentcol": "cf20c6d3-c46f-47e5-a52c-87404af2f27b",
+					"childcol": "3cebd7a6-f8cb-4544-855f-decfd1dbe0fd"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"e922a60f-dc3e-4b35-9cc8-5355bcbb5059": {
+			"id": "e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
+			"visible": true,
+			"name": "Subscriptions_Courses_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "7e2f1930-dda3-490a-8fa3-221dea01629e",
+			"parent": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"child": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "32d962fa-e3d4-46b3-9553-345f5ea4e236",
+					"parentcol": "fd3af0ae-bba9-4cf3-a1c8-65dc99ad564a",
+					"childcol": "f01a53e4-cdd2-412f-8544-c139e2e9d88f"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"e8c93868-4e2e-4249-bbd5-abadb392c369": {
+			"id": "e8c93868-4e2e-4249-bbd5-abadb392c369",
+			"visible": true,
+			"name": "Courses_Classes_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "e87331ea-06fe-4d03-88b4-b7fca0af5cd9",
+			"parent": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+			"child": "2901c246-082c-43b4-97f6-9b786335be6d",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "899092de-f62d-42d3-9ee7-f7d9bd94d5be",
+					"parentcol": "e9c5c7cc-cc54-4536-b118-40a09141aa36",
+					"childcol": "4af9c98a-5ebd-41ec-bec7-959416bb2ed2"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"565ee046-64b8-4ba0-858c-84c5c76565d0": {
+			"id": "565ee046-64b8-4ba0-858c-84c5c76565d0",
+			"visible": true,
+			"name": "UserRole_users_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "691a47e4-55dd-48fe-90a3-d771e237b58a",
+			"parent": "39731874-bebe-4315-9b12-e98f2890cd40",
+			"child": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "6055a911-8675-4cb8-94a0-66e75d8cfd35",
+					"parentcol": "1bca870e-716a-46b5-aa22-a4185938a72c",
+					"childcol": "d7a24df5-6f60-4fe1-bf46-492be3a0dbe6"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"ff35e594-e211-452c-ad1b-6bb95ba8be03": {
+			"id": "ff35e594-e211-452c-ad1b-6bb95ba8be03",
+			"visible": true,
+			"name": "UserRole_Roles_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+			"parent": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"child": "b12089e5-28af-4676-b1ae-6cc36038b650",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "0f6e716b-a507-445b-8d19-334073ce5b40",
+					"parentcol": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"childcol": "d8d57285-2cad-4373-a6fc-e2ea442300a2"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"618fdfa1-0201-485e-b51a-2136d6bbe966": {
+			"id": "618fdfa1-0201-485e-b51a-2136d6bbe966",
+			"visible": true,
+			"name": "Subscriptions_teachers_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "22910883-91ea-42b5-bdd5-699cde8de622",
+			"parent": "3dea7451-ccd1-4995-a735-633ea517dfce",
+			"child": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "4b7c3dbd-c2d0-4ba0-8219-f016a2ed0aab",
+					"parentcol": "4e67eca5-76e8-4ae7-829b-bb9c0e88639e",
+					"childcol": "b43d7b6a-856c-4fd2-a355-bececde5e4d5"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"27729ad0-34a3-4c1c-8468-67bebcf084f0": {
+			"id": "27729ad0-34a3-4c1c-8468-67bebcf084f0",
+			"visible": true,
+			"name": "RolePermission_Roles_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "5e11de22-9ff4-4e93-81ba-f49c0c98bff4",
+			"parent": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+			"child": "4337e4ab-8d27-4d47-960b-843710374815",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "4d3b34fe-d9d7-400b-8a54-bdb7ac630c42",
+					"parentcol": "5d775ff7-a70d-43a1-8456-31761dbcea39",
+					"childcol": "0c3a537f-bf9c-4913-8fb9-3ad2a376f8ae"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"aad0dfa2-2167-40c5-bd38-c6a8db470b48": {
+			"id": "aad0dfa2-2167-40c5-bd38-c6a8db470b48",
+			"visible": true,
+			"name": "RolePermission_Permissions_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "05ccaefc-76b6-4fe3-a117-04d6041ffacc",
+			"parent": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+			"child": "4337e4ab-8d27-4d47-960b-843710374815",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "bfae96c5-d9f6-4fbe-a887-d62f3c65c29f",
+					"parentcol": "b2547765-0f7b-413a-88c5-8946200efcf7",
+					"childcol": "f6132095-6a1f-4a27-be1d-ee2aa2505c4a"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"845916ce-e54b-460e-a3bb-0382e69b24a3": {
+			"id": "845916ce-e54b-460e-a3bb-0382e69b24a3",
+			"visible": true,
+			"name": "ClassTranslations_Languages_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "71720962-d9ee-4841-8b59-ac6784fbdfb9",
+			"parent": "ff70f7e3-8687-4909-8e28-8b8bc4e6ba97",
+			"child": "66f3748d-e23c-46a8-bf5e-84d540735342",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "65ba81a8-af4f-482d-9c80-8730d948a047",
+					"parentcol": "8d9009aa-ff11-49b5-ad9b-79a2b2c553c1",
+					"childcol": "7b77319e-75de-46ca-8e45-3d07915f81d1"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"c35f28f4-e020-48f5-8a98-60ebcf7e3a9d": {
+			"id": "c35f28f4-e020-48f5-8a98-60ebcf7e3a9d",
+			"visible": true,
+			"name": "ClassTranslations_Classes_id_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "e87331ea-06fe-4d03-88b4-b7fca0af5cd9",
+			"parent": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+			"child": "66f3748d-e23c-46a8-bf5e-84d540735342",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "fd10e50e-ae39-4bf6-a8b0-54ac17762d68",
+					"parentcol": "e9c5c7cc-cc54-4536-b118-40a09141aa36",
+					"childcol": "51c4bf9a-dd33-42cc-86c0-43be5f3e45fd"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		}
+	},
+	"notes": {},
+	"lines": {},
+	"model": {
+		"name": "LMS",
+		"id": "d2fa41a3-f26f-4de0-b13e-50459f636673",
+		"activeDiagram": "1df221d9-e8e7-437b-b5f0-5fdc31f4ac16",
+		"desc": "",
+		"path": "",
+		"type": "MSSQL",
+		"version": 1,
+		"parentTableInFkCols": true,
+		"caseConvention": "under",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 7,
+			"minor": 2,
+			"extra": 1
+		},
+		"writeFileParam": false,
+		"authorName": "",
+		"companyDetails": "",
+		"companyUrl": "",
+		"def_coltopk": true,
+		"mssql": {
+			"schema": ""
+		},
+		"sqlSettings": {
+			"wrapLines": true,
+			"wrapOffset": 80,
+			"indent": true,
+			"indentationString": "spaces",
+			"indentationSize": 2,
+			"limitItemsOnLine": true,
+			"maxListItemsOnLine": 3,
+			"statementDelimiter": "GO",
+			"routineDelimiter": ";",
+			"keywordCase": "upper",
+			"identiferCase": "original",
+			"includeSchema": "always",
+			"quotation": "if_needed",
+			"includeGeneratedNames": "always",
+			"quotationType": "square_brackets"
+		},
+		"nameAutoGeneration": {
+			"keys": true,
+			"indexes": true,
+			"relations": true
+		},
+		"lastSaved": "Sun Sep 01 2024 21:56:28 GMT+0200 (Eastern European Standard Time)"
+	},
+	"otherObjects": {},
+	"diagrams": {
+		"1df221d9-e8e7-437b-b5f0-5fdc31f4ac16": {
+			"name": "Main Diagram",
+			"description": "",
+			"id": "1df221d9-e8e7-437b-b5f0-5fdc31f4ac16",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"zoom": 0.7,
+			"background": "#555555",
+			"lineColor": "transparent",
+			"isOpen": true,
+			"main": true,
+			"diagramItems": {
+				"39731874-bebe-4315-9b12-e98f2890cd40": {
+					"referencedItemId": "39731874-bebe-4315-9b12-e98f2890cd40",
+					"x": 790,
+					"y": 449,
+					"gHeight": 135,
+					"gWidth": 217,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"3dea7451-ccd1-4995-a735-633ea517dfce": {
+					"referencedItemId": "3dea7451-ccd1-4995-a735-633ea517dfce",
+					"x": 608,
+					"y": 1225,
+					"gHeight": 117,
+					"gWidth": 217,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"3ca0d68d-29d6-468e-ba5e-da79fa63f885": {
+					"referencedItemId": "3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+					"x": 1091,
+					"y": 453,
+					"gHeight": 99,
+					"gWidth": 232,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"7bc236c9-a6f9-4a64-977e-857a7b9134c9": {
+					"referencedItemId": "7bc236c9-a6f9-4a64-977e-857a7b9134c9",
+					"x": 659,
+					"y": 897,
+					"gHeight": 81,
+					"gWidth": 179,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"d222a2a9-8b80-44bf-8303-8be564606d5e": {
+					"referencedItemId": "d222a2a9-8b80-44bf-8303-8be564606d5e",
+					"x": 350,
+					"y": 429,
+					"gHeight": 63,
+					"gWidth": 161,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"8473cab8-a6e1-4672-9c91-6756ca70ae7d": {
+					"referencedItemId": "8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+					"x": 1558,
+					"y": 460,
+					"gHeight": 81,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"af061290-adb9-4f6d-a64b-17801610c67d": {
+					"referencedItemId": "af061290-adb9-4f6d-a64b-17801610c67d",
+					"x": 1137,
+					"y": 769,
+					"gHeight": 81,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"13606abf-d162-471f-bdd4-8b942c3adaee": {
+					"referencedItemId": "13606abf-d162-471f-bdd4-8b942c3adaee",
+					"x": 1606,
+					"y": 671,
+					"gHeight": 63,
+					"gWidth": 177,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"60c8626d-98c3-480a-8407-76a1c729d96d": {
+					"referencedItemId": "60c8626d-98c3-480a-8407-76a1c729d96d",
+					"x": 1146,
+					"y": 655,
+					"gHeight": 63,
+					"gWidth": 177,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"1f4d7eeb-4150-40bd-8145-95ccf5b4cd32": {
+					"referencedItemId": "1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
+					"x": 891,
+					"y": 768,
+					"gHeight": 63,
+					"gWidth": 179,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"2901c246-082c-43b4-97f6-9b786335be6d": {
+					"referencedItemId": "2901c246-082c-43b4-97f6-9b786335be6d",
+					"x": 1144,
+					"y": 893,
+					"gHeight": 153,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"81ecafc0-1ca1-424e-9358-0394c034024d": {
+					"referencedItemId": "81ecafc0-1ca1-424e-9358-0394c034024d",
+					"x": 1436,
+					"y": 882,
+					"gHeight": 117,
+					"gWidth": 202,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"bd10779a-0ebc-4de7-9e64-94bf6809de3d": {
+					"referencedItemId": "bd10779a-0ebc-4de7-9e64-94bf6809de3d",
+					"x": 1460,
+					"y": 1143,
+					"gHeight": 135,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"556487ac-7100-4300-af2e-5c5a6b3e2666": {
+					"referencedItemId": "556487ac-7100-4300-af2e-5c5a6b3e2666",
+					"x": 1144,
+					"y": 1216,
+					"gHeight": 135,
+					"gWidth": 208,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"d820655f-7ee3-43bc-b8ce-c9a66083ac63": {
+					"referencedItemId": "d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+					"x": 314,
+					"y": 681,
+					"gHeight": 63,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"c0cd176e-c8b2-41b2-b097-ede325c9065f": {
+					"referencedItemId": "c0cd176e-c8b2-41b2-b097-ede325c9065f",
+					"x": 288,
+					"y": 926,
+					"gHeight": 99,
+					"gWidth": 209,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"b12089e5-28af-4676-b1ae-6cc36038b650": {
+					"referencedItemId": "b12089e5-28af-4676-b1ae-6cc36038b650",
+					"x": 729,
+					"y": 664,
+					"gHeight": 63,
+					"gWidth": 161,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"4337e4ab-8d27-4d47-960b-843710374815": {
+					"referencedItemId": "4337e4ab-8d27-4d47-960b-843710374815",
+					"x": 304,
+					"y": 803,
+					"gHeight": 63,
+					"gWidth": 199,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"66f3748d-e23c-46a8-bf5e-84d540735342": {
+					"referencedItemId": "66f3748d-e23c-46a8-bf5e-84d540735342",
+					"x": 2056,
+					"y": 387,
+					"gHeight": 117,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"ff70f7e3-8687-4909-8e28-8b8bc4e6ba97": {
+					"referencedItemId": "ff70f7e3-8687-4909-8e28-8b8bc4e6ba97",
+					"x": 1949,
+					"y": 887,
+					"gHeight": 81,
+					"gWidth": 193,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				}
+			},
+			"scroll": {
+				"x": 0,
+				"y": 0
+			},
+			"type": "erd",
+			"showHorizontal": true,
+			"showDescriptions": true,
+			"showIndicators": true,
+			"showProgress": true,
+			"lineWidth": "2",
+			"boxSize": "0",
+			"showIndicatorCaptions": true,
+			"showEstimatedSize": false,
+			"showSchemaContainer": true,
+			"showEmbeddedInParents": true,
+			"showCardinalityCaptions": true,
+			"showColumns": true,
+			"showColumnDataTypes": true,
+			"showSampleData": false,
+			"showTableIndexes": true,
+			"showTableDescriptions": false,
+			"showRelations": true,
+			"backgroundImage": "na",
+			"descriptionsColor": "transparent"
+		}
+	},
+	"order": [
+		"39731874-bebe-4315-9b12-e98f2890cd40",
+		"3dea7451-ccd1-4995-a735-633ea517dfce",
+		"3ca0d68d-29d6-468e-ba5e-da79fa63f885",
+		"7bc236c9-a6f9-4a64-977e-857a7b9134c9",
+		"d222a2a9-8b80-44bf-8303-8be564606d5e",
+		"8473cab8-a6e1-4672-9c91-6756ca70ae7d",
+		"af061290-adb9-4f6d-a64b-17801610c67d",
+		"13606abf-d162-471f-bdd4-8b942c3adaee",
+		"60c8626d-98c3-480a-8407-76a1c729d96d",
+		"1f4d7eeb-4150-40bd-8145-95ccf5b4cd32",
+		"2901c246-082c-43b4-97f6-9b786335be6d",
+		"81ecafc0-1ca1-424e-9358-0394c034024d",
+		"bd10779a-0ebc-4de7-9e64-94bf6809de3d",
+		"556487ac-7100-4300-af2e-5c5a6b3e2666",
+		"d820655f-7ee3-43bc-b8ce-c9a66083ac63",
+		"c0cd176e-c8b2-41b2-b097-ede325c9065f",
+		"b12089e5-28af-4676-b1ae-6cc36038b650",
+		"4337e4ab-8d27-4d47-960b-843710374815",
+		"66f3748d-e23c-46a8-bf5e-84d540735342",
+		"ff70f7e3-8687-4909-8e28-8b8bc4e6ba97",
+		"1e05eede-0645-4c40-8abc-c3dc1f41cf86",
+		"43f33bd3-4df1-46e8-9cee-af8c2afcb32d",
+		"3e489b02-4d88-4b5a-837f-393289fd0e3b",
+		"0df041d0-cbf2-4528-a92d-5720bf5547fd",
+		"fb062b14-e299-46c0-b8b8-bd156d9a9b7e",
+		"56dc4491-a95f-4ac8-8c8e-6cfca27386b2",
+		"62686446-7f31-47ef-a9e8-b8dd71a18dbb",
+		"5518902f-74b5-4027-875c-7573deb81da4",
+		"bc9eb782-5fda-47be-911e-2440c0cfbe96",
+		"2e30b957-35f0-4dd5-ab4b-760d55d104c5",
+		"98d24ee4-2bad-43ab-b0d3-119ef0fa6edc",
+		"564b9dc0-2193-4617-bd00-a026fa39a7e6",
+		"67e7b96b-bc55-43c9-bdef-0221d69780d6",
+		"7d6c3022-4e61-4335-9ce9-df8014fc189b",
+		"d9f6920d-828b-4b8b-967a-c3beaa8d6592",
+		"3455b0bd-2952-49be-879b-a9a3401c85a5",
+		"ef3bc52b-8456-4508-81db-94a13ffeb231",
+		"e922a60f-dc3e-4b35-9cc8-5355bcbb5059",
+		"e8c93868-4e2e-4249-bbd5-abadb392c369",
+		"565ee046-64b8-4ba0-858c-84c5c76565d0",
+		"ff35e594-e211-452c-ad1b-6bb95ba8be03",
+		"618fdfa1-0201-485e-b51a-2136d6bbe966",
+		"27729ad0-34a3-4c1c-8468-67bebcf084f0",
+		"aad0dfa2-2167-40c5-bd38-c6a8db470b48",
+		"845916ce-e54b-460e-a3bb-0382e69b24a3",
+		"c35f28f4-e020-48f5-8a98-60ebcf7e3a9d"
+	],
+	"collapsedTreeItems": [],
+	"reverseStats": {}
+}

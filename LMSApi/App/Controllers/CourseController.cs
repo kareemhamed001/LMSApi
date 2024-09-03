@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Course;
+using LMSApi.App.Requests;
 using LMSApi.App.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMSApi.App.Controllers
 {
 
-    
-        [ApiController]
+
+    [ApiController]
         [Route("api/[controller]")]
         public class CoursesController : ControllerBase
         {
