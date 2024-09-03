@@ -1,6 +1,5 @@
 ﻿using LMSApi.App.Requests;
 using LMSApi.App.Requests.Subject;
-using LMSApi.Database.Enitities;
 
 namespace LMSApi.App.Interfaces
 {

@@ -1,11 +1,11 @@
+using DataAccessLayer.Data;
 using Hangfire;
 using LMSApi.App.Filters;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Middlewares;
 using LMSApi.App.Options;
 using LMSApi.App.Services;
-using LMSApi.Database.Data;
-using LMSApi.Database.Seeders;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.Extensions.Caching.Memory;
@@ -33,7 +33,7 @@ builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
-builder.Services.AddScoped<PermissionSeeder>();
+//builder.Services.AddScoped<PermissionSeeder>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -75,11 +75,11 @@ builder.Services.AddControllers(options =>{options.Filters.Add<PermissionCheckFi
 var app = builder.Build();
 
 
-await using (var scope = app.Services.CreateAsyncScope())
-{
-    var seeder = scope.ServiceProvider.GetRequiredService<PermissionSeeder>();
-    await seeder.Seed();
-}
+//await using (var scope = app.Services.CreateAsyncScope())
+//{
+//    var seeder = scope.ServiceProvider.GetRequiredService<PermissionSeeder>();
+//    await seeder.Seed();
+//}
 
 if (app.Environment.IsDevelopment())
 {

@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
+using DataAccessLayer.Data;
 using LMSApi.App.Attributes;
 using LMSApi.App.Options;
 using LMSApi.App.Requests;
 using LMSApi.App.Responses;
-using LMSApi.Database.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LMSApi.App.Controllers.Auth
@@ -35,14 +40,17 @@ namespace LMSApi.App.Controllers.Auth
         [Route("login")]
         public async Task<ActionResult<ApiResponse<string>>> Login(LoginRequest request)
         {
-            var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            var user = await _appDbContext.Users.Include(u => u.Roles)
+                .ThenInclude(r => r.Permissions)
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
+
             if (user == null)
                 return NotFound(ApiResponseFactory.Create("User not found", 404, false));
 
-            if (!user.VerifyPassword(request.Password))
+            if (!VerifyPassword(user.Password, request.Password))
                 return BadRequest(ApiResponseFactory.Create("Invalid password", 400, false));
 
-            return Ok(ApiResponseFactory.Create((object)user.GenerateJwtToken(_jwtOptions, _appDbContext), "Succeeded", 201, true));
+            return Ok(ApiResponseFactory.Create((object)GenerateJwtToken(user, _jwtOptions), "Succeeded", 201, true));
         }
 
         [HttpPost]
@@ -73,7 +81,7 @@ namespace LMSApi.App.Controllers.Auth
 
             Dictionary<string, object> data = new Dictionary<string, object>
             {
-                { "Token", user.GenerateJwtToken(_jwtOptions, _appDbContext)},
+                { "Token", GenerateJwtToken(user,_jwtOptions)},
                 { "Permission", userRole.Permissions.Select(p => p.RouteName).ToList() }
             };
 
@@ -102,5 +110,49 @@ namespace LMSApi.App.Controllers.Auth
 
             return Ok(userDto);
         }
+
+
+        public string GenerateJwtToken(User user, JwtOptions jwtOptions)
+        {
+
+            var userPermissions = user.Roles.SelectMany(r => r.Permissions).Select(p => p.RouteName).ToList();
+
+            List<Claim> claims = new List<Claim>();
+            foreach (var permission in userPermissions)
+            {
+                var claim = new Claim("permissions", permission);
+                claims.Add(claim);
+            }
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, user.FirstName));
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Issuer = jwtOptions.Issuer,
+                Audience = jwtOptions.Audience,
+                SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)), SecurityAlgorithms.HmacSha256),
+                Subject = new ClaimsIdentity(claims)
+            };
+
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(securityToken);
+
+            return token;
+        }
+
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public bool VerifyPassword(string Password, string providedPassword)
+        {
+            var passwordHasher = new PasswordHasher<object>();
+            var result = passwordHasher.VerifyHashedPassword(null, Password, providedPassword);
+            if (result == PasswordVerificationResult.Failed)
+                return false;
+            return true;
+        }
     }
+
+
 }

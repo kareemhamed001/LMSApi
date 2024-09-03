@@ -1,6 +1,4 @@
-﻿using LMSApi.App.Responses.Teacher;
-using LMSApi.Database.Enitities;
-namespace LMSApi.App.Responses
+﻿namespace LMSApi.App.Responses
 {
     public class ShowTeacherResponse: TeacherResponse
     {

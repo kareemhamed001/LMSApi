@@ -1,5 +1,4 @@
 ﻿
-using LMSApi.App.Requests.Role;
 using LMSApi.App.Responses;
 
 namespace LMSApi.App.Requests

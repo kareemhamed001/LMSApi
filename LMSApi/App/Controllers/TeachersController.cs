@@ -9,7 +9,6 @@ using LMSApi.App.Options;
 using LMSApi.App.Requests;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
-using LMSApi.App.Responses.Teacher;
 using System.Security.Claims;
 using System.Text;
 

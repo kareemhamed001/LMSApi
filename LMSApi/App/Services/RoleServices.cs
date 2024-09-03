@@ -1,8 +1,6 @@
 ﻿using LMSApi.App.helper;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Role;
-using LMSApi.Database.Data;
-using LMSApi.Database.Seeders;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -82,7 +80,7 @@ namespace LMSApi.App.Services
                 // Find the permissions that need to be removed
                 var currentPermissionIds = role.RolePermissions.ToList();
                 _context.RolePermissions.RemoveRange(currentPermissionIds);
-                                                           
+
                 var permissionsToAdd = _context.Permissions.Where(p => roleRequest.Permissions.Contains(p.Id)).Select(p => p.Id).ToList();
 
                 // Add new permissions
@@ -113,8 +111,9 @@ namespace LMSApi.App.Services
         }
         public async Task SeedPermissions()
         {
-            PermissionSeeder permissionSeeder = new PermissionSeeder(_context);
-            await permissionSeeder.Seed();
+            //PermissionSeeder permissionSeeder = new PermissionSeeder(_context);
+            //await permissionSeeder.Seed();
+            return;
         }
 
     }

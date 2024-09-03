@@ -1,7 +1,7 @@
 ﻿using LMSApi.App.Enums;
 using LMSApi.App.helper;
 using LMSApi.App.Interfaces;
-using LMSApi.Database.Data;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace LMSApi.App.Services

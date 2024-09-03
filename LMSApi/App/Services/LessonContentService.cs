@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using LMSApi.App.Enums;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.LessonContent;
-using LMSApi.Database.Data;
-using LMSApi.Database.Enitities;
 
 namespace LMSApi.App.Services
 {
@@ -39,7 +38,7 @@ namespace LMSApi.App.Services
             LessonContent lessonContent = new()
             {
                 Name = lessonContentDto.Name,
-                Type = lessonContentDto.Type,
+                //Type = lessonContentDto.Type,
                 Link = link,
                 Content = lessonContentDto.Content,
                 LessonId = lessonContentDto.LessonId,

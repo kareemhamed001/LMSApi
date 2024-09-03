@@ -3,7 +3,6 @@ using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.LessonContent;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using LMSApi.Database.Data;
 
 namespace LMSApi.Controllers
 {

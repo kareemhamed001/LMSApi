@@ -4,7 +4,6 @@ using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
 using LMSApi.App.Requests.Subject;
 using LMSApi.App.Responses;
-using LMSApi.App.Responses.Teacher;
 
 namespace LMSApi.App.Controllers
 {

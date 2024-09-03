@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LMSApi.App.DTOs;
 using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Class;
 using AutoMapper;
 using LMSApi.App.Attributes;
 using LMSApi.App.Exceptions;
-using LMSApi.Database.Data;
 using LMSApi.App.Extentions;
+using LMSApi.App.Responses;
+using DataAccessLayer.Data;
+using LMSApi.App.Requests;
 
 namespace LMSApi.Controllers
 {
@@ -20,13 +20,15 @@ namespace LMSApi.Controllers
         private readonly IClassService _classService;
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
+        private readonly ILogger _logger;
 
-        public ClassController(IClassService classService, IMapper mapper, AppDbContext context)
+
+        public ClassController(IClassService classService, IMapper mapper, AppDbContext context, ILogger<ClassController> logger)
         {
             _classService = classService;
             _mapper = mapper;
             _context = context;
-
+            _logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -60,9 +62,8 @@ namespace LMSApi.Controllers
         public async Task<ActionResult<IEnumerable<ClassRequest>>> GetAllClasses()
         {
             var classEntities = await _classService.GetAllClassesAsync();
-            var classDtos = _mapper.Map<IEnumerable<ClassRequest>>(classEntities);
-
-            return Ok(classDtos);
+            ClassTranslationResponse translation = null;
+            return Ok(ApiResponseFactory.Create(_mapper.Map<IEnumerable<ClassResponse>>(classEntities), "Classes Fetched Successfully", 201, true));
         }
 
         [HttpPost]
@@ -81,53 +82,108 @@ namespace LMSApi.Controllers
         [CheckPermission("class.updateClass")]
         public async Task<ActionResult> UpdateClass(int id, ClassRequest classDto)
         {
-
-            var classEntity = _mapper.Map<Class>(classDto);
-            classEntity.Id = id;
-
-            await _classService.UpdateClassAsync(id, classEntity);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        [CheckPermission("class.deleteClass")]
-        public async Task<ActionResult> DeleteClass(int id)
-        {
-            await _classService.DeleteClassAsync(id);
-
-            return NoContent();
-        }
-
-        [HttpGet("{classId}/students")]
-        [CheckPermission("class.getStudentsByClassId")]
-        public async Task<ActionResult<GetStudentOfClassRequest>> GetStudentsByClassId(int classId)
-        {
             try
             {
-                var classEntity = await _classService.GetClassByIdAsync(classId);
-                if (classEntity == null) return NotFound();
 
-                // Get students for the class
-                var students = await _classService.GetStudentsByClassIdAsync(classId);
+                var classEntity = _mapper.Map<Class>(classDto);
+                classEntity.Id = id;
 
-                // Map the class entity to GetStudentOfClassRequest
-                var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
+                var updatedClass = await _classService.UpdateClassAsync(id, classEntity);
 
-                // Map students to StudentDto and set it in the request
-                getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
-
-                return Ok(getStudentOfClassRequest);
+                return Ok(ApiResponseFactory.Create(_mapper.Map<ClassResponse>(updatedClass), "Class Updated Successfully", 201, true));
             }
             catch (NotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex.Message);
+                return NotFound(ApiResponseFactory.Create(ex.Message, 500, false));
             }
-            
         }
+
+    
+
+    [HttpDelete("{id}")]
+    [CheckPermission("class.deleteClass")]
+    public async Task<ActionResult> DeleteClass(int id)
+    {
+        await _classService.DeleteClassAsync(id);
+
+        return NoContent();
     }
+
+    [HttpGet("{classId}/students")]
+    [CheckPermission("class.getStudentsByClassId")]
+    public async Task<ActionResult> GetStudentsByClassId(int classId)
+    {
+        try
+        {
+            var classEntity = await _classService.GetClassByIdAsync(classId);
+            if (classEntity == null) return NotFound();
+
+            // Get students for the class
+            var students = await _classService.GetStudentsByClassIdAsync(classId);
+
+            // Map the class entity to GetStudentOfClassRequest
+            var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
+
+            // Map students to StudentDto and set it in the request
+            getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
+
+            return Ok(getStudentOfClassRequest);
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    [HttpGet("{classId}/courses")]
+    [CheckPermission("class.getCoursesByClassId")]
+    public async Task<ActionResult> GetCoursesByClassId(int classId)
+    {
+        try
+        {
+            var courses = await _classService.GetCoursesByClassIdAsync(classId);
+            return Ok(ApiResponseFactory.Create(_mapper.Map<List<CourseResponse>>(courses), "Courses Fetched Successfully", 201, true));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return NotFound(ApiResponseFactory.Create(ex.Message, 500, false));
+        }
+
+    }
+    [HttpGet("{classId}/teachers")]
+    [CheckPermission("class.getTeachersByClassId")]
+    public async Task<ActionResult> GetTeachersByClassId(int classId)
+    {
+        try
+        {
+            var teachers = await _classService.GetTeachersByClassIdAsync(classId);
+            return Ok(ApiResponseFactory.Create(_mapper.Map<List<TeacherResponse>>(teachers), "Teachers Fetched Successfully", 201, true));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return NotFound(ApiResponseFactory.Create(ex.Message, 500, false));
+        }
+
+    }
+}
 }

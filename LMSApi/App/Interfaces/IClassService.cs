@@ -1,14 +1,15 @@
 ﻿
-using ClassService = LMSApi.Database.Enitities.Class;
 namespace LMSApi.App.Interfaces
 {
     public interface IClassService
     {
-        Task<ClassService> GetClassByIdAsync(int id);
-        Task<IEnumerable<ClassService>> GetAllClassesAsync();
-        Task CreateClassAsync(ClassService classEntity);
-        Task UpdateClassAsync(int id, ClassService classEntity);
+        Task<Class> GetClassByIdAsync(int id);
+        Task<IEnumerable<Class>> GetAllClassesAsync();
+        Task CreateClassAsync(Class classEntity);
+        Task<Class> UpdateClassAsync(int id, Class classEntity);
         Task DeleteClassAsync(int id);
         Task<IEnumerable<Student>> GetStudentsByClassIdAsync(int classId);
+        Task<IEnumerable<Course>> GetCoursesByClassIdAsync(int classId);
+        Task<IEnumerable<Teacher>> GetTeachersByClassIdAsync(int classId);
     }
 }

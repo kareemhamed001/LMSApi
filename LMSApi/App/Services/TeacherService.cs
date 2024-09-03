@@ -3,8 +3,6 @@ using LMSApi.App.helper;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
 using LMSApi.App.Requests.Teacher;
-using LMSApi.Database.Data;
-using TeacherEntity = LMSApi.Database.Enitities.Teacher;
 
 namespace LMSApi.App.Services
 {
@@ -43,7 +41,7 @@ namespace LMSApi.App.Services
             try
             {
 
-                TeacherEntity? teacher = await appDbContext.Teachers.FindAsync(teacherId);
+                Teacher? teacher = await appDbContext.Teachers.FindAsync(teacherId);
                 if (teacher is null)
                 {
                     throw new NotFoundException("Teacher not found");
@@ -58,12 +56,12 @@ namespace LMSApi.App.Services
                 throw;
             }
         }
-        public async Task<TeacherEntity> Show(int teacherId)
+        public async Task<Teacher> Show(int teacherId)
         {
             try
             {
 
-                TeacherEntity? teacher = await appDbContext.Teachers
+                Teacher? teacher = await appDbContext.Teachers
                     .Include(t => t.User)
                     .ThenInclude(u => u.Roles)
                     .ThenInclude(r => r.Permissions)
@@ -85,7 +83,7 @@ namespace LMSApi.App.Services
                 throw;
             }
         }
-        public async Task<TeacherEntity> Store(CreateTeacherRequest teacherRequest)
+        public async Task<Teacher> Store(CreateTeacherRequest teacherRequest)
         {
             try
             {
@@ -110,7 +108,7 @@ namespace LMSApi.App.Services
                 };
                 appDbContext.Users.Add(user);
 
-                TeacherEntity teacher = new TeacherEntity
+                Teacher teacher = new Teacher
                 {
                     NickName = teacherRequest.NickName,
                     Phone = teacherRequest.CommunicationPhone ?? teacherRequest.Email,
@@ -131,13 +129,13 @@ namespace LMSApi.App.Services
                 throw;
             }
         }
-        public async Task<TeacherEntity> Update(int teacherId, UpdateTeacherRequest teacherRequest)
+        public async Task<Teacher> Update(int teacherId, UpdateTeacherRequest teacherRequest)
         {
             try
             {
 
                 appDbContext.Database.BeginTransaction();
-                TeacherEntity? teacher = await appDbContext.Teachers
+                Teacher? teacher = await appDbContext.Teachers
                     .Include(t => t.User)
                     .FirstOrDefaultAsync(t => t.Id == teacherId);
                 if (teacher is null)

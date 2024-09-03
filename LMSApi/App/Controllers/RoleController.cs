@@ -2,7 +2,6 @@
 using LMSApi.App.Requests;
 using LMSApi.App.Requests.Role;
 using LMSApi.App.Responses;
-using LMSApi.Database.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

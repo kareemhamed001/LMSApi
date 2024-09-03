@@ -1,4 +1,6 @@
-﻿using LMSApi.App.Enums;
+﻿
+
+using DataAccessLayer.Enums;
 
 namespace LMSApi.App.Requests
 {
@@ -6,7 +8,8 @@ namespace LMSApi.App.Requests
     {
         public string Name { get; set; }
         public LessonContentTypesEnum Type { get; set; }
-        public string Link { get; set; }
+        public IFormFile Link { get; set; } = default!;
         public string Content { get; set; }
+        public int LessonId { get; set; }
     }
 }

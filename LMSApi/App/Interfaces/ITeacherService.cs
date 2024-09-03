@@ -3,7 +3,6 @@ using LMSApi.App.Requests;
 using LMSApi.App.Requests.Teacher;
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
-using TeacherEntity = LMSApi.Database.Enitities.Teacher;
 
 namespace LMSApi.App.Interfaces
 {
@@ -11,9 +10,9 @@ namespace LMSApi.App.Interfaces
     {
 
         public Task< List<Teacher>> Index();
-        public Task<TeacherEntity> Store(CreateTeacherRequest teacherRequest);
-        public Task<TeacherEntity> Update(int teacherId, UpdateTeacherRequest teacherRequest);
-        public Task<TeacherEntity> Show(int teacherId);
+        public Task<Teacher> Store(CreateTeacherRequest teacherRequest);
+        public Task<Teacher> Update(int teacherId, UpdateTeacherRequest teacherRequest);
+        public Task<Teacher> Show(int teacherId);
         public Task<bool> Delete(int teacherId);
         public Task<List<Course>> CoursesAsync(int teacherId);
         public Task<List<Subject>> SubjectsAsync(int teacherId);

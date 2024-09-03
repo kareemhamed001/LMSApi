@@ -1,8 +1,7 @@
 ﻿using LMSApi.App.Interfaces;
 using LMSApi.App.Requests.Subject;
 using LMSApi.App.Exceptions;
-using LMSApi.Database.Data;
-using LMSApi.Database.Enitities;
+
 using LMSApi.App.Responses;
 using LMSApi.App.Responses.Teacher;
 using AutoMapper;

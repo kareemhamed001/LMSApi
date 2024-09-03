@@ -1,6 +1,5 @@
 ﻿using LMSApi.App.Interfaces;
 using LMSApi.App.Services;
-using LMSApi.Database.Data;
 
 namespace LMSApi.App.Extentions
 {
