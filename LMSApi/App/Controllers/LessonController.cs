@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Lesson;
+using LMSApi.App.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 
 [ApiController]
 [Route("api/[controller]")]

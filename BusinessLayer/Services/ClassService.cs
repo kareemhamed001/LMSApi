@@ -1,8 +1,8 @@
 ﻿
 using DataAccessLayer.Interfaces;
-using DataAccessLayer.Entities;
-using LMSApi.App.Responses;
 using AutoMapper;
+using LMSApi.App.Exceptions;
+using LMSApi.App.Requests;
 
 namespace BusinessLayer.Services
 {
@@ -13,47 +13,77 @@ namespace BusinessLayer.Services
         {
             return Thread.CurrentThread.CurrentCulture.Name;
         }
-        public async Task<ClassResponse> GetClassByIdAsync(int id)
+        public async Task<Class> GetClassByIdAsync(int id)
         {
-            Class classEntity = await classRepository.GetClassByIdAsync(id);
-            return mapper.Map<ClassResponse>(classEntity);
+            return await classRepository.GetClassByIdAsync(id);
         }
-        public async Task<IEnumerable<ClassResponse>> GetAllClassesAsync()
+        public async Task<IEnumerable<Class>> GetAllClassesAsync()
         {
-            List<Class> classes = (List<Class>)await classRepository.GetAllClassesAsync();
-            return mapper.Map<IEnumerable<ClassResponse>>(classes);
+            return (List<Class>)await classRepository.GetAllClassesAsync();
         }
 
-        public async Task<ClassResponse> CreateClassAsync(Class classEntity)
+        public async Task<Class> CreateClassAsync(ClassRequest classRequest)
         {
-            Class newClass = await classRepository.CreateClassAsync(classEntity);
-            return mapper.Map<ClassResponse>(newClass);
+            Class classEntity = mapper.Map<Class>(classRequest);
+            return await classRepository.CreateClassAsync(classEntity);
         }
 
-        public async Task<ClassResponse> UpdateClassAsync(int id, Class classEntity)
+        public async Task<Class> UpdateClassAsync(int id, ClassRequest classRequest)
         {
-            Class updatedClass = await classRepository.UpdateClassAsync(id, classEntity);
-            return mapper.Map<ClassResponse>(updatedClass);
+            var existingClass = await classRepository.GetClassByIdAsync(id);
+            if (existingClass is null)
+                throw new NotFoundException("Class Not Found");
+
+
+            existingClass.Name = classRequest.Name;
+            existingClass.Description = classRequest.Description;
+
+            if (classRequest.Translations is not null)
+            {
+                //update or add translations
+                foreach (var translation in classRequest.Translations)
+                {
+                    var existingTranslation = existingClass.Translations.FirstOrDefault(t => t.LanguageId == translation.LanguageId);
+                    if (existingTranslation == null)
+                    {
+                        existingClass.Translations.Add(new ClassTranslation
+                        {
+                            Name = translation.Name,
+                            Description = translation.Description,
+                            LanguageId = translation.LanguageId
+                        });
+                    }
+                    else
+                    {
+                        existingTranslation.Name = translation.Name;
+                        existingTranslation.Description = translation.Description;
+                    }
+                }
+            }
+
+
+            return await classRepository.UpdateClassAsync(existingClass);
         }
 
         public async Task<bool> DeleteClassAsync(int id)
         {
-            return await classRepository.DeleteClassAsync(id);
+            var existingClass = await classRepository.GetClassByIdAsync(id);
+            if (existingClass is null)
+                throw new NotFoundException("Class Not Found");
+
+            return await classRepository.DeleteClassAsync(existingClass);
         }
-        public async Task<IEnumerable<StudentResponse>> GetStudentsByClassIdAsync(int classId)
+        public async Task<IEnumerable<Student>> GetStudentsByClassIdAsync(int classId)
         {
-            List<Student> students = (List<Student>)await classRepository.GetStudentsByClassIdAsync(classId);
-            return mapper.Map<IEnumerable<StudentResponse>>(students);
+            return (List<Student>)await classRepository.GetStudentsByClassIdAsync(classId);
         }
-        public async Task<IEnumerable<CourseResponse>> GetCoursesByClassIdAsync(int classId)
+        public async Task<IEnumerable<Course>> GetCoursesByClassIdAsync(int classId)
         {
-            List<Course> courses = (List<Course>)await classRepository.GetCoursesByClassIdAsync(classId);
-            return mapper.Map<IEnumerable<CourseResponse>>(courses);
+            return (List<Course>)await classRepository.GetCoursesByClassIdAsync(classId);
         }
-        public async Task<IEnumerable<TeacherResponse>> GetTeachersByClassIdAsync(int classId)
+        public async Task<IEnumerable<Teacher>> GetTeachersByClassIdAsync(int classId)
         {
-            List<Teacher> teachers = (List<Teacher>)await classRepository.GetTeachersByClassIdAsync(classId);
-            return mapper.Map<IEnumerable<TeacherResponse>>(teachers);
+            return (List<Teacher>)await classRepository.GetTeachersByClassIdAsync(classId);
         }
 
 

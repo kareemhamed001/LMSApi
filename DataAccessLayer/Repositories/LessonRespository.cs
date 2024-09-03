@@ -24,19 +24,14 @@
         return lesson;
     }
 
-    public async Task<Lesson> UpdateLessonAsync(int id, Lesson lesson)
+    public async Task<Lesson> UpdateLessonAsync(Lesson lesson)
     {
-        var existingLesson = await _context.Lessons.FindAsync(id);
-        if (existingLesson == null) return null;
 
-        existingLesson.Name = lesson.Name;
-        existingLesson.Description = lesson.Description;
-        existingLesson.CourseId = lesson.CourseId;
-        existingLesson.SectionNumber = lesson.SectionNumber;
+        if (lesson == null) return null;
 
-        _context.Lessons.Update(existingLesson);
+        _context.Lessons.Update(lesson);
         await _context.SaveChangesAsync();
-        return existingLesson;
+        return lesson;
     }
 
     public async Task DeleteLessonAsync(int id)

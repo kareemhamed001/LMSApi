@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using LMSApi.App.Requests;
-using LMSApi.App.Requests.Lesson;
-using LMSApi.App.Requests.Role;
+
 using LMSApi.App.Responses;
-using LMSApi.App.Requests.LessonContent;
 using System.Diagnostics.Metrics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using LessonContentRequest = LMSApi.App.Requests.LessonContent.LessonContentRequest;
 
 
 

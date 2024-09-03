@@ -2,7 +2,7 @@
 using LMSApi.App.Exceptions;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
-using LMSApi.App.Requests.Subject;
+using LMSApi.App.Requests;
 using LMSApi.App.Responses;
 
 namespace LMSApi.App.Controllers

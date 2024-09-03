@@ -6,8 +6,8 @@ namespace DataAccessLayer.Interfaces
         Task<Class> GetClassByIdAsync(int id);
         Task<IEnumerable<Class>> GetAllClassesAsync();
         Task<Class> CreateClassAsync(Class classEntity);
-        Task<Class> UpdateClassAsync(int id, Class classEntity);
-        Task<bool> DeleteClassAsync(int id);
+        Task<Class> UpdateClassAsync(Class classEntity);
+        Task<bool> DeleteClassAsync(Class classEntity);
         Task<IEnumerable<Student>> GetStudentsByClassIdAsync(int classId);
         Task<IEnumerable<Course>> GetCoursesByClassIdAsync(int classId);
         Task<IEnumerable<Teacher>> GetTeachersByClassIdAsync(int classId);

@@ -1,11 +1,13 @@
-﻿using LMSApi.App.Interfaces;
+﻿using DataAccessLayer.Interfaces;
+using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
+using ILanguageService = BusinessLayer.Interfaces.ILanguageService;
 
 namespace BusinessLayer.Services
 {
-    public class LanguageService(AppDbContext appDbContext) : ILanguageService
+    public class LanguageService(ILanguageRepository languageRepository) : ILanguageService
     {
-        private readonly AppDbContext appDbContext = appDbContext;
+        private readonly ILanguageRepository languageRepository = languageRepository;
         public async Task<Language> CreateLanguageAsync(LanguageRequest request)
         {
             Language language = new Language
@@ -13,9 +15,8 @@ namespace BusinessLayer.Services
                 Name = request.Name,
                 Code = request.Code
             };
-            appDbContext.Languages.Add(language);
-            await appDbContext.SaveChangesAsync();
-            return language;
+            
+            return await languageRepository.CreateLanguageAsync(language);
         }
 
         public Task DeleteLanguageAsync(int id)

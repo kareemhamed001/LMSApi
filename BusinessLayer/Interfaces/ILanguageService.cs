@@ -1,4 +1,8 @@
 ﻿
+
+
+using LMSApi.App.Requests;
+
 namespace BusinessLayer.Interfaces
 {
     public interface ILanguageService

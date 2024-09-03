@@ -1,19 +1,16 @@
-﻿using LMSApi.App.helper;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Role;
+﻿using DataAccessLayer.Interfaces;
+using LMSApi.App.Requests;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly AppDbContext _context;
+        private readonly IRoleRepository roleRepository;
 
-        public RoleService(AppDbContext context)
+        public RoleService(IRoleRepository roleRepository)
         {
-            _context = context;
+            this.roleRepository = roleRepository;
         }
 
         public async Task<Role> CreateRoleAsync(CreateRoleRequest roleRequest)

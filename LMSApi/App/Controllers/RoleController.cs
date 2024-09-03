@@ -1,6 +1,6 @@
 ﻿using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
-using LMSApi.App.Requests.Role;
+using LMSApi.App.Requests;
 using LMSApi.App.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

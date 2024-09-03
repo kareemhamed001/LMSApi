@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LMSApi.App.Interfaces;
 using AutoMapper;
 using LMSApi.App.Attributes;
 using LMSApi.App.Exceptions;
