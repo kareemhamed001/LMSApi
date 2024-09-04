@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.LessonContent;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 

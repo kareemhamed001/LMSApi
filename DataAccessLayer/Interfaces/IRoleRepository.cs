@@ -1,6 +1,4 @@
-﻿
-
-namespace DataAccessLayer.Interfaces
+﻿namespace DataAccessLayer.Interfaces
 {
     public interface IRoleRepository
     {
@@ -10,6 +8,9 @@ namespace DataAccessLayer.Interfaces
         Task UpdateRoleAsync(int roleId, Role roleRequest);
         Task DeleteRoleAsync(int roleId);
         Task AddRoleToUserAsync(int userId, int roleId);
-        public Task SeedPermissions();
+
+        // New methods
+        Task<bool> IsRoleAssignedToUserAsync(int userId, int roleId);
+        Task<bool> IsUserAssignedRoleAsync(int userId, int roleId);
     }
 }

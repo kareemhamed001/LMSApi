@@ -1,120 +1,182 @@
-﻿using LMSApi.App.helper;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Role;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BusinessLayer.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly AppDbContext _context;
+        private readonly IRoleRepository _roleRepository;
+        private readonly ILogger<RoleService> _logger;
 
-        public RoleService(AppDbContext context)
+        public RoleService(IRoleRepository roleRepository, ILogger<RoleService> logger)
         {
-            _context = context;
+            _roleRepository = roleRepository;
+            _logger = logger;
         }
 
-        public async Task<Role> CreateRoleAsync(CreateRoleRequest roleRequest)
+        public async Task<Role> CreateRoleAsync(Role roleRequest)
         {
-            var role = new Role { Name = roleRequest.Name };
-            foreach (var permissionId in roleRequest.Permissions)
+            if (roleRequest == null)
             {
-                var permission = await _context.Permissions.FindAsync(permissionId);
-                if (permission != null)
-                {
-                    var rolePermission = new RolePermission
-                    {
-                        RoleId = role.Id,
-                        PermissionId = permission.Id,
-                        Role = role,
-                        Permission = permission
-                    };
-                    role.RolePermissions.Add(rolePermission);
-                }
+                _logger.LogError("Role request is null.");
+                throw new ArgumentNullException(nameof(roleRequest), "Role request cannot be null.");
             }
-            _context.Roles.Add(role);
-            await _context.SaveChangesAsync();
-            return role;
-        }
-        public async Task AddRoleToUserAsync(int userId, int roleId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            var role = await _context.Roles.FindAsync(roleId);
 
-            if (user != null && role != null)
+            try
             {
-                var userRole = new UserRole
-                {
-                    UserId = userId,
-                    RoleId = roleId,
-                    User = user,
-                    Role = role
-                };
-
-                _context.UserRoles.Add(userRole);
-                await _context.SaveChangesAsync();
+                _logger.LogInformation("Creating role with name: {RoleName}", roleRequest.Name);
+                return await _roleRepository.CreateRoleAsync(roleRequest);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating role.");
+                throw; // Re-throw the exception to be handled by higher-level code if needed
             }
         }
+
         public async Task<Role> GetRoleByIdAsync(int roleId)
         {
-            return await _context.Roles.FindAsync(roleId);
+            try
+            {
+                _logger.LogInformation("Retrieving role with ID: {RoleId}", roleId);
+                var role = await _roleRepository.GetRoleByIdAsync(roleId);
+
+                if (role == null)
+                {
+                    _logger.LogWarning("Role with ID {RoleId} not found.", roleId);
+                }
+
+                return role;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving role.");
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Role>> GetAllRolesAsync()
         {
-            return await _context.Roles.ToListAsync();
-        }
-
-        public async Task UpdateRoleAsync(int roleId, CreateRoleRequest roleRequest)
-        {
-            var role = await _context.Roles
-                                     .Include(r => r.RolePermissions)
-                                     .FirstOrDefaultAsync(r => r.Id == roleId);
-
-            if (role != null)
+            try
             {
-                role.Name = roleRequest.Name;
-
-                // Find the permissions that need to be removed
-                var currentPermissionIds = role.RolePermissions.ToList();
-                _context.RolePermissions.RemoveRange(currentPermissionIds);
-
-                var permissionsToAdd = _context.Permissions.Where(p => roleRequest.Permissions.Contains(p.Id)).Select(p => p.Id).ToList();
-
-                // Add new permissions
-                foreach (var permissionId in permissionsToAdd)
-                {
-                    var rolePermission = new RolePermission
-                    {
-                        RoleId = role.Id,
-                        PermissionId = permissionId
-                    };
-                    role.RolePermissions.Add(rolePermission);
-                }
-
-                _context.Roles.Update(role);
-                await _context.SaveChangesAsync();
+                _logger.LogInformation("Retrieving all roles.");
+                return await _roleRepository.GetAllRolesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all roles.");
+                throw;
             }
         }
 
+        public async Task UpdateRoleAsync(int roleId, Role roleRequest)
+        {
+            if (roleRequest == null)
+            {
+                _logger.LogError("Role request is null.");
+                throw new ArgumentNullException(nameof(roleRequest), "Role request cannot be null.");
+            }
+
+            try
+            {
+                _logger.LogInformation("Checking if role with ID {RoleId} exists for update.", roleId);
+                var existingRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                if (existingRole == null)
+                {
+                    _logger.LogWarning("Role with ID {RoleId} not found for update.", roleId);
+                    throw new KeyNotFoundException($"Role with ID {roleId} not found.");
+                }
+
+                _logger.LogInformation("Updating role with ID: {RoleId}.", roleId);
+                await _roleRepository.UpdateRoleAsync(roleId, roleRequest);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating role with ID {RoleId}.", roleId);
+                throw;
+            }
+        }
 
         public async Task DeleteRoleAsync(int roleId)
         {
-            var role = await _context.Roles.FindAsync(roleId);
-            if (role != null)
+            try
             {
-                _context.Roles.Remove(role);
-                await _context.SaveChangesAsync();
+                _logger.LogInformation("Checking if role with ID {RoleId} exists for deletion.", roleId);
+                var existingRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                if (existingRole == null)
+                {
+                    _logger.LogWarning("Role with ID {RoleId} not found for deletion.", roleId);
+                    throw new KeyNotFoundException($"Role with ID {roleId} not found.");
+                }
+
+                _logger.LogInformation("Deleting role with ID: {RoleId}.", roleId);
+                await _roleRepository.DeleteRoleAsync(roleId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting role with ID {RoleId}.", roleId);
+                throw;
             }
         }
-        public async Task SeedPermissions()
+
+        public async Task AddRoleToUserAsync(int userId, int roleId)
         {
-            //PermissionSeeder permissionSeeder = new PermissionSeeder(_context);
-            //await permissionSeeder.Seed();
-            return;
+            try
+            {
+                _logger.LogInformation("Checking if user with ID {UserId} and role with ID {RoleId} exist for assignment.", userId, roleId);
+
+                var userExists = await _roleRepository.GetRoleByIdAsync(roleId) != null;
+                var roleExists = await _roleRepository.GetRoleByIdAsync(roleId) != null;
+
+                if (!userExists)
+                {
+                    _logger.LogWarning("User with ID {UserId} not found for role assignment.", userId);
+                    throw new KeyNotFoundException($"User with ID {userId} not found.");
+                }
+
+                if (!roleExists)
+                {
+                    _logger.LogWarning("Role with ID {RoleId} not found for role assignment.", roleId);
+                    throw new KeyNotFoundException($"Role with ID {roleId} not found.");
+                }
+
+                _logger.LogInformation("Adding role with ID {RoleId} to user with ID {UserId}.", roleId, userId);
+                await _roleRepository.AddRoleToUserAsync(userId, roleId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while adding role with ID {RoleId} to user with ID {UserId}.", roleId, userId);
+                throw;
+            }
         }
 
+        public async Task<bool> IsRoleAssignedToUserAsync(int userId, int roleId)
+        {
+            try
+            {
+                _logger.LogInformation("Checking if role with ID {RoleId} is assigned to user with ID {UserId}.", roleId, userId);
+                return await _roleRepository.IsRoleAssignedToUserAsync(userId, roleId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while checking if role with ID {RoleId} is assigned to user with ID {UserId}.", roleId, userId);
+                throw;
+            }
+        }
+
+        public async Task<bool> IsUserAssignedRoleAsync(int userId, int roleId)
+        {
+            try
+            {
+                _logger.LogInformation("Checking if user with ID {UserId} has role with ID {RoleId}.", userId, roleId);
+                return await _roleRepository.IsUserAssignedRoleAsync(userId, roleId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while checking if user with ID {UserId} has role with ID {RoleId}.", userId, roleId);
+                throw;
+            }
+        }
     }
 }
