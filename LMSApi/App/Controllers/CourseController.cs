@@ -1,16 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Helpers;
-using BusinessLayer.Interfaces;
-using BusinessLayer.Requests;
-using BusinessLayer.Responses;
-using BusinessLayer.Services;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LMSApi.App.Controllers
 {

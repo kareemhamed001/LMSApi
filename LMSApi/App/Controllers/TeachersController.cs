@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration.Annotations;
-using Hangfire;
-using LMSApi.App.Attributes;
-using LMSApi.App.Enums;
+using LMSApi.App.Atrributes;
 using LMSApi.App.Exceptions;
-using LMSApi.App.Interfaces;
 using LMSApi.App.Options;
-using LMSApi.App.Requests;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
 using System.Security.Claims;
-using System.Text;
 
 namespace LMSApi.App.Controllers
 {
@@ -250,38 +242,39 @@ namespace LMSApi.App.Controllers
             }
 
         }
-        [HttpPost]
-        [Route("subjects")]
-        [CheckPermission("teachers.add_subject")]
-        public async Task<ActionResult<IApiResponse>> StoreSubject([FromBody] AddTeacherToSubjectRequest addTeacherToSubjectRequest)
-        {
-            try
-            {
-                var userIdentity = User.Identity as ClaimsIdentity;
-                if (userIdentity == null || !userIdentity.IsAuthenticated)
-                {
-                    HttpContext.Response.StatusCode = 401;
-                }
-                var userId = int.Parse(userIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-                var subject = await teacherService.AddTeacherToSubjectAsync(userId, addTeacherToSubjectRequest);
-                return Ok(ApiResponseFactory.Create(mapper.Map<SubjectResponse>(subject), "Subject added successfully", 201, true));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
-            }
-            catch (ForbidenException ex)
-            {
-                return NotFound(ApiResponseFactory.Create(ex.Message, 400, false));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, "An error occurred while adding subject to teacher,log message is {logMessage}", ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
-            }
+        //[HttpPost]
+        //[Route("subjects")]
+        //[CheckPermission("teachers.add_subject")]
+        //public async Task<ActionResult<IApiResponse>> StoreSubject([FromBody] AddTeacherToSubjectRequest addTeacherToSubjectRequest)
+        //{
+        //    try
+        //    {
+        //        var userIdentity = User.Identity as ClaimsIdentity;
+        //        if (userIdentity == null || !userIdentity.IsAuthenticated)
+        //        {
+        //            HttpContext.Response.StatusCode = 401;
+        //        }
+        //        var userId = int.Parse(userIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-        }
+        //        var subject = await teacherService.AddTeacherToSubjectAsync(userId, addTeacherToSubjectRequest);
+        //        return Ok(ApiResponseFactory.Create(mapper.Map<SubjectResponse>(subject), "Subject added successfully", 201, true));
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+        //    }
+        //    catch (ForbidenException ex)
+        //    {
+        //        return NotFound(ApiResponseFactory.Create(ex.Message, 400, false));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogCritical(ex, "An error occurred while adding subject to teacher,log message is {logMessage}", ex);
+        //        return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+        //    }
+
+        //}
 
     }
 }

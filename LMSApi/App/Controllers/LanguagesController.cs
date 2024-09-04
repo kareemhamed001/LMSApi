@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using LMSApi.App.Attributes;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
+using LMSApi.App.Atrributes;
 
 namespace LMSApi.App.Controllers
 {

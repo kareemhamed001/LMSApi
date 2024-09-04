@@ -1,4 +1,4 @@
-﻿using LMSApi.App.Attributes;
+﻿using LMSApi.App.Atrributes;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 using System.Security.Claims;

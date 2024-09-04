@@ -1,11 +1,10 @@
-using BusinessLayer.Interfaces;
-using BusinessLayer.Services;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Hangfire;
 using LMSApi.App.Filters;
 using LMSApi.App.Middlewares;
 using LMSApi.App.Options;
+using LMSApi.Seeders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +20,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IRoleRepository, IRoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -44,8 +45,7 @@ builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 
-
-//builder.Services.AddScoped<PermissionSeeder>();
+builder.Services.AddScoped<PermissionSeeder>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -87,11 +87,11 @@ builder.Services.AddControllers(options => { options.Filters.Add<PermissionCheck
 var app = builder.Build();
 
 
-//await using (var scope = app.Services.CreateAsyncScope())
-//{
-//    var seeder = scope.ServiceProvider.GetRequiredService<PermissionSeeder>();
-//    await seeder.Seed();
-//}
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<PermissionSeeder>();
+    await seeder.Seed();
+}
 
 if (app.Environment.IsDevelopment())
 {

@@ -87,11 +87,11 @@ namespace BusinessLayer.Services
         {
             try
             {
-                if (userRepository.GetUser(u => u.Email == teacherRequest.Email) is null)
+                if (userRepository.GetUser(u => u.Email == teacherRequest.Email) is not null)
                 {
                     throw new ForbidenException("Email already exists");
                 }
-                if (teacherRepository.GetTeacher(u => u.Email == teacherRequest.CommunicationEmail) is null)
+                if (teacherRepository.GetTeacher(u => u.Email == teacherRequest.CommunicationEmail) is not null)
                 {
                     throw new ForbidenException("Communication Email already exists");
                 }

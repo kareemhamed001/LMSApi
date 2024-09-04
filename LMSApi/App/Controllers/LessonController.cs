@@ -1,13 +1,4 @@
-﻿using BusinessLayer.Services;
-using BusinessLayer.Requests;
-using BusinessLayer.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BusinessLayer.Interfaces;
-
-namespace WebApi.Controllers
+﻿namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

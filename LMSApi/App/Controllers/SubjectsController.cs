@@ -1,12 +1,4 @@
 ﻿using AutoMapper;
-using BusinessLayer.Services;
-using BusinessLayer.Requests;
-using BusinessLayer.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BusinessLayer.Interfaces;
 using LMSApi.App.Exceptions;
 
 namespace WebApi.Controllers

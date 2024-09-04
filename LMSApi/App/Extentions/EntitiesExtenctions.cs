@@ -1,5 +1,4 @@
-﻿using LMSApi.App.Interfaces;
-using LMSApi.App.Services;
+﻿
 
 namespace LMSApi.App.Extentions
 {
