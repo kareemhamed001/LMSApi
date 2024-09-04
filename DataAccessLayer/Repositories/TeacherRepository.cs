@@ -1,5 +1,6 @@
 ﻿
 using DataAccessLayer.Exceptions;
+using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {
@@ -18,13 +19,8 @@ namespace DataAccessLayer.Repositories
                 throw;
             }
         }
-        public async Task<bool> Delete(int teacherId)
+        public async Task<bool> Delete(Teacher teacher)
         {
-            Teacher? teacher = await appDbContext.Teachers.FindAsync(teacherId);
-            if (teacher is null)
-            {
-                return false;
-            }
             appDbContext.Teachers.Remove(teacher);
             await appDbContext.SaveChangesAsync();
             return true;
@@ -47,6 +43,13 @@ namespace DataAccessLayer.Repositories
 
             return teacher;
         }
+
+        public Teacher? GetTeacher(Func<Teacher, bool> condition)
+        {
+            return appDbContext.Teachers.Where(condition).FirstOrDefault();
+        }
+
+
         public async Task<Teacher> Store(Teacher teacherRequest)
         {
             try
@@ -92,39 +95,20 @@ namespace DataAccessLayer.Repositories
                 throw;
             }
         }
-        public async Task<Teacher> Update(int teacherId, Teacher teacherRequest)
+        public async Task<Teacher> Update(Teacher teacher)
         {
             try
             {
 
-                appDbContext.Database.BeginTransaction();
-                Teacher? teacher = await appDbContext.Teachers
-                    .Include(t => t.User)
-                    .FirstOrDefaultAsync(t => t.Id == teacherId);
-                if (teacher is null)
-                {
-                    throw new NotFoundException("Teacher not found");
-                }
-
-                teacher.User.FirstName = teacherRequest.User.FirstName ?? teacher.User.FirstName;
-                teacher.User.LastName = teacherRequest.User.LastName ?? teacher.User.LastName;
-                teacher.User.Email = teacherRequest.Email ?? teacher.User.Email;
-                teacher.User.Phone = teacherRequest.Phone ?? teacher.User.Phone;
-                teacher.User.Password = teacherRequest.User.Password ?? teacher.User.Password;
-
-                teacher.NickName = teacherRequest.NickName ?? teacher.NickName;
-                teacher.Phone = teacherRequest.Phone ?? teacher.Phone;
-                teacher.Email = teacherRequest.Email ?? teacher.Email;
-
+                appDbContext.Update(teacher);
                 await appDbContext.SaveChangesAsync();
-                appDbContext.Database.CommitTransaction();
 
                 return teacher;
             }
 
             catch (Exception)
             {
-                appDbContext.Database.RollbackTransaction();
+
                 throw;
             }
         }

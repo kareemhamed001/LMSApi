@@ -13,6 +13,6 @@
         public Task<List<Subscription>> SubscriptionsAsync(int teacherId);
         public Task<List<Class>> ClassesAsync(int teacherId);
         public Task<Course> StoreCourseAsync(int loggedUserId,StoreCourseRequest storeCourseRequest);
-        public Task<Subject> AddTeacherToSubjectAsync(int loggedUserId,AddTeacherToSubjectRequest storeCourseRequest);
+        //public Task<Subject> AddTeacherToSubjectAsync(int loggedUserId,AddTeacherToSubjectRequest storeCourseRequest);
     }
 }

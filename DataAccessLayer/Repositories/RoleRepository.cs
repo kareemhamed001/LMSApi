@@ -1,4 +1,8 @@
-﻿namespace DataAccessLayer.Repositories
+﻿
+using DataAccessLayer.Data;
+using System.Linq;
+
+namespace DataAccessLayer.Repositories
 {
     public class RoleRepository : IRoleRepository
     {
@@ -68,6 +72,10 @@
         public async Task<bool> IsUserAssignedRoleAsync(int userId, int roleId)
         {
             return await IsRoleAssignedToUserAsync(userId, roleId); // Same check as above
+        }
+        public Role? GetRole(Func<Role, bool> condition)
+        {
+            return _context.Roles.Where(condition).FirstOrDefault();
         }
     }
 }

@@ -17,7 +17,6 @@ namespace LMSApi.Controllers
         private readonly AppDbContext _context;
         private readonly ILogger _logger;
 
-
         public ClassController(IClassService classService, IMapper mapper, AppDbContext context, ILogger<ClassController> logger)
         {
             _classService = classService;
