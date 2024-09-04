@@ -1,73 +1,148 @@
-﻿using AutoMapper;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests.Lesson;
+﻿using BusinessLayer.Services;
+using BusinessLayer.Requests;
+using BusinessLayer.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BusinessLayer.Interfaces;
 
-[ApiController]
-[Route("api/[controller]")]
-public class LessonController : ControllerBase
+namespace WebApi.Controllers
 {
-    private readonly ILessonService _lessonService;
-    private readonly IMapper _mapper;
-
-    public LessonController(ILessonService lessonService, IMapper mapper)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class LessonsController : ControllerBase
     {
-        _lessonService = lessonService;
-        _mapper = mapper;
-    }
+        private readonly ILessonService _lessonService;
+        private readonly ILogger<LessonsController> _logger;
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<LessonRequest>> GetLessonById(int id)
-    {
-        var lesson = await _lessonService.GetLessonByIdAsync(id);
-        if (lesson == null) return NotFound();
-
-        var lessonDto = _mapper.Map<LessonRequest>(lesson);
-        return Ok(lessonDto);
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<LessonRequest>>> GetAllLessons()
-    {
-        var lessons = await _lessonService.GetAllLessonsAsync();
-        var lessonDtos = _mapper.Map<IEnumerable<LessonRequest>>(lessons);
-        return Ok(lessonDtos);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<LessonRequest>> CreateLesson(LessonRequest lessonDto)
-    {
-        // Check if the CourseId is valid
-        if (!await _lessonService.CourseExistsAsync(lessonDto.CourseId))
+        public LessonsController(ILessonService lessonService, ILogger<LessonsController> logger)
         {
-            return BadRequest(new { message = "Invalid CourseId" });
+            _lessonService = lessonService;
+            _logger = logger;
         }
 
-        var lesson = _mapper.Map<Lesson>(lessonDto);
-        var createdLesson = await _lessonService.CreateLessonAsync(lesson);
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult<IApiResponse>> GetAllLessons()
+        {
+            try
+            {
+                var lessons = await _lessonService.GetAllLessonsAsync();
+                var response = lessons; 
+                return Ok(ApiResponseFactory.Create(response, "Lessons fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching lessons.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
 
-        var createdLessonDto = _mapper.Map<LessonRequest>(createdLesson);
-        return Ok("Lesson Created Successfully");
-    }
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> GetLessonById(int id)
+        {
+            try
+            {
+                var lesson = await _lessonService.GetLessonByIdAsync(id);
+                if (lesson == null)
+                {
+                    return NotFound(ApiResponseFactory.Create("Lesson not found", 404, false));
+                }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateLesson(int id, LessonRequest lessonDto)
-    {
-        var lesson = _mapper.Map<Lesson>(lessonDto);
-        var updatedLesson = await _lessonService.UpdateLessonAsync(id, lesson);
+                return Ok(ApiResponseFactory.Create(lesson, "Lesson fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the lesson.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
 
-        if (updatedLesson == null) return NotFound();
+        [HttpPost]
+        [Route("")]
+        public async Task<ActionResult<IApiResponse>> CreateLesson([FromBody] LessonRequest request)
+        {
+            try
+            {
+                var lesson = new Lesson
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    CourseId = request.CourseId,
+                    SectionNumber = request.SectionNumber
+                };
 
-        var updatedLessonDto = _mapper.Map<LessonRequest>(updatedLesson);
-        return Ok(updatedLessonDto);
-    }
+                var createdLesson = await _lessonService.CreateLessonAsync(lesson);
+                return CreatedAtAction(nameof(GetLessonById), new { id = createdLesson.Id }, ApiResponseFactory.Create(createdLesson, "Lesson created successfully", 201, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating the lesson.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteLesson(int id)
-    {
-        await _lessonService.DeleteLessonAsync(id);
-        return NoContent();
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> UpdateLesson(int id, [FromBody] LessonRequest request)
+        {
+            try
+            {
+                var lesson = new Lesson
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    CourseId = request.CourseId,
+                    SectionNumber = request.SectionNumber
+                };
+
+                var updatedLesson = await _lessonService.UpdateLessonAsync(id, lesson);
+                if (updatedLesson == null)
+                {
+                    return NotFound(ApiResponseFactory.Create("Lesson not found", 404, false));
+                }
+
+                return Ok(ApiResponseFactory.Create(updatedLesson, "Lesson updated successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the lesson.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> DeleteLesson(int id)
+        {
+            try
+            {
+                await _lessonService.DeleteLessonAsync(id);
+                return NoContent(); // Status code 204
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting the lesson.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
+
+        [HttpGet]
+        [Route("course/{courseId}/exists")]
+        public async Task<ActionResult<IApiResponse>> CourseExists(int courseId)
+        {
+            try
+            {
+                var exists = await _lessonService.CourseExistsAsync(courseId);
+                return Ok(ApiResponseFactory.Create(exists, "Course existence checked", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while checking if the course exists.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
     }
 }

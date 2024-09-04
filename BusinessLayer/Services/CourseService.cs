@@ -1,6 +1,6 @@
-﻿using DataAccessLayer.Entities;
+﻿using AutoMapper;
+using BusinessLayer.Helpers;
 using DataAccessLayer.Interfaces;
-
 using Microsoft.Extensions.Caching.Memory;
 
 namespace BusinessLayer.Services
@@ -9,11 +9,13 @@ namespace BusinessLayer.Services
     {
         private readonly IMemoryCache _cache;
         private readonly ICourseRepository _courseRepository;
-        public CourseService(ICourseRepository courseRepository, IMemoryCache cache)
+        private readonly IMapper mapper;
+        public CourseService(ICourseRepository courseRepository, IMemoryCache cache, IMapper mapper)
         {
 
             _cache = cache;
             _courseRepository = courseRepository;
+            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<Course>> GetAllAsync()
@@ -21,7 +23,7 @@ namespace BusinessLayer.Services
 
             if (!_cache.TryGetValue(CacheKeys.Courses, out List<Course>? courses))
             {
-                courses = await _context.Courses.ToListAsync();
+                courses = (List<Course>)await _courseRepository.GetAllAsync();
                 MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions();
                 cacheOptions.SetSlidingExpiration(TimeSpan.FromSeconds(45));
                 cacheOptions.SetAbsoluteExpiration(TimeSpan.FromSeconds(3600));
@@ -35,42 +37,56 @@ namespace BusinessLayer.Services
 
         public async Task<Course> GetByIdAsync(int id)
         {
-            return await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            return await _courseRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(Course course)
+        public async Task AddAsync(CourseRequest courseRequest)
         {
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
+            // Validate Teacher, Subject, and Class existence
+            if (courseRequest.TeacherId > 0 && !await _courseRepository.TeacherExistsAsync(courseRequest.TeacherId))
+            {
+                throw new NotFoundException("Teacher not found");
+            }
+
+            if (courseRequest.SubjectId > 0 && !await _courseRepository.SubjectExistsAsync(courseRequest.SubjectId))
+            {
+                throw new NotFoundException("Subject not found");
+            }
+
+            if (courseRequest.ClassId > 0 && !await _courseRepository.ClassExistsAsync(courseRequest.ClassId))
+            {
+                throw new NotFoundException("Class not found");
+            }
+
+            var course = mapper.Map<Course>(courseRequest);
+            await _courseRepository.AddAsync(course);
         }
-        public async Task UpdateAsync(Course course)
+        public async Task UpdateAsync(CourseRequest course)
         {
-            _context.Courses.Update(course);
-            await _context.SaveChangesAsync();
+            await _courseRepository.UpdateAsync(mapper.Map<Course>(course));
         }
         public async Task DeleteAsync(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
-            {
-                _context.Courses.Remove(course);
-                await _context.SaveChangesAsync();
-            }
+            var course = await _courseRepository.GetByIdAsync(id);
+            if (course == null)
+                throw new NotFoundException("Course not found");
+
+            await _courseRepository.DeleteAsync(course);
         }
 
         public async Task<bool> TeacherExistsAsync(int teacherId)
         {
-            return await _context.Teachers.AnyAsync(t => t.Id == teacherId);
+            return await _courseRepository.TeacherExistsAsync(teacherId);
         }
 
         public async Task<bool> SubjectExistsAsync(int subjectId)
         {
-            return await _context.Subjects.AnyAsync(s => s.Id == subjectId);
+            return await _courseRepository.SubjectExistsAsync(subjectId);
         }
 
         public async Task<bool> ClassExistsAsync(int classId)
         {
-            return await _context.Classes.AnyAsync(c => c.Id == classId);
+            return await _courseRepository.ClassExistsAsync(classId);
         }
 
     }

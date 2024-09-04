@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.Caching.Memory;
 
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
@@ -33,14 +33,12 @@ namespace LMSApi.App.Services
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Course course)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
-            {
-                _context.Courses.Remove(course);
-                await _context.SaveChangesAsync();
-            }
+
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task<bool> TeacherExistsAsync(int teacherId)

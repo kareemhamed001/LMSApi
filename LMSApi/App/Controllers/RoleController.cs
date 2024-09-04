@@ -1,7 +1,10 @@
-﻿using AutoMapper;
-using LMSApi.App.Responses;
+﻿
+using LMSApi.App.Requests;
 using LMSApi.App.Requests;
 using DataAccessLayer.Interfaces;
+using BusinessLayer.Responses;
+using BusinessLayer.Requests;
+using AutoMapper;
 
 namespace LMSApi.Controllers
 {

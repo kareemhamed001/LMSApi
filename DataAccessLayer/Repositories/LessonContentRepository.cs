@@ -1,15 +1,13 @@
 ﻿
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
-    public class LessonContentService : ILessonContentRepository
+    public class LessonContentRepository : ILessonContentRepository
     {
         private readonly AppDbContext _context;
-
-        private readonly String _filesPath;
-        public LessonContentService(AppDbContext context)
+        public LessonContentRepository(AppDbContext context)
         {
             _context = context;
-            _filesPath = "FilesUploaded";
+
         }
 
         public async Task<LessonContent> GetByIdAsync(int id)
@@ -21,62 +19,26 @@ namespace LMSApi.App.Services
         {
             return await _context.LessonContents.ToListAsync();
         }
-   
+
         public async Task<LessonContent> CreateAsync(LessonContent lessonContent)
         {
             _context.LessonContents.Add(lessonContent);
             await _context.SaveChangesAsync();
             return lessonContent;
         }
-        public async Task<LessonContent> UpdateAsync(int id, LessonContent lessonContent)
+        public async Task<LessonContent> UpdateAsync(LessonContent lessonContent)
         {
-            var existingLessonContent = await _context.LessonContents.FindAsync(id);
-            if (existingLessonContent == null) return null;
-
-
-            existingLessonContent.Name = lessonContent.Name;
-            existingLessonContent.Type = lessonContent.Type;
-            existingLessonContent.Content = lessonContent.Content;
-            existingLessonContent.LessonId = lessonContent.LessonId;
-            existingLessonContent.Link = lessonContent.Link;
-
-
-            _context.LessonContents.Update(existingLessonContent);
+            _context.LessonContents.Update(lessonContent);
             await _context.SaveChangesAsync();
-
-            return existingLessonContent;
+            return lessonContent;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(LessonContent lessonContent)
         {
 
-            var lessonContent = await _context.LessonContents.FindAsync(id);
             if (lessonContent == null) return;
-
-
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-
-                _context.LessonContents.Remove(lessonContent);
-                await _context.SaveChangesAsync();
-
-
-                var filePath = Path.Combine(_filesPath, lessonContent.Link);
-
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-
-                await transaction.CommitAsync();
-            }
-            catch
-            {
-
-                await transaction.RollbackAsync();
-                throw;
-            }
+            _context.LessonContents.Remove(lessonContent);
+            await _context.SaveChangesAsync();
         }
     }
 }

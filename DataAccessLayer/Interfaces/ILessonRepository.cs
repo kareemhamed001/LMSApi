@@ -5,8 +5,8 @@
         Task<Lesson> GetLessonByIdAsync(int id);
         Task<IEnumerable<Lesson>> GetAllLessonsAsync();
         Task<Lesson> CreateLessonAsync(Lesson lesson);
-        Task<Lesson> UpdateLessonAsync(int id, Lesson lesson);
-        Task DeleteLessonAsync(int id);
+        Task<Lesson> UpdateLessonAsync(Lesson lesson);
+        Task DeleteLessonAsync(Lesson lesson);
         Task<bool> CourseExistsAsync(int courseId);
     }
 }

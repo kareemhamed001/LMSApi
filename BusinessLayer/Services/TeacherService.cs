@@ -1,10 +1,4 @@
-﻿using LMSApi.App.Exceptions;
-using LMSApi.App.helper;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests;
-using LMSApi.App.Requests.Teacher;
-
-namespace BusinessLayer.Services
+﻿namespace BusinessLayer.Services
 {
     public class TeacherService(AppDbContext appDbContext, ILogger<TeacherService> logger, ICacheService cache) : ITeacherService
     {

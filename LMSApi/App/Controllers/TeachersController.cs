@@ -7,7 +7,7 @@ using LMSApi.App.Exceptions;
 using LMSApi.App.Interfaces;
 using LMSApi.App.Options;
 using LMSApi.App.Requests;
-using LMSApi.App.Requests.Teacher;
+using LMSApi.App.Requests;
 using LMSApi.App.Responses;
 using System.Security.Claims;
 using System.Text;

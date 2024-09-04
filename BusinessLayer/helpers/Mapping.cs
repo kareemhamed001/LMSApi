@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Entities;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
-
 namespace BusinessLayer.Helpers
 {
     public class MappingProfiles : Profile

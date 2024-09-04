@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LMSApi.App.Attributes;
-using LMSApi.App.Interfaces;
 using LMSApi.App.Requests;
 using LMSApi.App.Responses;
 

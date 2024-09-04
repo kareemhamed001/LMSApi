@@ -1,38 +1,34 @@
-﻿using LMSApi.App.Interfaces;
+﻿using DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 namespace BusinessLayer.Services
 {
     public class LessonService : ILessonService
     {
-        private readonly AppDbContext _context;
+        private readonly ILessonRepository lessonRepository;
 
-        public LessonService(AppDbContext context)
+        public LessonService(ILessonRepository lessonRepository)
         {
-            _context = context;
+            this.lessonRepository = lessonRepository;
         }
 
         public async Task<Lesson> GetLessonByIdAsync(int id)
         {
-            return await _context.Lessons.FirstOrDefaultAsync(l => l.Id == id);
+            return await lessonRepository.GetLessonByIdAsync(id);
         }
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync()
         {
-            return await _context.Lessons.ToListAsync();
+            return await lessonRepository.GetAllLessonsAsync();
         }
 
         public async Task<Lesson> CreateLessonAsync(Lesson lesson)
         {
-            _context.Lessons.Add(lesson);
-            await _context.SaveChangesAsync();
-            return lesson;
+            return await lessonRepository.CreateLessonAsync(lesson);
         }
 
         public async Task<Lesson> UpdateLessonAsync(int id, Lesson lesson)
         {
-            var existingLesson = await _context.Lessons.FindAsync(id);
+            var existingLesson = await lessonRepository.GetLessonByIdAsync(id);
             if (existingLesson == null) return null;
 
             existingLesson.Name = lesson.Name;
@@ -40,23 +36,21 @@ namespace BusinessLayer.Services
             existingLesson.CourseId = lesson.CourseId;
             existingLesson.SectionNumber = lesson.SectionNumber;
 
-            _context.Lessons.Update(existingLesson);
-            await _context.SaveChangesAsync();
-            return existingLesson;
+           
+            return await lessonRepository.UpdateLessonAsync(existingLesson);
         }
 
         public async Task DeleteLessonAsync(int id)
         {
-            var lesson = await _context.Lessons.FindAsync(id);
+            var lesson = await lessonRepository.GetLessonByIdAsync(id);
             if (lesson != null)
             {
-                _context.Lessons.Remove(lesson);
-                await _context.SaveChangesAsync();
+                await lessonRepository.DeleteLessonAsync(lesson);
             }
         }
         public async Task<bool> CourseExistsAsync(int courseId)
         {
-            return await _context.Courses.AnyAsync(c => c.Id == courseId);
+            return await lessonRepository.CourseExistsAsync(courseId);
         }
     }
 }

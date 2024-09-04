@@ -1,5 +1,4 @@
-﻿
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
     public interface ILanguageService
     {

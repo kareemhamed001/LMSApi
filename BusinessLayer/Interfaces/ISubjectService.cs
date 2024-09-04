@@ -1,6 +1,4 @@
-﻿using LMSApi.App.Requests;
-using LMSApi.App.Requests.Subject;
-
+﻿
 namespace BusinessLayer.Interfaces
 {
     public interface ISubjectService

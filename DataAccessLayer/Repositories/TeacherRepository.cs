@@ -1,7 +1,7 @@
 ﻿
 using DataAccessLayer.Exceptions;
 
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
     public class TeacherRepository(AppDbContext appDbContext) : ITeacherRepository
     {

@@ -1,13 +1,12 @@
-using DataAccessLayer.Data;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
 using Hangfire;
 using LMSApi.App.Filters;
-using LMSApi.App.Interfaces;
 using LMSApi.App.Middlewares;
 using LMSApi.App.Options;
-using LMSApi.App.Services;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -17,11 +16,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IRoleRepository, IRoleRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ILessonRepository, LessonRespository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IMemoryCache, MemoryCache>();
+builder.Services.AddScoped<ILessonContentRepository, LessonContentRepository>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IClassService, ClassServices>();
@@ -33,6 +43,8 @@ builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 builder.Services.AddScoped<ILessonContentService, LessonContentService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+
+
 //builder.Services.AddScoped<PermissionSeeder>();
 
 builder.Services.AddHttpContextAccessor();
@@ -71,7 +83,7 @@ builder.Services.AddHangfire(config =>
     config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddHangfireServer();
-builder.Services.AddControllers(options =>{options.Filters.Add<PermissionCheckFilter>();});
+builder.Services.AddControllers(options => { options.Filters.Add<PermissionCheckFilter>(); });
 var app = builder.Build();
 
 

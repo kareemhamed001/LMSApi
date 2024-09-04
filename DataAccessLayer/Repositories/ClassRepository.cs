@@ -3,16 +3,16 @@ using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
-namespace LMSApi.App.Services
+namespace DataAccessLayer.Repositories
 {
 
-    public class ClassServices : IClassRepository
+    public class ClassRepository : IClassRepository
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
 
-        public ClassServices(AppDbContext context, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public ClassRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -70,43 +70,16 @@ namespace LMSApi.App.Services
             return classEntity;
         }
 
-        public async Task<Class?> UpdateClassAsync(int id, Class classEntity)
+        public async Task<Class> UpdateClassAsync(Class classEntity)
         {
-            var existingClass = await _context.Classes.Include(c => c.Translations).FirstOrDefaultAsync(c => c.Id == id);
-            if (existingClass == null)
-                return null;
 
-            existingClass.Name = classEntity.Name;
-            existingClass.Description = classEntity.Description;
-
-            if (classEntity.Translations is not null || classEntity.Translations.Any())
-            {
-                //update or add translations
-                foreach (var translation in classEntity.Translations)
-                {
-                    var existingTranslation = existingClass.Translations.FirstOrDefault(t => t.LanguageId == translation.LanguageId);
-                    if (existingTranslation == null)
-                    {
-                        existingClass.Translations.Add(translation);
-                    }
-                    else
-                    {
-                        existingTranslation.Name = translation.Name;
-                        existingTranslation.Description = translation.Description;
-                    }
-
-                }
-            }
-            _context.Classes.Update(existingClass);
+            _context.Classes.Update(classEntity);
             await _context.SaveChangesAsync();
-            return existingClass;
+            return classEntity;
         }
 
-        public async Task<bool> DeleteClassAsync(int id)
+        public async Task<bool> DeleteClassAsync(Class classEntity)
         {
-            var classEntity = await _context.Classes.FindAsync(id);
-            if (classEntity == null) return false;
-
             _context.Classes.Remove(classEntity);
             await _context.SaveChangesAsync();
             return true;
