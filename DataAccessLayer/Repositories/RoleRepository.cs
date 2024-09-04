@@ -1,4 +1,7 @@
 ﻿
+using DataAccessLayer.Data;
+using System.Linq;
+
 namespace DataAccessLayer.Repositories
 {
     public class RoleRepository : IRoleRepository
@@ -112,5 +115,9 @@ namespace DataAccessLayer.Repositories
             return;
         }
 
+        public Role? GetRole(Func<Role, bool> condition)
+        {
+            return _context.Roles.Where(condition).FirstOrDefault();
+        }
     }
 }

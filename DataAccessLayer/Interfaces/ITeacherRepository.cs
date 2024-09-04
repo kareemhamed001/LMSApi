@@ -5,9 +5,10 @@
 
         public Task<List<Teacher>> Index();
         public Task<Teacher> Store(Teacher teacherRequest);
-        public Task<Teacher> Update(int teacherId, Teacher teacherRequest);
+        public Task<Teacher> Update( Teacher teacherRequest);
         public Task<Teacher> Show(int teacherId);
-        public Task<bool> Delete(int teacherId);
+        public Teacher? GetTeacher(Func<Teacher, bool> condition);
+        public Task<bool> Delete(Teacher teacher);
         public Task<List<Course>> CoursesAsync(int teacherId);
         public Task<List<Subject>> SubjectsAsync(int teacherId);
         public Task<List<Subscription>> SubscriptionsAsync(int teacherId);
