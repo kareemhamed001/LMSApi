@@ -40,9 +40,26 @@ namespace BusinessLayer.Services
             return await _courseRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(CourseRequest course)
+        public async Task AddAsync(CourseRequest courseRequest)
         {
-            await _courseRepository.AddAsync(mapper.Map<Course>(course));
+            // Validate Teacher, Subject, and Class existence
+            if (courseRequest.TeacherId > 0 && !await _courseRepository.TeacherExistsAsync(courseRequest.TeacherId))
+            {
+                throw new NotFoundException("Teacher not found");
+            }
+
+            if (courseRequest.SubjectId > 0 && !await _courseRepository.SubjectExistsAsync(courseRequest.SubjectId))
+            {
+                throw new NotFoundException("Subject not found");
+            }
+
+            if (courseRequest.ClassId > 0 && !await _courseRepository.ClassExistsAsync(courseRequest.ClassId))
+            {
+                throw new NotFoundException("Class not found");
+            }
+
+            var course = mapper.Map<Course>(courseRequest);
+            await _courseRepository.AddAsync(course);
         }
         public async Task UpdateAsync(CourseRequest course)
         {

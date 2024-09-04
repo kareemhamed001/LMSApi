@@ -1,29 +1,34 @@
 ﻿using AutoMapper;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
+using Microsoft.Extensions.Logging;
 
 
 namespace BusinessLayer.Services
 {
     public class SubjectService : ISubjectService
     {
-        private readonly AppDbContext appDbContext;
+        private readonly ISubjectRepository subjectRepository;
+        private readonly IClassRepository classRepository;
         private readonly ILogger<SubjectService> logger;
         private readonly IMapper mapper;
 
-        public SubjectService(AppDbContext appDbContext, ILogger<SubjectService> logger, IMapper mapper)
+        public SubjectService(ISubjectRepository subjectRepository, IClassRepository classRepository, ILogger<SubjectService> logger, IMapper mapper)
         {
-            this.appDbContext = appDbContext;
             this.logger = logger;
             this.mapper = mapper;
+            this.subjectRepository = subjectRepository;
+            this.classRepository = classRepository;
         }
 
         public async Task<IEnumerable<Subject>> Index()
         {
-            List<Subject> subjects = await appDbContext.Subjects.ToListAsync();
+            List<Subject> subjects = (List<Subject>)await subjectRepository.Index();
             return subjects;
         }
         public async Task<Subject?> Show(int id)
         {
-            Subject? subject = await appDbContext.Subjects.FindAsync(id);
+            Subject? subject = await subjectRepository.Show(id);
             if (subject == null)
             {
                 throw new NotFoundException("Subject not found");
@@ -39,125 +44,67 @@ namespace BusinessLayer.Services
                 Description = request.Description
             };
 
-            appDbContext.Subjects.Add(subject);
-            await appDbContext.SaveChangesAsync();
-            return subject;
+            return await subjectRepository.StoreAsync(subject);
         }
         public async Task<Subject> UpdateAsync(int id, UpdateSubjectRequest request)
         {
-            var subject = await appDbContext.Subjects.FindAsync(id);
+            var subject = await subjectRepository.Show(id);
             if (subject == null)
             {
                 throw new NotFoundException("Subject not found");
             }
             subject.Name = request.Name;
             subject.Description = request.Description;
-            await appDbContext.SaveChangesAsync();
-            return subject;
+
+            return await subjectRepository.UpdateAsync(subject);
         }
         public async Task DeleteAsync(int id)
         {
-            var subject = await appDbContext.Subjects.FindAsync(id);
+            var subject = await subjectRepository.Show(id);
             if (subject == null)
             {
                 throw new NotFoundException("Subject not found");
             }
-            appDbContext.Subjects.Remove(subject);
-            await appDbContext.SaveChangesAsync();
+            await subjectRepository.DeleteAsync(subject);
+
         }
         public async Task<List<Class>> ClassesAsync(int subjectId)
         {
-            var subjects = await appDbContext.Subjects.Include(s => s.Classes).Where(s => s.Id == subjectId).FirstAsync();
-
-            if (subjects == null)
-            {
-                throw new NotFoundException("Subject not found");
-            }
-            List<Class> Classes = subjects.Classes;
+            List<Class> Classes = await subjectRepository.ClassesAsync(subjectId);
             return Classes;
         }
         public async Task<List<Course>> CoursesAsync(int subjectId)
         {
-            var subject = await appDbContext.Subjects
-                .Include(s => s.Courses)
-                .ThenInclude(c => c.Teacher)
-                .Select(selector: s => new Subject
-                {
-                    Id = s.Id,
-                    Courses = s.Courses.Select(c => new Course
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                        Description = c.Description,
-                        TeacherId = c.TeacherId,
-                        Teacher = new Teacher
-                        {
-                            Id = c.Teacher.Id,
-                            NickName = c.Teacher.NickName,
-                            Email = c.Teacher.Email
-                        }
-                    }).ToList()
-                })
-                .Where(s => s.Id == subjectId)
-                .FirstOrDefaultAsync();
-            if (subject == null)
-            {
-                throw new NotFoundException("Subject not found");
-            }
-            List<Course> Courses = subject.Courses;
+            List<Course> Courses = await subjectRepository.CoursesAsync(subjectId);
             return Courses;
         }
         public async Task<List<Student>> StudentsAsync(int subjectId)
         {
-            var subjects = await appDbContext.Subjects.Include(s => s.Students).Where(s => s.Id == subjectId).FirstAsync();
 
-            if (subjects == null)
-            {
-                throw new NotFoundException("Subject not found");
-            }
-            List<Student> Students = subjects.Students;
+            List<Student> Students = await subjectRepository.StudentsAsync(subjectId);
             return Students;
         }
 
         public async Task<List<Teacher>> TeachersAsync(int subjectId)
         {
-            var subjects = await appDbContext.Subjects.Include(s => s.Teachers).Where(s => s.Id == subjectId).FirstAsync();
-
-            if (subjects == null)
-            {
-                throw new NotFoundException("Subject not found");
-            }
-            List<Teacher> teachers = subjects.Teachers;
+            List<Teacher> teachers = await subjectRepository.TeachersAsync(subjectId);
             return teachers;
         }
 
         public async Task<bool> AddSubjectToClass(AddSubjectToClassRequest request)
         {
-            var subject = await appDbContext.Subjects.FindAsync(request.SubjectId);
+            var subject = await subjectRepository.Show(request.SubjectId);
             if (subject == null)
             {
                 throw new NotFoundException("Subject not found");
             }
-            var classs = await appDbContext.Classes
-                .Include(c => c.Subjects)
-                .Where(c => c.Id == request.ClassId)
-                .FirstAsync();
-            if (classs == null)
+            var @class = await classRepository.GetClassByIdAsync(request.ClassId);
+            if (@class == null)
             {
                 throw new NotFoundException("Class not found");
             }
 
-
-            if (!classs.Subjects.Contains(subject))
-            {
-                classs.Subjects.Add(subject);
-                await appDbContext.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return true;
-            }
+            return await subjectRepository.AddSubjectToClass(subject, @class);
         }
     }
 }

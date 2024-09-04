@@ -34,6 +34,12 @@ namespace BusinessLayer.Services
             var link = $"{Guid.NewGuid()}{Path.GetExtension(lessonContentDto.Link.FileName)}";
             var path = Path.Combine(_filesPath, link);
 
+            using (var stream = File.Create(path))
+
+            {
+                await stream.CopyToAsync(stream);
+            }
+
             LessonContent lessonContent = new()
             {
                 Name = lessonContentDto.Name,
@@ -46,6 +52,7 @@ namespace BusinessLayer.Services
 
             return await lessonContentRepository.CreateAsync(lessonContent);
         }
+
         public async Task<LessonContent> UpdateAsync(int id, LessonContentRequest lessonContentDto)
         {
 

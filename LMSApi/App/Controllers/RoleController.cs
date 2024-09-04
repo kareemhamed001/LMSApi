@@ -1,108 +1,138 @@
-﻿using LMSApi.App.Interfaces;
+﻿
 using LMSApi.App.Requests;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using DataAccessLayer.Interfaces;
+using AutoMapper;
 
-namespace LMSApi.App.Controllers
+namespace LMSApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RoleController : ControllerBase
+    public class RolesController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        private readonly AppDbContext _appDbContext;
-        public RoleController(IRoleService roleService, AppDbContext appDbContext)
+        private readonly IRoleRepository _roleRepository;
+        private readonly ILogger<RolesController> _logger;
+        private readonly IMapper _mapper;
+
+        public RolesController(IRoleRepository roleRepository, ILogger<RolesController> logger, IMapper mapper)
         {
-            _roleService = roleService;
-            _appDbContext = appDbContext;
+            _roleRepository = roleRepository;
+            _logger = logger;
+            _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("")]
-        public async Task<ActionResult<ApiResponse<Role>>> CreateRole([FromBody] CreateRoleRequest request)
+        public async Task<ActionResult<IApiResponse>> GetAllRoles()
         {
-            var role = await _roleService.CreateRoleAsync(request);
-            return Ok(new ApiResponse<Role>
+            try
             {
-
-                Message = "Role created successfully",
-                Success = true,
-                Status = 201
-            });
+                var roles = await _roleRepository.GetAllRolesAsync();
+                var roleResponses = _mapper.Map<List<RoleResponse>>(roles);
+                return Ok(ApiResponseFactory.Create(roleResponses, "Roles fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while fetching roles. Log message: {logMessage}", ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
         [HttpGet]
         [Route("{roleId}")]
-        public async Task<ActionResult<ApiResponse<Role>>> GetRole(int roleId)
+        public async Task<ActionResult<IApiResponse>> GetRoleById(int roleId)
         {
-            var role = await _roleService.GetRoleByIdAsync(roleId);
-            if (role == null)
-                return NotFound("Role not found");
+            try
+            {
+                var role = await _roleRepository.GetRoleByIdAsync(roleId);
+                if (role == null)
+                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
-            return Ok(role);
+                var roleResponse = _mapper.Map<RoleResponse>(role);
+                return Ok(ApiResponseFactory.Create(roleResponse, "Role fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while fetching role with id {roleId}. Log message: {logMessage}", roleId, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult<ApiResponse<IEnumerable<Role>>>> GetAllRoles()
+        [HttpPost]
+        public async Task<ActionResult<IApiResponse>> CreateRole([FromBody] CreateRoleRequest roleRequest)
         {
-            var roles = await _roleService.GetAllRolesAsync();
-            return Ok(roles);
+            try
+            {
+                var role = await _roleRepository.CreateRoleAsync(_mapper.Map<Role>(roleRequest));
+                var roleResponse = _mapper.Map<RoleResponse>(role);
+                return CreatedAtAction(nameof(GetRoleById), new { roleId = role.Id }, ApiResponseFactory.Create(roleResponse, "Role created successfully", 201, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while creating role. Log message: {logMessage}", ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
         [HttpPut]
         [Route("{roleId}")]
-        public async Task<ActionResult<ApiResponse<string>>> UpdateRole(int roleId, [FromBody] CreateRoleRequest roleRequest)
+        public async Task<ActionResult<IApiResponse>> UpdateRole(int roleId, [FromBody] CreateRoleRequest roleRequest)
         {
-            await _roleService.UpdateRoleAsync(roleId, roleRequest);
-            return Ok(new ApiResponse<string>
+            try
             {
+                var existingRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                if (existingRole == null)
+                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
-                Message = "Role updated successfully",
-                Success = true,
-                Status = 200
-            });
+                await _roleRepository.UpdateRoleAsync(roleId, _mapper.Map<Role>(roleRequest));
+                var updatedRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                var roleResponse = _mapper.Map<RoleResponse>(updatedRole);
+                return Ok(ApiResponseFactory.Create(roleResponse, "Role updated successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while updating role with id {roleId}. Log message: {logMessage}", roleId, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
         [HttpDelete]
         [Route("{roleId}")]
-        public async Task<ActionResult<ApiResponse<string>>> DeleteRole(int roleId)
+        public async Task<ActionResult<IApiResponse>> DeleteRole(int roleId)
         {
-            await _roleService.DeleteRoleAsync(roleId);
-            return Ok(new ApiResponse<string>
+            try
             {
+                var role = await _roleRepository.GetRoleByIdAsync(roleId);
+                if (role == null)
+                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
-                Message = "Role deleted successfully",
-                Success = true,
-                Status = 200
-            });
+                await _roleRepository.DeleteRoleAsync(roleId);
+                return Ok(ApiResponseFactory.Create("Role deleted successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while deleting role with id {roleId}. Log message: {logMessage}", roleId, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
+
         [HttpPost]
-        [Route("assign-role")]
-        public async Task<ActionResult<ApiResponse<string>>> AssignRoleToUser(int userId, int roleId)
+        [Route("assign")]
+        public async Task<ActionResult<IApiResponse>> AssignRoleToUser([FromBody] AssignRoleRequest request)
         {
-            var user = await _appDbContext.Users.FindAsync(userId);
-            if (user == null)
-                return NotFound("User not found");
+            try
+            {
+                var userRoleAssignmentResult = await _roleRepository.IsRoleAssignedToUserAsync(request.UserId, request.RoleId);
+                if (!userRoleAssignmentResult)
+                    return NotFound(ApiResponseFactory.Create("User or role not found", 404, false));
 
-            var role = await _roleService.GetRoleByIdAsync(roleId);
-            if (role == null)
-                return NotFound("Role not found");
-
-            await _roleService.AddRoleToUserAsync(userId, roleId);
-
-            return Ok("Role assigned successfully");
+                return Ok(ApiResponseFactory.Create("Role assigned to user successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while assigning role to user. Log message: {logMessage}", ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
-        [HttpGet]
-        [Route("seed-permissions")]
-        public async Task<ActionResult> seedPermissionsSeedPermissions()
-        {
-            await _roleService.SeedPermissions();
-            return Ok("Permissions seeded successfully");
-        }
     }
 }

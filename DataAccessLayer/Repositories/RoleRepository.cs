@@ -1,4 +1,7 @@
 ﻿
+using DataAccessLayer.Data;
+using System.Linq;
+
 namespace DataAccessLayer.Repositories
 {
     public class RoleRepository : IRoleRepository
@@ -12,45 +15,11 @@ namespace DataAccessLayer.Repositories
 
         public async Task<Role> CreateRoleAsync(Role roleRequest)
         {
-            var role = new Role { Name = roleRequest.Name };
-            foreach (var permissionId in roleRequest.Permissions)
-            {
-                var permission = await _context.Permissions.FindAsync(permissionId);
-                if (permission != null)
-                {
-                    var rolePermission = new RolePermission
-                    {
-                        RoleId = role.Id,
-                        PermissionId = permission.Id,
-                        Role = role,
-                        Permission = permission
-                    };
-                    role.RolePermissions.Add(rolePermission);
-                }
-            }
-            _context.Roles.Add(role);
+            _context.Roles.Add(roleRequest);
             await _context.SaveChangesAsync();
-            return role;
+            return roleRequest;
         }
-        public async Task AddRoleToUserAsync(int userId, int roleId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            var role = await _context.Roles.FindAsync(roleId);
 
-            if (user != null && role != null)
-            {
-                var userRole = new UserRole
-                {
-                    UserId = userId,
-                    RoleId = roleId,
-                    User = user,
-                    Role = role
-                };
-
-                _context.UserRoles.Add(userRole);
-                await _context.SaveChangesAsync();
-            }
-        }
         public async Task<Role> GetRoleByIdAsync(int roleId)
         {
             return await _context.Roles.FindAsync(roleId);
@@ -63,38 +32,13 @@ namespace DataAccessLayer.Repositories
 
         public async Task UpdateRoleAsync(int roleId, Role roleRequest)
         {
-            var role = await _context.Roles
-                                     .Include(r => r.RolePermissions)
-                                     .FirstOrDefaultAsync(r => r.Id == roleId);
-
+            var role = await _context.Roles.FindAsync(roleId);
             if (role != null)
             {
-                role.Name = roleRequest.Name;
-
-                // Find the permissions that need to be removed
-                var currentPermissionIds = role.RolePermissions.ToList();
-                _context.RolePermissions.RemoveRange(currentPermissionIds);
-
-                var permissionsToAdd = _context.Permissions
-                    .Where(p => roleRequest.Permissions.Contains(p))
-                    .Select(p => p.Id).ToList();
-
-                // Add new permissions
-                foreach (var permissionId in permissionsToAdd)
-                {
-                    var rolePermission = new RolePermission
-                    {
-                        RoleId = role.Id,
-                        PermissionId = permissionId
-                    };
-                    role.RolePermissions.Add(rolePermission);
-                }
-
-                _context.Roles.Update(role);
+                role.Name = roleRequest.Name; // Update other properties as needed
                 await _context.SaveChangesAsync();
             }
         }
-
 
         public async Task DeleteRoleAsync(int roleId)
         {
@@ -105,12 +49,33 @@ namespace DataAccessLayer.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task SeedPermissions()
+
+        public async Task AddRoleToUserAsync(int userId, int roleId)
         {
-            //PermissionSeeder permissionSeeder = new PermissionSeeder(_context);
-            //await permissionSeeder.Seed();
-            return;
+            var user = await _context.Users.FindAsync(userId);
+            var role = await _context.Roles.FindAsync(roleId);
+
+            if (user != null && role != null)
+            {
+                user.Roles.Add(role);
+                await _context.SaveChangesAsync();
+            }
         }
 
+        public async Task<bool> IsRoleAssignedToUserAsync(int userId, int roleId)
+        {
+            var user = await _context.Users.Include(u => u.Roles)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+            return user != null && user.Roles.Any(r => r.Id == roleId);
+        }
+
+        public async Task<bool> IsUserAssignedRoleAsync(int userId, int roleId)
+        {
+            return await IsRoleAssignedToUserAsync(userId, roleId); // Same check as above
+        }
+        public Role? GetRole(Func<Role, bool> condition)
+        {
+            return _context.Roles.Where(condition).FirstOrDefault();
+        }
     }
 }

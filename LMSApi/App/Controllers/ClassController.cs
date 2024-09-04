@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using LMSApi.App.Exceptions;
-
-using BusinessLayer.Interfaces;
 using LMSApi.App.Atrributes;
-using BusinessLayer.Requests;
-using BusinessLayer.Responses;
+
 
 namespace LMSApi.Controllers
 {
@@ -16,7 +13,6 @@ namespace LMSApi.Controllers
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
         private readonly ILogger _logger;
-
 
         public ClassController(IClassService classService, IMapper mapper, AppDbContext context, ILogger<ClassController> logger)
         {

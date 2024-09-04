@@ -1,173 +1,221 @@
 ﻿using AutoMapper;
 using LMSApi.App.Exceptions;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests;
-using LMSApi.App.Requests;
-using LMSApi.App.Responses;
 
-namespace LMSApi.App.Controllers
+namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class SubjectsController : ControllerBase
     {
-        private readonly ISubjectService subjectService;
-        private readonly IMapper mapper;
+        private readonly ISubjectService _subjectService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<SubjectsController> _logger;
 
-        public SubjectsController(ISubjectService subjectService, IMapper mapper)
+        public SubjectsController(ISubjectService subjectService, IMapper mapper, ILogger<SubjectsController> logger)
         {
-            this.subjectService = subjectService;
-            this.mapper = mapper;
+            _subjectService = subjectService;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        [HttpGet()]
+        [HttpGet]
+        [Route("")]
         public async Task<ActionResult<IApiResponse>> Index()
         {
-            List<SubjectResponse> subjects = mapper.Map<List<SubjectResponse>>(await subjectService.Index());
-            return Ok(ApiResponseFactory.Create(subjects, "Subjects fetched successfully", 200, true));
+            try
+            {
+                var subjects = await _subjectService.Index();
+                var response = _mapper.Map<List<SubjectResponse>>(subjects);
+                return Ok(ApiResponseFactory.Create(response, "Subjects fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching subjects.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<IApiResponse>> Show(int id)
         {
             try
             {
-                SubjectResponse subject = mapper.Map<SubjectResponse>(await subjectService.Show(id));
-                return Ok(ApiResponseFactory.Create(subject, "Subject fetched successfully", 200, true));
+                var subject = await _subjectService.Show(id);
+                var response = _mapper.Map<SubjectResponse>(subject);
+                return Ok(ApiResponseFactory.Create(response, "Subject fetched successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while fetching the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<IApiResponse>> Store([FromForm] SubjectRequest request)
+        [Route("")]
+        public async Task<ActionResult<IApiResponse>> Store([FromBody] SubjectRequest request)
         {
             try
             {
-                SubjectResponse subject = mapper.Map<SubjectResponse>(await subjectService.StoreAsync(request));
-
-
-                return Ok(ApiResponseFactory.Create(subject, "Subject created successfully", 201, true));
+                var subject = await _subjectService.StoreAsync(request);
+                var response = _mapper.Map<SubjectResponse>(subject);
+                return CreatedAtAction(nameof(Show), new { id = subject.Id }, ApiResponseFactory.Create(response, "Subject created successfully", 201, true));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while creating the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<IApiResponse>> Update(int id, UpdateSubjectRequest request)
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> Update(int id, [FromBody] UpdateSubjectRequest request)
         {
             try
             {
-                SubjectResponse subject = mapper.Map<SubjectResponse>(await subjectService.UpdateAsync(id, request));
-                return Ok(ApiResponseFactory.Create(subject, "Subject updated successfully", 200, true));
+                var subject = await _subjectService.UpdateAsync(id, request);
+                var response = _mapper.Map<SubjectResponse>(subject);
+                return Ok(ApiResponseFactory.Create(response, "Subject updated successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while updating the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         public async Task<ActionResult<IApiResponse>> Delete(int id)
         {
             try
             {
-                await subjectService.DeleteAsync(id);
-                return Ok(ApiResponseFactory.Create("Subject deleted successfully", 200, true));
+                await _subjectService.DeleteAsync(id);
+                return NoContent(); // Status code 204
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while deleting the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpGet("{subjectId}/teachers")]
-        public async Task<ActionResult<IApiResponse>> Teachers(int subjectId)
+        [HttpGet]
+        [Route("{subjectId}/classes")]
+        public async Task<ActionResult<IApiResponse>> GetClasses(int subjectId)
         {
             try
             {
-                List<TeacherResponse> teachers = mapper.Map<List<TeacherResponse>>(await subjectService.TeachersAsync(subjectId));
-                return Ok(ApiResponseFactory.Create(teachers, "Teachers fetched successfully", 200, true));
+                var classes = await _subjectService.ClassesAsync(subjectId);
+                var response = _mapper.Map<List<ClassResponse>>(classes);
+                return Ok(ApiResponseFactory.Create(response, "Classes fetched successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while fetching classes for the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpGet("{subjectId}/classes")]
-        public async Task<ActionResult<IApiResponse>> Classes(int subjectId)
+        [HttpGet]
+        [Route("{subjectId}/courses")]
+        public async Task<ActionResult<IApiResponse>> GetCourses(int subjectId)
         {
             try
             {
-                List<ClassResponse> classes = mapper.Map<List<ClassResponse>>(await subjectService.ClassesAsync(subjectId));
-                return Ok(ApiResponseFactory.Create(classes, "Classes fetched successfully", 200, true));
+                var courses = await _subjectService.CoursesAsync(subjectId);
+                var response = _mapper.Map<List<CourseResponse>>(courses);
+                return Ok(ApiResponseFactory.Create(response, "Courses fetched successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while fetching courses for the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpGet("{subjectId}/courses")]
-        public async Task<ActionResult<IApiResponse>> Courses(int subjectId)
+        [HttpGet]
+        [Route("{subjectId}/students")]
+        public async Task<ActionResult<IApiResponse>> GetStudents(int subjectId)
         {
             try
             {
-                var courses = mapper.Map<List<CourseResponse>>(await subjectService.CoursesAsync(subjectId));
-                return Ok(ApiResponseFactory.Create(courses, "Courses fetched successfully", 200, true));
+                var students = await _subjectService.StudentsAsync(subjectId);
+                var response = _mapper.Map<List<StudentResponse>>(students);
+                return Ok(ApiResponseFactory.Create(response, "Students fetched successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while fetching students for the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
-        [HttpPost("add-class")]
-        public async Task<ActionResult<IApiResponse>> AddClass([FromBody] AddSubjectToClassRequest request)
+        [HttpGet]
+        [Route("{subjectId}/teachers")]
+        public async Task<ActionResult<IApiResponse>> GetTeachers(int subjectId)
         {
             try
             {
-                await subjectService.AddSubjectToClass(request);
-                return Ok(ApiResponseFactory.Create("Class added successfully", 200, true));
+                var teachers = await _subjectService.TeachersAsync(subjectId);
+                var response = _mapper.Map<List<TeacherResponse>>(teachers);
+                return Ok(ApiResponseFactory.Create(response, "Teachers fetched successfully", 200, true));
             }
-            catch (NotFoundException e)
+            catch (NotFoundException ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 404, false));
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(ApiResponseFactory.Create(e.Message, 500, false));
+                _logger.LogError(ex, "An error occurred while fetching teachers for the subject.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
 
+        [HttpPost]
+        [Route("add-to-class")]
+        public async Task<ActionResult<IApiResponse>> AddSubjectToClass([FromBody] AddSubjectToClassRequest request)
+        {
+            try
+            {
+                var result = await _subjectService.AddSubjectToClass(request);
+                return Ok(ApiResponseFactory.Create("Subject added to class successfully", 200, result));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding the subject to the class.");
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
     }
 }

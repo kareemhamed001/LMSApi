@@ -1,78 +1,116 @@
 ﻿using AutoMapper;
-using LMSApi.App.Interfaces;
-using LMSApi.App.Requests;
-using LMSApi.App.Services;
-using Microsoft.AspNetCore.Mvc;
+using DataAccessLayer.Exceptions;
 
 namespace LMSApi.App.Controllers
 {
-
-
     [ApiController]
-        [Route("api/[controller]")]
-        public class CoursesController : ControllerBase
+    [Route("api/[controller]")]
+    public class CoursesController : ControllerBase
+    {
+        private readonly ICourseService _courseService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CoursesController> _logger;
+
+        public CoursesController(ICourseService courseService, IMapper mapper, ILogger<CoursesController> logger)
         {
-            private readonly ICourseService _courseRepository;
-            private readonly IMapper _mapper;
+            _courseService = courseService;
+            _mapper = mapper;
+            _logger = logger;
+        }
 
-            public CoursesController(ICourseService courseRepository, IMapper mapper)
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult<IApiResponse>> GetAll()
+        {
+            try
             {
-                _courseRepository = courseRepository;
-                _mapper = mapper;
+                var courses = await _courseService.GetAllAsync();
+                var courseResponses = _mapper.Map<IEnumerable<CourseResponse>>(courses);
+                return Ok(ApiResponseFactory.Create(courseResponses, "Courses fetched successfully", 200, true));
             }
-
-            [HttpGet("{id}")]
-            public async Task<ActionResult<CourseRequest>> GetById(int id)
+            catch (Exception ex)
             {
-                var course = await _courseRepository.GetByIdAsync(id);
+                _logger.LogCritical(ex, "An error occurred while fetching courses. Log message: {logMessage}", ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> GetById(int id)
+        {
+            try
+            {
+                var course = await _courseService.GetByIdAsync(id);
                 if (course == null)
-                    return NotFound();
+                    return NotFound(ApiResponseFactory.Create("Course not found", 404, false));
 
-                var courseDto = _mapper.Map<CourseRequest>(course);
-                return Ok(courseDto);
+                var courseResponse = _mapper.Map<CourseResponse>(course);
+                return Ok(ApiResponseFactory.Create(courseResponse, "Course fetched successfully", 200, true));
             }
-
-            [HttpGet]
-            public async Task<ActionResult<IEnumerable<CourseRequest>>> GetAll()
+            catch (Exception ex)
             {
-                var courses = await _courseRepository.GetAllAsync();
-                var courseDtos = _mapper.Map<IEnumerable<CourseRequest>>(courses);
-                return Ok(courseDtos);
+                _logger.LogCritical(ex, "An error occurred while fetching course with id {id}. Log message: {logMessage}", id, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
+        }
+
         [HttpPost]
-        public async Task<ActionResult<CourseRequest>> Create(CourseRequest courseDto)
+        [Route("")]
+        public async Task<ActionResult<IApiResponse>> Add([FromBody] CourseRequest courseRequest)
         {
-            // Check if Teacher exists
-            if (!await _courseRepository.TeacherExistsAsync(courseDto.TeacherId))
+            try
             {
-                return BadRequest($"Teacher with ID {courseDto.TeacherId} does not exist.");
+                await _courseService.AddAsync(courseRequest);
+                return CreatedAtAction(nameof(GetById), new { id = courseRequest.Id }, ApiResponseFactory.Create(courseRequest, "Course created successfully", 201, true));
             }
-
-            // Check if Subject exists
-            if (!await _courseRepository.SubjectExistsAsync(courseDto.SubjectId))
+            catch (Exception ex)
             {
-                return BadRequest($"Subject with ID {courseDto.SubjectId} does not exist.");
-            }
-
-            // Check if Class exists
-            if (!await _courseRepository.ClassExistsAsync(courseDto.ClassId))
-            {
-                return BadRequest($"Class with ID {courseDto.ClassId} does not exist.");
-            }
-
-            var course = _mapper.Map<Course>(courseDto);
-            await _courseRepository.AddAsync(course);
-
-            var createdCourseDto = _mapper.Map<CourseRequest>(course);
-            return CreatedAtAction(nameof(GetById), new { id = course.Id }, createdCourseDto);
-        }
-
-        [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(int id)
-            {
-                await _courseRepository.DeleteAsync(id);
-                return NoContent();
+                _logger.LogCritical(ex, "An error occurred while creating course. Log message: {logMessage}", ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> Update(int id, [FromBody] CourseRequest courseRequest)
+        {
+            try
+            {
+                var existingCourse = await _courseService.GetByIdAsync(id);
+                if (existingCourse == null)
+                    return NotFound(ApiResponseFactory.Create("Course not found", 404, false));
+
+                await _courseService.UpdateAsync(courseRequest);
+                return Ok(ApiResponseFactory.Create(courseRequest, "Course updated successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while updating course with id {id}. Log message: {logMessage}", id, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<IApiResponse>> Delete(int id)
+        {
+            try
+            {
+                await _courseService.DeleteAsync(id);
+                return Ok(ApiResponseFactory.Create("Course deleted successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while deleting course with id {id}. Log message: {logMessage}", id, ex);
+                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+            }
+        }
+
+   
     }
-
+}

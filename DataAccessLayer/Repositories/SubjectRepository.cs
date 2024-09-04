@@ -1,4 +1,6 @@
 ﻿
+using DataAccessLayer.Entities;
+
 namespace DataAccessLayer.Repositories
 {
     public class SubjectRepository : ISubjectRepository
@@ -33,25 +35,14 @@ namespace DataAccessLayer.Repositories
             await appDbContext.SaveChangesAsync();
             return subject;
         }
-        public async Task<Subject> UpdateAsync(int id, Subject request)
+        public async Task<Subject> UpdateAsync(Subject subject)
         {
-            var subject = await appDbContext.Subjects.FindAsync(id);
-            if (subject == null)
-            {
-                return null;
-            }
-            subject.Name = request.Name;
-            subject.Description = request.Description;
+            appDbContext.Subjects.Update(subject);
             await appDbContext.SaveChangesAsync();
             return subject;
         }
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Subject subject)
         {
-            var subject = await appDbContext.Subjects.FindAsync(id);
-            if (subject == null)
-            {
-                return;
-            }
             appDbContext.Subjects.Remove(subject);
             await appDbContext.SaveChangesAsync();
         }
@@ -121,26 +112,17 @@ namespace DataAccessLayer.Repositories
             return teachers;
         }
 
-        public async Task<bool> AddSubjectToClass(int classId, int subjectId)
+        public async Task<bool> AddSubjectToClass(Subject subject, Class classEntity)
         {
-            var subject = await appDbContext.Subjects.FindAsync(subjectId);
-            if (subject == null)
-            {
-                return false;
-            }
-            var classs = await appDbContext.Classes
-                .Include(c => c.Subjects)
-                .Where(c => c.Id == classId)
+
+            var @class = await appDbContext.Classes
+                .Include(c => c.Subjects.Where(s => s.Id == subject.Id))
+                .Where(c => c.Id == classEntity.Id)
                 .FirstAsync();
-            if (classs == null)
-            {
-                return false;
-            }
 
-
-            if (!classs.Subjects.Contains(subject))
+            if (!@class.Subjects.Contains(subject))
             {
-                classs.Subjects.Add(subject);
+                @class.Subjects.Add(subject);
                 await appDbContext.SaveChangesAsync();
                 return true;
             }

@@ -1,10 +1,31 @@
-﻿namespace BusinessLayer.Services
+﻿using BusinessLayer.Helpers;
+using BusinessLayer.Interfaces;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
+using Microsoft.Extensions.Logging;
+
+namespace BusinessLayer.Services
 {
-    public class TeacherService(AppDbContext appDbContext, ILogger<TeacherService> logger, ICacheService cache) : ITeacherService
+    public class TeacherService : ITeacherService
     {
-        private readonly AppDbContext appDbContext = appDbContext;
-        private readonly ILogger<TeacherService> logger = logger;
-        private readonly ICacheService cache = cache;
+        private readonly ITeacherRepository teacherRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IRoleRepository roleRepository;
+        private readonly ICourseRepository courseRepository;
+        private readonly ILogger<TeacherService> logger;
+        private readonly ICacheService cache;
+        private readonly string _filesPath = "FilesUploaded";
+
+        public TeacherService(ITeacherRepository teacherRepository, IUserRepository userRepository, IRoleRepository roleRepository, ICourseRepository courseRepository, ILogger<TeacherService> logger, ICacheService cache)
+        {
+            this.teacherRepository = teacherRepository;
+            this.userRepository = userRepository;
+            this.roleRepository = roleRepository;
+            this.logger = logger;
+            this.cache = cache;
+            this.courseRepository = courseRepository;
+        }
+
         public async Task<List<Teacher>> Index()
         {
             try
@@ -12,14 +33,8 @@
                 var teachers = cache.Get<List<Teacher>>(CacheKeys.Teachers);
                 if (teachers is null || teachers.Count() == 0)
                 {
-                    teachers = await appDbContext.Teachers.ToListAsync();
-
-                    cache.Set(CacheKeys.Teachers, teachers,DateTimeOffset.Now.AddSeconds(45));
-                    logger.LogInformation("Teachers from database");
-                }
-                else
-                {
-                    logger.LogInformation("Teachers from cache");
+                    teachers = await teacherRepository.Index();
+                    cache.Set(CacheKeys.Teachers, teachers, DateTimeOffset.Now.AddSeconds(45));
                 }
 
                 return teachers;
@@ -35,14 +50,12 @@
             try
             {
 
-                Teacher? teacher = await appDbContext.Teachers.FindAsync(teacherId);
+                Teacher? teacher = await teacherRepository.Show(teacherId);
                 if (teacher is null)
                 {
                     throw new NotFoundException("Teacher not found");
                 }
-                appDbContext.Teachers.Remove(teacher);
-                await appDbContext.SaveChangesAsync();
-                return true;
+                return await teacherRepository.Delete(teacher);
 
             }
             catch (Exception)
@@ -55,14 +68,7 @@
             try
             {
 
-                Teacher? teacher = await appDbContext.Teachers
-                    .Include(t => t.User)
-                    .ThenInclude(u => u.Roles)
-                    .ThenInclude(r => r.Permissions)
-                    .Include(t => t.Courses)
-                    .Include(t => t.Subjects)
-                    .Include(t => t.Subscriptions)
-                    .FirstOrDefaultAsync(t => t.Id == teacherId);
+                Teacher? teacher = await teacherRepository.Show(teacherId);
 
                 if (teacher is null)
                 {
@@ -81,16 +87,16 @@
         {
             try
             {
-                if (await appDbContext.Users.AnyAsync(u => u.Email == teacherRequest.Email))
+                if (userRepository.GetUser(u => u.Email == teacherRequest.Email) is not null)
                 {
                     throw new ForbidenException("Email already exists");
                 }
-                if (await appDbContext.Teachers.AnyAsync(u => u.Email == teacherRequest.CommunicationEmail))
+                if (teacherRepository.GetTeacher(u => u.Email == teacherRequest.CommunicationEmail) is not null)
                 {
                     throw new ForbidenException("Communication Email already exists");
                 }
 
-                var teacherRole = await appDbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Teacher");
+                var teacherRole = roleRepository.GetRole(r => r.Name == "Teacher");
                 User user = new User()
                 {
                     FirstName = teacherRequest.FirstName,
@@ -100,7 +106,8 @@
                     Password = teacherRequest.Password,
                     Roles = new List<Role> { teacherRole ?? new Role { Name = "Teacher" } }
                 };
-                appDbContext.Users.Add(user);
+
+                await userRepository.StoreAsync(user);
 
                 Teacher teacher = new Teacher
                 {
@@ -110,8 +117,7 @@
                     User = user
                 };
 
-                appDbContext.Teachers.Add(teacher);
-                await appDbContext.SaveChangesAsync();
+                await teacherRepository.Store(teacher);
 
 
                 return teacher;
@@ -127,11 +133,7 @@
         {
             try
             {
-
-                appDbContext.Database.BeginTransaction();
-                Teacher? teacher = await appDbContext.Teachers
-                    .Include(t => t.User)
-                    .FirstOrDefaultAsync(t => t.Id == teacherId);
+                Teacher? teacher = await teacherRepository.Show(teacherId);
                 if (teacher is null)
                 {
                     throw new NotFoundException("Teacher not found");
@@ -147,21 +149,19 @@
                 teacher.Phone = teacherRequest.CommunicationPhone ?? teacher.Phone;
                 teacher.Email = teacherRequest.CommunicationEmail ?? teacher.Email;
 
-                await appDbContext.SaveChangesAsync();
-                appDbContext.Database.CommitTransaction();
+                await teacherRepository.Update(teacher);
 
                 return teacher;
             }
 
             catch (Exception)
             {
-                appDbContext.Database.RollbackTransaction();
                 throw;
             }
         }
         public async Task<List<Course>> CoursesAsync(int teacherId)
         {
-            Teacher? teacher = await appDbContext.Teachers.Include(t => t.Courses).FirstOrDefaultAsync(t => t.Id == teacherId);
+            Teacher? teacher = await teacherRepository.Show(teacherId);
             if (teacher is null)
             {
                 throw new NotFoundException("Teacher not found");
@@ -170,7 +170,7 @@
         }
         public async Task<List<Subject>> SubjectsAsync(int teacherId)
         {
-            Teacher? teacher = await appDbContext.Teachers.Include(t => t.Subjects).FirstOrDefaultAsync(t => t.Id == teacherId);
+            Teacher? teacher = await teacherRepository.Show(teacherId);
             if (teacher is null)
             {
                 throw new NotFoundException("Teacher not found");
@@ -179,7 +179,7 @@
         }
         public async Task<List<Subscription>> SubscriptionsAsync(int teacherId)
         {
-            Teacher? teacher = await appDbContext.Teachers.Include(t => t.Subscriptions).FirstOrDefaultAsync(t => t.Id == teacherId);
+            Teacher? teacher = await teacherRepository.Show(teacherId);
             if (teacher is null)
             {
                 throw new NotFoundException("Teacher not found");
@@ -188,8 +188,7 @@
         }
         public async Task<List<Class>> ClassesAsync(int teacherId)
         {
-            Teacher? teacher = await appDbContext.Teachers.Include(t => t.Courses)
-                .ThenInclude(c => c.Class).FirstOrDefaultAsync(t => t.Id == teacherId);
+            Teacher? teacher = await teacherRepository.Show(teacherId);
             if (teacher is null)
             {
                 throw new NotFoundException("Teacher not found");
@@ -207,17 +206,14 @@
             try
             {
 
-                var loggedUser = await appDbContext.Users
-                    .Include(u => u.Roles)
-                    .Include(u => u.Teacher)
-                    .ThenInclude(t => t.Subjects.Where(s => s.Id == storeCourseRequest.SubjectId)) // Filtering subjects
-                    .FirstOrDefaultAsync(u => u.Id == loggedUserId);
+                User? loggedUser = await userRepository.GetUserByIdAsync(loggedUserId);
 
 
                 if (loggedUser is null)
                 {
                     throw new NotFoundException("User not found");
                 }
+
                 Teacher? teacher;
                 if (loggedUser.Teacher is not null)
                 {
@@ -230,9 +226,7 @@
                 }
                 else
                 {
-                    teacher = await appDbContext.Teachers
-                        .Include(t => t.Subjects.Where(s => s.Id == storeCourseRequest.SubjectId))
-                        .FirstOrDefaultAsync(t => t.Id == storeCourseRequest.TeacherId);
+                    teacher = await teacherRepository.Show(storeCourseRequest.TeacherId);
                 }
 
                 if (teacher is null)
@@ -245,8 +239,6 @@
                     throw new ForbidenException("Teacher has no such subject");
                 }
                 Subject subject = teacher.Subjects.First();
-                //load subject class
-                await appDbContext.Entry(subject).Collection(s => s.Classes).LoadAsync();
 
                 if (subject.Classes is null || !subject.Classes.Any(c => c.Id == storeCourseRequest.ClassId))
                 {
@@ -270,14 +262,28 @@
                     {
 
                         List<LessonContent> lessonContents = new List<LessonContent>();
-                        lessonContents.AddRange(lessonRequest.LessonContents.Select(lc => new LessonContent
-                        {
-                            Name = lc.Name,
-                            Type = lc.Type,
-                            Content = lc.Content,
-                            Link = lc.Link
-                        }));
 
+
+                        foreach (LessonContentRequest content in lessonRequest.LessonContents)
+                        {
+                            var link = $"{Guid.NewGuid()}{Path.GetExtension(content.Link.FileName)}";
+                            var path = Path.Combine(_filesPath, link);
+
+                            using (var stream = File.Create(path))
+                            {
+                                {
+                                    await stream.CopyToAsync(stream);
+                                }
+                            }
+
+                            lessonContents.Add(new LessonContent
+                            {
+                                Name = content.Name,
+                                Type = content.Type,
+                                Content = content.Content,
+                                Link = link
+                            });
+                        }
                         Lesson lesson = new Lesson
                         {
                             Name = lessonRequest.Name,
@@ -285,12 +291,11 @@
                             SectionNumber = lessonRequest.SectionNumber,
                             LessonContents = lessonContents
                         };
+
                         course.Lessons.Add(lesson);
                     }
-
                 }
-                appDbContext.Courses.Add(course);
-                await appDbContext.SaveChangesAsync();
+                await courseRepository.AddAsync(course);
                 return course;
             }
             catch (Exception)
@@ -298,59 +303,59 @@
                 throw;
             }
         }
-        public async Task<Subject> AddTeacherToSubjectAsync(int loggedUserId, AddTeacherToSubjectRequest addTeacherToSubjectRequest)
-        {
-            try
-            {
+        //public async Task<Subject> AddTeacherToSubjectAsync(int loggedUserId, AddTeacherToSubjectRequest addTeacherToSubjectRequest)
+        //{
+        //    try
+        //    {
 
-                var loggedUser = await appDbContext.Users.Include(u => u.Roles)
-                    .Include(u => u.Teacher)
-                    .ThenInclude(t => t.Subjects)
-                    .FirstOrDefaultAsync(u => u.Id == loggedUserId);
+        //        var loggedUser = await appDbContext.Users.Include(u => u.Roles)
+        //            .Include(u => u.Teacher)
+        //            .ThenInclude(t => t.Subjects)
+        //            .FirstOrDefaultAsync(u => u.Id == loggedUserId);
 
-                if (loggedUser is null)
-                {
-                    throw new NotFoundException("User not found");
-                }
-                Teacher? teacher;
-                if (loggedUser.Teacher is not null)
-                {
-                    if (loggedUser.Teacher.Id != addTeacherToSubjectRequest.TeacherId)
-                    {
-                        throw new ForbidenException("You are not allowed to add subject for another teacher");
-                    }
-                    teacher = loggedUser.Teacher;
+        //        if (loggedUser is null)
+        //        {
+        //            throw new NotFoundException("User not found");
+        //        }
+        //        Teacher? teacher;
+        //        if (loggedUser.Teacher is not null)
+        //        {
+        //            if (loggedUser.Teacher.Id != addTeacherToSubjectRequest.TeacherId)
+        //            {
+        //                throw new ForbidenException("You are not allowed to add subject for another teacher");
+        //            }
+        //            teacher = loggedUser.Teacher;
 
-                }
-                else
-                {
-                    teacher = await appDbContext.Teachers.Include(t => t.Subjects).FirstOrDefaultAsync(t => t.Id == addTeacherToSubjectRequest.TeacherId);
-                }
+        //        }
+        //        else
+        //        {
+        //            teacher = await appDbContext.Teachers.Include(t => t.Subjects).FirstOrDefaultAsync(t => t.Id == addTeacherToSubjectRequest.TeacherId);
+        //        }
 
-                if (teacher is null)
-                {
-                    throw new NotFoundException("Teacher not found");
-                }
+        //        if (teacher is null)
+        //        {
+        //            throw new NotFoundException("Teacher not found");
+        //        }
 
-                if (teacher.Subjects.Any(s => s.Id == addTeacherToSubjectRequest.SubjectId))
-                {
-                    throw new ForbidenException("Teacher has this subject already");
-                }
+        //        if (teacher.Subjects.Any(s => s.Id == addTeacherToSubjectRequest.SubjectId))
+        //        {
+        //            throw new ForbidenException("Teacher has this subject already");
+        //        }
 
-                Subject? subject = await appDbContext.Subjects.FindAsync(addTeacherToSubjectRequest.SubjectId);
-                if (subject is null)
-                {
-                    throw new NotFoundException("Subject not found");
-                }
+        //        Subject? subject = await appDbContext.Subjects.FindAsync(addTeacherToSubjectRequest.SubjectId);
+        //        if (subject is null)
+        //        {
+        //            throw new NotFoundException("Subject not found");
+        //        }
 
-                teacher.Subjects.Add(subject);
-                await appDbContext.SaveChangesAsync();
-                return subject;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //        teacher.Subjects.Add(subject);
+        //        await appDbContext.SaveChangesAsync();
+        //        return subject;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

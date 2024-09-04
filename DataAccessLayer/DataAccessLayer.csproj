@@ -15,5 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Seeders\" />
+  </ItemGroup>
+
 
 </Project>
