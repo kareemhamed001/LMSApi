@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LMSApi.App.Atrributes;
 using DataAccessLayer.Exceptions;
+using System.Collections.Generic;
+using DataAccessLayer.Entities;
 
 
 namespace LMSApi.Controllers
@@ -101,30 +103,37 @@ namespace LMSApi.Controllers
         [CheckPermission("class.deleteClass")]
         public async Task<ActionResult> DeleteClass(int id)
         {
-            await _classService.DeleteClassAsync(id);
+            try
+            {
+                await _classService.DeleteClassAsync(id);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
+            }
+
         }
 
         [HttpGet("{classId}/students")]
         [CheckPermission("class.getStudentsByClassId")]
-        public async Task<ActionResult> GetStudentsByClassId(int classId)
+        public async Task<ActionResult<ApiResponseListStrategy<StudentResponse>>> GetStudentsByClassId(int classId)
         {
             try
             {
-                var classEntity = await _classService.GetClassByIdAsync(classId);
-                if (classEntity == null) return NotFound();
-
                 // Get students for the class
-                var students = await _classService.GetStudentsByClassIdAsync(classId);
+                List<Student> students = (List<Student>)await _classService.GetStudentsByClassIdAsync(classId);
 
                 // Map the class entity to GetStudentOfClassRequest
-                var getStudentOfClassRequest = _mapper.Map<GetStudentOfClassRequest>(classEntity);
+                List<StudentResponse> getStudentOfClassRequest = _mapper.Map<List<StudentResponse>>(students);
 
-                // Map students to StudentDto and set it in the request
-                getStudentOfClassRequest.Students = _mapper.Map<List<StudentDto>>(students);
-
-                return Ok(getStudentOfClassRequest);
+                return Ok(ApiResponseFactory.Create(getStudentOfClassRequest, "Students Fetched Successfully", 201, true));
             }
             catch (NotFoundException ex)
             {
@@ -139,7 +148,7 @@ namespace LMSApi.Controllers
 
         [HttpGet("{classId}/courses")]
         [CheckPermission("class.getCoursesByClassId")]
-        public async Task<ActionResult> GetCoursesByClassId(int classId)
+        public async Task<ActionResult<IEnumerable<CourseResponse>>> GetCoursesByClassId(int classId)
         {
             try
             {
@@ -157,14 +166,17 @@ namespace LMSApi.Controllers
             }
 
         }
+
         [HttpGet("{classId}/teachers")]
         [CheckPermission("class.getTeachersByClassId")]
-        public async Task<ActionResult> GetTeachersByClassId(int classId)
+        public async Task<ActionResult<ApiResponseListStrategy<TeacherResponse>>> GetTeachersByClassId(int classId)
         {
             try
             {
                 var teachers = await _classService.GetTeachersByClassIdAsync(classId);
-                return Ok(ApiResponseFactory.Create(_mapper.Map<List<TeacherResponse>>(teachers), "Teachers Fetched Successfully", 201, true));
+                List<TeacherResponse> teachersResponse = _mapper.Map<List<TeacherResponse>>(teachers);
+
+                return Ok(ApiResponseFactory.Create(teachersResponse, "Teachers Fetched Successfully", 201, true));
             }
             catch (NotFoundException ex)
             {
