@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace WebApi.Tests
+namespace LMSApi.Tests
 {
     public class SubjectsControllerTests
     {

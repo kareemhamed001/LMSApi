@@ -37,7 +37,10 @@ namespace BusinessLayer.Services
 
         public async Task<Course> GetByIdAsync(int id)
         {
-            return await _courseRepository.GetByIdAsync(id);
+            Course? course = await _courseRepository.GetByIdAsync(id);
+            if (course == null)
+                throw new NotFoundException("Course not found");
+            return course;
         }
 
         public async Task AddAsync(CourseRequest courseRequest)
