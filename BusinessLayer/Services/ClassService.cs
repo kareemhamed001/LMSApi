@@ -14,7 +14,10 @@ namespace BusinessLayer.Services
         }
         public async Task<Class> GetClassByIdAsync(int id)
         {
-            return await classRepository.GetClassByIdAsync(id);
+            Class classEntity = await classRepository.GetClassByIdAsync(id);
+            if (classEntity is null)
+                throw new NotFoundException("Class Not Found");
+            return classEntity;
         }
         public async Task<IEnumerable<Class>> GetAllClassesAsync()
         {
