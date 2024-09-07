@@ -7,14 +7,15 @@ namespace BusinessLayer.Services
     public class LessonContentService : ILessonContentService
     {
         private readonly ILessonContentRepository lessonContentRepository;
+        private readonly ILessonRepository lessonRepository; // Assuming you have this repository
         private readonly IMapper _mapper;
+        private readonly string _filesPath;
 
-        private readonly String _filesPath;
-        public LessonContentService(ILessonContentRepository lessonContentRepository, IMapper mapper)
+        public LessonContentService(ILessonContentRepository lessonContentRepository, ILessonRepository lessonRepository, IMapper mapper)
         {
             this.lessonContentRepository = lessonContentRepository;
+            this.lessonRepository = lessonRepository; // Initialize lesson repository
             _mapper = mapper;
-
             _filesPath = "FilesUploaded";
         }
 
@@ -117,6 +118,13 @@ namespace BusinessLayer.Services
 
             await lessonContentRepository.DeleteAsync(lessonContent);
 
+        }
+
+        public async Task<bool> LessonExistsAsync(int lessonId)
+        {
+            var Lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
+            if (Lesson == null) return false;
+            else   return true;
         }
     }
 }

@@ -11,7 +11,7 @@ using WebApi.Controllers;
 using AutoMapper;
 using BusinessLayer.Interfaces;
 
-namespace WebApi.Tests
+namespace LMSApi.Tests
 {
     public class LessonsControllerTests
     {
