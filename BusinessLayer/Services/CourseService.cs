@@ -43,7 +43,7 @@ namespace BusinessLayer.Services
             return course;
         }
 
-        public async Task AddAsync(CourseRequest courseRequest)
+        public async Task<Course> AddAsync(CourseRequest courseRequest)
         {
             // Validate Teacher, Subject, and Class existence
             if (courseRequest.TeacherId > 0 && !await _courseRepository.TeacherExistsAsync(courseRequest.TeacherId))
@@ -62,7 +62,7 @@ namespace BusinessLayer.Services
             }
 
             var course = mapper.Map<Course>(courseRequest);
-            await _courseRepository.AddAsync(course);
+            return await _courseRepository.AddAsync(course);
         }
         public async Task UpdateAsync(CourseRequest course)
         {

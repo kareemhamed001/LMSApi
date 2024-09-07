@@ -23,10 +23,11 @@ namespace DataAccessLayer.Repositories
             return await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task AddAsync(Course course)
+        public async Task<Course> AddAsync(Course course)
         {
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
+            return course;
         }
         public async Task UpdateAsync(Course course)
         {
