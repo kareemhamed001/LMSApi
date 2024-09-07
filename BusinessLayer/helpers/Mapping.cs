@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
 namespace BusinessLayer.Helpers
 {
@@ -47,6 +48,9 @@ namespace BusinessLayer.Helpers
 
             //subscription mapping
             CreateMap<Subscription, SubscriptionResponse>();
+
+            CreateMap<Lesson, LessonResponse>();
+            CreateMap<LessonContent, LessonContentResponse>();
         }
 
     }

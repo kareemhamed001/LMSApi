@@ -10,6 +10,8 @@ using Xunit;
 using WebApi.Controllers;
 using AutoMapper;
 using BusinessLayer.Interfaces;
+using DataAccessLayer.Exceptions;
+
 
 namespace LMSApi.Tests
 {
@@ -81,10 +83,11 @@ namespace LMSApi.Tests
         }
 
         [Fact]
-        public async Task GetLessonById_LessonDoesNotExist_ReturnsNotFound()
+        public async Task GetLessonById_LessonDoesNotExist_CatchNotFoundExceptionAndReturnNotFoundResponse()
         {
             // Arrange
-            _mockLessonService.Setup(service => service.GetLessonByIdAsync(It.IsAny<int>())).ReturnsAsync((Lesson)null);
+            _mockLessonService.Setup(service => service.GetLessonByIdAsync(It.IsAny<int>()))
+                .ThrowsAsync(new NotFoundException("lesson not found"));
 
             // Act
             var result = await _controller.GetLessonById(1);
@@ -92,11 +95,37 @@ namespace LMSApi.Tests
             // Assert
             var actionResult = Assert.IsType<ActionResult<IApiResponse>>(result);
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(actionResult.Result);
-            var apiResponse = Assert.IsType<ApiResponseBase>(notFoundResult.Value); 
+            var apiResponse = Assert.IsType<ApiResponseBase>(notFoundResult.Value);
             Assert.Equal(404, apiResponse.Status);
             Assert.False(apiResponse.Success);
-            Assert.Equal("Lesson not found", apiResponse.Message);
+            Assert.Equal("lesson not found", apiResponse.Message);
         }
+
+
+        [Fact]
+        public async Task GetLessonById_WhenUnHandeledExceptionHappened_ReturnsResponseWithStatusCode500()
+        {
+            // Arrange
+
+            _mockLessonService.Setup(service => service.GetLessonByIdAsync(1))
+                .ThrowsAsync(new Exception("database error"));
+
+            // Act
+            var result = await _controller.GetLessonById(1);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<IApiResponse>>(result);
+
+            var objectResult = Assert.IsType<ObjectResult>(actionResult.Result);
+            Assert.Equal(500, objectResult.StatusCode);
+
+            var apiResponse = Assert.IsType<ApiResponseBase>(objectResult.Value);
+            Assert.NotNull(apiResponse);
+            Assert.False(apiResponse.Success);
+            Assert.Equal("Internal server error", apiResponse.Message);
+        }
+
+
 
         [Fact]
         public async Task CreateLesson_ReturnsCreatedAtActionResult()

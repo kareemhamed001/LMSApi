@@ -9,13 +9,13 @@ namespace LMSApi.Controllers
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
-        private readonly IRoleRepository _roleRepository;
+        private readonly IRoleService _roleService;
         private readonly ILogger<RolesController> _logger;
         private readonly IMapper _mapper;
 
-        public RolesController(IRoleRepository roleRepository, ILogger<RolesController> logger, IMapper mapper)
+        public RolesController(IRoleService _roleService, ILogger<RolesController> logger, IMapper mapper)
         {
-            _roleRepository = roleRepository;
+            this._roleService = _roleService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -26,7 +26,7 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var roles = await _roleRepository.GetAllRolesAsync();
+                var roles = await _roleService.GetAllRolesAsync();
                 var roleResponses = _mapper.Map<List<RoleResponse>>(roles);
                 return Ok(ApiResponseFactory.Create(roleResponses, "Roles fetched successfully", 200, true));
             }
@@ -43,7 +43,7 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var role = await _roleRepository.GetRoleByIdAsync(roleId);
+                var role = await _roleService.GetRoleByIdAsync(roleId);
                 if (role == null)
                     return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
@@ -62,7 +62,7 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var role = await _roleRepository.CreateRoleAsync(_mapper.Map<Role>(roleRequest));
+                var role = await _roleService.CreateRoleAsync(_mapper.Map<Role>(roleRequest));
                 var roleResponse = _mapper.Map<RoleResponse>(role);
                 return CreatedAtAction(nameof(GetRoleById), new { roleId = role.Id }, ApiResponseFactory.Create(roleResponse, "Role created successfully", 201, true));
             }
@@ -79,12 +79,12 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var existingRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                var existingRole = await _roleService.GetRoleByIdAsync(roleId);
                 if (existingRole == null)
                     return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
-                await _roleRepository.UpdateRoleAsync(roleId, _mapper.Map<Role>(roleRequest));
-                var updatedRole = await _roleRepository.GetRoleByIdAsync(roleId);
+                await _roleService.UpdateRoleAsync(roleId, _mapper.Map<Role>(roleRequest));
+                var updatedRole = await _roleService.GetRoleByIdAsync(roleId);
                 var roleResponse = _mapper.Map<RoleResponse>(updatedRole);
                 return Ok(ApiResponseFactory.Create(roleResponse, "Role updated successfully", 200, true));
             }
@@ -101,11 +101,11 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var role = await _roleRepository.GetRoleByIdAsync(roleId);
+                var role = await _roleService.GetRoleByIdAsync(roleId);
                 if (role == null)
                     return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
-                await _roleRepository.DeleteRoleAsync(roleId);
+                await _roleService.DeleteRoleAsync(roleId);
                 return Ok(ApiResponseFactory.Create("Role deleted successfully", 200, true));
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace LMSApi.Controllers
         {
             try
             {
-                var userRoleAssignmentResult = await _roleRepository.IsRoleAssignedToUserAsync(request.UserId, request.RoleId);
+                var userRoleAssignmentResult = await _roleService.IsRoleAssignedToUserAsync(request.UserId, request.RoleId);
                 if (!userRoleAssignmentResult)
                     return NotFound(ApiResponseFactory.Create("User or role not found", 404, false));
 
