@@ -43,7 +43,7 @@ namespace LMSApi.App.Controllers
             try
             {
                 await teacherService.Delete(teacherId);
-                return NoContent(); 
+                return Ok(ApiResponseFactory.Create("Teacher deleted successfully", 200, true));
             }
             catch (NotFoundException ex)
             {

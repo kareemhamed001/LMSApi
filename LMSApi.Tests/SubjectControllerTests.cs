@@ -4,7 +4,7 @@ using BusinessLayer.Requests;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Exceptions;
-using WebApi.Controllers;
+using LMSApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
