@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using DataAccessLayer.Exceptions;
 using LMSApi.App.Atrributes;
-using LMSApi.App.Exceptions;
 using LMSApi.App.Options;
 using System.Security.Claims;
 

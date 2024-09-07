@@ -22,7 +22,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<Role> GetRoleByIdAsync(int roleId)
         {
-            return await _context.Roles.FindAsync(roleId);
+            return await _context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Id == roleId);
         }
 
         public async Task<IEnumerable<Role>> GetAllRolesAsync()
@@ -30,14 +30,11 @@ namespace DataAccessLayer.Repositories
             return await _context.Roles.ToListAsync();
         }
 
-        public async Task UpdateRoleAsync(int roleId, Role roleRequest)
+        public async Task<Role> UpdateRoleAsync(Role role)
         {
-            var role = await _context.Roles.FindAsync(roleId);
-            if (role != null)
-            {
-                role.Name = roleRequest.Name; // Update other properties as needed
-                await _context.SaveChangesAsync();
-            }
+            _context.Roles.Update(role);
+            await _context.SaveChangesAsync();
+            return role;
         }
 
         public async Task DeleteRoleAsync(int roleId)

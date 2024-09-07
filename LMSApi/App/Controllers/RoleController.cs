@@ -1,7 +1,8 @@
 ﻿
 using LMSApi.App.Requests;
-using DataAccessLayer.Interfaces;
+
 using AutoMapper;
+using DataAccessLayer.Exceptions;
 
 namespace LMSApi.Controllers
 {
@@ -33,7 +34,7 @@ namespace LMSApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while fetching roles. Log message: {logMessage}", ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
@@ -44,32 +45,38 @@ namespace LMSApi.Controllers
             try
             {
                 var role = await _roleService.GetRoleByIdAsync(roleId);
-                if (role == null)
-                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
 
                 var roleResponse = _mapper.Map<RoleResponse>(role);
                 return Ok(ApiResponseFactory.Create(roleResponse, "Role fetched successfully", 200, true));
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while fetching role with id {roleId}. Log message: {logMessage}", roleId, ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<IApiResponse>> CreateRole([FromBody] CreateRoleRequest roleRequest)
+        public async Task<ActionResult<ApiResponseSingleStrategy>> CreateRole([FromBody] CreateRoleRequest roleRequest)
         {
             try
             {
-                var role = await _roleService.CreateRoleAsync(_mapper.Map<Role>(roleRequest));
+                var role = await _roleService.CreateRoleAsync(roleRequest);
                 var roleResponse = _mapper.Map<RoleResponse>(role);
-                return CreatedAtAction(nameof(GetRoleById), new { roleId = role.Id }, ApiResponseFactory.Create(roleResponse, "Role created successfully", 201, true));
+                return Ok(ApiResponseFactory.Create(roleResponse, "Role created successfully", 201, true));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ApiResponseFactory.Create(ex.Message, 400, false));
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while creating role. Log message: {logMessage}", ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
@@ -80,18 +87,20 @@ namespace LMSApi.Controllers
             try
             {
                 var existingRole = await _roleService.GetRoleByIdAsync(roleId);
-                if (existingRole == null)
-                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
-
-                await _roleService.UpdateRoleAsync(roleId, _mapper.Map<Role>(roleRequest));
-                var updatedRole = await _roleService.GetRoleByIdAsync(roleId);
+        
+                var updatedRole = await _roleService.UpdateRoleAsync(roleId, roleRequest);
                 var roleResponse = _mapper.Map<RoleResponse>(updatedRole);
-                return Ok(ApiResponseFactory.Create(roleResponse, "Role updated successfully", 200, true));
+
+                return Ok(ApiResponseFactory.Create(roleResponse, "Role updated successfully", 201, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while updating role with id {roleId}. Log message: {logMessage}", roleId, ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
@@ -102,16 +111,18 @@ namespace LMSApi.Controllers
             try
             {
                 var role = await _roleService.GetRoleByIdAsync(roleId);
-                if (role == null)
-                    return NotFound(ApiResponseFactory.Create("Role not found", 404, false));
-
+              
                 await _roleService.DeleteRoleAsync(roleId);
                 return Ok(ApiResponseFactory.Create("Role deleted successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while deleting role with id {roleId}. Log message: {logMessage}", roleId, ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 

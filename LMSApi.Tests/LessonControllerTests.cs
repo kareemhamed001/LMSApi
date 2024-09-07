@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
-using WebApi.Controllers;
+using LMSApi.Controllers;
 using AutoMapper;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.Exceptions;

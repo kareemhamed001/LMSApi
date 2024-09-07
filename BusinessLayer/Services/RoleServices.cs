@@ -15,7 +15,7 @@ namespace BusinessLayer.Services
             _logger = logger;
         }
 
-        public async Task<Role> CreateRoleAsync(Role roleRequest)
+        public async Task<Role> CreateRoleAsync(CreateRoleRequest roleRequest)
         {
             if (roleRequest == null)
             {
@@ -25,8 +25,23 @@ namespace BusinessLayer.Services
 
             try
             {
-                _logger.LogInformation("Creating role with name: {RoleName}", roleRequest.Name);
-                return await _roleRepository.CreateRoleAsync(roleRequest);
+                List<RolePermission> rolPermissions = new List<RolePermission>();
+                foreach (var permission in roleRequest.Permissions)
+                {
+                    RolePermission rolePermission = new RolePermission
+                    {
+                        PermissionId = permission,
+                    };
+                    rolPermissions.Add(rolePermission);
+                }
+
+                Role role = new Role
+                {
+                    Name = roleRequest.Name,
+                    RolePermissions = rolPermissions
+                };
+
+                return await _roleRepository.CreateRoleAsync(role);
             }
             catch (Exception ex)
             {
@@ -39,7 +54,6 @@ namespace BusinessLayer.Services
         {
             try
             {
-                _logger.LogInformation("Retrieving role with ID: {RoleId}", roleId);
                 var role = await _roleRepository.GetRoleByIdAsync(roleId);
 
                 if (role == null)
@@ -70,7 +84,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task UpdateRoleAsync(int roleId, Role roleRequest)
+        public async Task<Role> UpdateRoleAsync(int roleId, CreateRoleRequest roleRequest)
         {
             if (roleRequest == null)
             {
@@ -80,16 +94,26 @@ namespace BusinessLayer.Services
 
             try
             {
-                _logger.LogInformation("Checking if role with ID {RoleId} exists for update.", roleId);
                 var existingRole = await _roleRepository.GetRoleByIdAsync(roleId);
                 if (existingRole == null)
                 {
-                    _logger.LogWarning("Role with ID {RoleId} not found for update.", roleId);
-                    throw new KeyNotFoundException($"Role with ID {roleId} not found.");
+                    throw new NotFoundException($"Role with ID {roleId} not found.");
+                }
+                List<RolePermission> rolPermissions = new List<RolePermission>();
+                foreach (var permission in roleRequest.Permissions)
+                {
+                    RolePermission rolePermission = new RolePermission
+                    {
+                        PermissionId = permission,
+                    };
+                    rolPermissions.Add(rolePermission);
                 }
 
-                _logger.LogInformation("Updating role with ID: {RoleId}.", roleId);
-                await _roleRepository.UpdateRoleAsync(roleId, roleRequest);
+                existingRole.Name = roleRequest.Name;
+                existingRole.RolePermissions = rolPermissions;
+
+
+               return await _roleRepository.UpdateRoleAsync(existingRole);
             }
             catch (Exception ex)
             {

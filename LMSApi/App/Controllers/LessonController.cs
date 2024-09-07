@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Exceptions;
 
-namespace WebApi.Controllers
+namespace LMSApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

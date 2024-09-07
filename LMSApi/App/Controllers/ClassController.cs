@@ -30,12 +30,8 @@ namespace LMSApi.Controllers
             {
                 var classEntity = await _classService.GetClassByIdAsync(id);
 
-                if (classEntity == null)
-                    return NotFound();
-
                 ClassResponse classResponse = _mapper.Map<ClassResponse>(classEntity);
                 return Ok(ApiResponseFactory.Create(classResponse, "Class Exists", 201, false));
-
             }
             catch (NotFoundException ex)
             {

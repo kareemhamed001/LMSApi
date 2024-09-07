@@ -20,6 +20,7 @@ namespace BusinessLayer.Helpers
 
             //role mapping
             CreateMap<Role, RoleResponse>();
+            CreateMap<CreateRoleRequest, Role>();
 
             //permission mapping
             CreateMap<Permission, PermissionResponse>();
