@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
 namespace BusinessLayer.Helpers
 {
@@ -19,6 +20,7 @@ namespace BusinessLayer.Helpers
 
             //role mapping
             CreateMap<Role, RoleResponse>();
+            CreateMap<CreateRoleRequest, Role>();
 
             //permission mapping
             CreateMap<Permission, PermissionResponse>();
@@ -47,6 +49,9 @@ namespace BusinessLayer.Helpers
 
             //subscription mapping
             CreateMap<Subscription, SubscriptionResponse>();
+
+            CreateMap<Lesson, LessonResponse>();
+            CreateMap<LessonContent, LessonContentResponse>();
         }
 
     }

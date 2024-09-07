@@ -13,7 +13,12 @@ namespace BusinessLayer.Services
 
         public async Task<Lesson> GetLessonByIdAsync(int id)
         {
-            return await lessonRepository.GetLessonByIdAsync(id);
+            var lesson = await lessonRepository.GetLessonByIdAsync(id);
+            if (lesson == null)
+            {
+                throw new NotFoundException($"Lesson with id {id} not found");
+            }
+            return lesson;
         }
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync()
@@ -36,7 +41,7 @@ namespace BusinessLayer.Services
             existingLesson.CourseId = lesson.CourseId;
             existingLesson.SectionNumber = lesson.SectionNumber;
 
-           
+
             return await lessonRepository.UpdateLessonAsync(existingLesson);
         }
 

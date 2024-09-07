@@ -91,7 +91,7 @@ namespace DataAccessLayer.Repositories
                 .Include(c => c.Students)
                 .FirstOrDefaultAsync(c => c.Id == classId);
 
-            return classEntity?.Students ?? new List<Student>();
+            return classEntity?.Students ?? [];
         }
         public async Task<IEnumerable<Course>> GetCoursesByClassIdAsync(int classId)
         {
@@ -100,7 +100,7 @@ namespace DataAccessLayer.Repositories
                 .ThenInclude(c => c.Teacher)
                 .FirstOrDefaultAsync(c => c.Id == classId);
 
-            return classEntity == null ? new List<Course>() : classEntity.Courses;
+            return classEntity?.Courses ?? [];
         }
 
         public async Task<IEnumerable<Teacher>> GetTeachersByClassIdAsync(int classId)

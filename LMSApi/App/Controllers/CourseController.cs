@@ -20,7 +20,7 @@ namespace LMSApi.App.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<IApiResponse>> GetAll()
+        public async Task<ActionResult<ApiResponseListStrategy<CourseResponse>>> GetAll()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace LMSApi.App.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while fetching courses. Log message: {logMessage}", ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
@@ -42,32 +42,39 @@ namespace LMSApi.App.Controllers
             try
             {
                 var course = await _courseService.GetByIdAsync(id);
-                if (course == null)
-                    return NotFound(ApiResponseFactory.Create("Course not found", 404, false));
 
                 var courseResponse = _mapper.Map<CourseResponse>(course);
                 return Ok(ApiResponseFactory.Create(courseResponse, "Course fetched successfully", 200, true));
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while fetching course with id {id}. Log message: {logMessage}", id, ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<IApiResponse>> Add([FromBody] CourseRequest courseRequest)
+        public async Task<ActionResult<ApiResponseSingleStrategy>> Add([FromBody] CourseRequest courseRequest)
         {
             try
             {
-                await _courseService.AddAsync(courseRequest);
-                return CreatedAtAction(nameof(GetById), new { id = courseRequest.Id }, ApiResponseFactory.Create(courseRequest, "Course created successfully", 201, true));
+                Course newCourse = await _courseService.AddAsync(courseRequest);
+                CourseResponse courseResponse = _mapper.Map<CourseResponse>(newCourse);
+                return Ok(ApiResponseFactory.Create(courseResponse, "Course created successfully", 201, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "An error occurred while creating course. Log message: {logMessage}", ex);
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
 
@@ -78,11 +85,13 @@ namespace LMSApi.App.Controllers
             try
             {
                 var existingCourse = await _courseService.GetByIdAsync(id);
-                if (existingCourse == null)
-                    return NotFound(ApiResponseFactory.Create("Course not found", 404, false));
 
                 await _courseService.UpdateAsync(courseRequest);
                 return Ok(ApiResponseFactory.Create(courseRequest, "Course updated successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
@@ -111,6 +120,6 @@ namespace LMSApi.App.Controllers
             }
         }
 
-   
+
     }
 }

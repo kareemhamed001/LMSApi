@@ -1,4 +1,7 @@
-﻿namespace WebApi.Controllers
+﻿using AutoMapper;
+using DataAccessLayer.Exceptions;
+
+namespace LMSApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -6,50 +9,47 @@
     {
         private readonly ILessonService _lessonService;
         private readonly ILogger<LessonsController> _logger;
-
-        public LessonsController(ILessonService lessonService, ILogger<LessonsController> logger)
+        private readonly IMapper _mapper;
+        public LessonsController(ILessonService lessonService, IMapper mapper, ILogger<LessonsController> logger)
         {
             _lessonService = lessonService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<IApiResponse>> GetAllLessons()
+        public async Task<ActionResult<IEnumerable<LessonResponse>>> GetAllLessons()
         {
-            try
-            {
-                var lessons = await _lessonService.GetAllLessonsAsync();
-                var response = lessons; 
-                return Ok(ApiResponseFactory.Create(response, "Lessons fetched successfully", 200, true));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching lessons.");
-                return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
-            }
+
+            var lessons = await _lessonService.GetAllLessonsAsync();
+
+            // Wrap the list in ApiResponseListStrategy
+            return Ok(ApiResponseFactory.Create(_mapper.Map<IEnumerable<LessonResponse>>(lessons), "lessons Fetched Successfully", 201, true));
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<IApiResponse>> GetLessonById(int id)
         {
             try
             {
                 var lesson = await _lessonService.GetLessonByIdAsync(id);
-                if (lesson == null)
-                {
-                    return NotFound(ApiResponseFactory.Create("Lesson not found", 404, false));
-                }
 
-                return Ok(ApiResponseFactory.Create(lesson, "Lesson fetched successfully", 200, true));
+                var lessonResponse = _mapper.Map<LessonResponse>(lesson);
+                return Ok(ApiResponseFactory.Create(lessonResponse, "Lesson retrieved successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while fetching the lesson.");
+                _logger.LogError(ex, "An error occurred while retrieving the lesson.");
                 return StatusCode(500, ApiResponseFactory.Create("Internal server error", 500, false));
             }
         }
+
 
         [HttpPost]
         [Route("")]

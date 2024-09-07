@@ -9,5 +9,6 @@ namespace BusinessLayer.Interfaces
         Task<LessonContent> CreateAsync(LessonContentRequest lessonContentDto);
         Task<LessonContent> UpdateAsync(int id, LessonContentRequest lessonContentDto);
         Task DeleteAsync(int id);
+        Task<bool> LessonExistsAsync(int lessonId);
     }
 }

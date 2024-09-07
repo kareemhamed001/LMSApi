@@ -18,8 +18,8 @@
             return new ApiResponseSingleStrategy
             {
                 Data = data,
-                Message = "Success",
-                Status = 200,
+                Message = message,
+                Status = status,
                 Success = true
             };
         }

@@ -4,7 +4,7 @@
     {
         Task<Course> GetByIdAsync(int id);
         Task<IEnumerable<Course>> GetAllAsync();
-        Task AddAsync(CourseRequest course);
+        Task<Course> AddAsync(CourseRequest course);
         Task UpdateAsync(CourseRequest course);
         Task DeleteAsync(int id);
         Task<bool> TeacherExistsAsync(int teacherId);

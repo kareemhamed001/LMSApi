@@ -6,7 +6,7 @@
         Task<Role> GetRoleByIdAsync(int roleId);
         public Role? GetRole(Func<Role, bool> condition);
         Task<IEnumerable<Role>> GetAllRolesAsync();
-        Task UpdateRoleAsync(int roleId, Role roleRequest);
+        Task<Role> UpdateRoleAsync(Role role);
         Task DeleteRoleAsync(int roleId);
         Task AddRoleToUserAsync(int userId, int roleId);
 
