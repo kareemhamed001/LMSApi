@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{1B15B22D-ACD3-4252-BB8E-6578230B974F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMSApi.Tests", "LMSApi.Tests\LMSApi.Tests.csproj", "{91FF50AA-341A-4F4E-808C-EDBA2EA32127}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMSApi.Tests", "LMSApi.Tests\LMSApi.Tests.csproj", "{91FF50AA-341A-4F4E-808C-EDBA2EA32127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -92,8 +92,8 @@ namespace LMSApi.Tests
 
             // Assert
             Assert.IsType<ActionResult<IApiResponse>>(result);
-            var noContentResult = Assert.IsType<NoContentResult>(result.Result);
-            Assert.Equal(204, noContentResult.StatusCode);
+            var noContentResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(200, noContentResult.StatusCode);
         }
         [Fact]
         public async Task Delete_WhenTeacherNotFound_ReturnsNotFound()
