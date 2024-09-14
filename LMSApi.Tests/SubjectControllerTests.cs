@@ -3,7 +3,6 @@ using BusinessLayer.Interfaces;
 using BusinessLayer.Requests;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
-using DataAccessLayer.Exceptions;
 using LMSApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

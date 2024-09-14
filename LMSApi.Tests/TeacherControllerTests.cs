@@ -3,7 +3,6 @@ using BusinessLayer.Interfaces;
 using BusinessLayer.Requests;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
-using DataAccessLayer.Exceptions;
 
 //using DataAccessLayer.Exceptions;
 using LMSApi.App.Controllers;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SharedClasses.Exceptions;
 
 namespace LMSApi.Tests
 {

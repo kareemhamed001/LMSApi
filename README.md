@@ -57,3 +57,20 @@ management system.
 <li>PUT /api/v1/lessons-contents/:id</li>
 <li>DELETE /api/v1/lessons-contents/:id</li>
 </ul>
+<li>Students</li>
+<ul>
+<li>GET /api/v1/students</li>
+<li>POST /api/v1/students</li>
+<li>GET /api/v1/students/:id</li>
+<li>PUT /api/v1/students/:id</li>
+<li>DELETE /api/v1/students/:id</li>
+</ul>
+<li>Enrollments</li>
+<ul>
+<li>GET /api/v1/enrollments</li>
+<li>POST /api/v1/enrollments</li>
+<li>GET /api/v1/enrollments/:id</li>
+<li>PUT /api/v1/enrollments/:id</li>
+<li>DELETE /api/v1/enrollments/:id</li>
+</ul>
+</ul>

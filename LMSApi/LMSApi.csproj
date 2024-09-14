@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
+		<ProjectReference Include="..\SharedClasses\SharedClasses.csproj" />
 	</ItemGroup>
 
 </Project>

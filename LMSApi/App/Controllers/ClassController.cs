@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LMSApi.App.Atrributes;
-using DataAccessLayer.Exceptions;
 using System.Collections.Generic;
 using DataAccessLayer.Entities;
 

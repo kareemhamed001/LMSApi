@@ -19,5 +19,9 @@
     <Folder Include="Seeders\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedClasses\SharedClasses.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -10,7 +10,8 @@ using Xunit;
 using LMSApi.Controllers;
 using AutoMapper;
 using BusinessLayer.Interfaces;
-using DataAccessLayer.Exceptions;
+using SharedClasses.Exceptions;
+
 
 
 namespace LMSApi.Tests

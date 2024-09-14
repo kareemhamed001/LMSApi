@@ -2,7 +2,6 @@
 using LMSApi.App.Requests;
 
 using AutoMapper;
-using DataAccessLayer.Exceptions;
 
 namespace LMSApi.Controllers
 {

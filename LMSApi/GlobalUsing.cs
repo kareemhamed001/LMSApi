@@ -6,3 +6,4 @@ global using BusinessLayer.Requests;
 global using BusinessLayer.Responses;
 global using BusinessLayer.Interfaces;
 global using BusinessLayer.Services;
+global using SharedClasses.Exceptions;

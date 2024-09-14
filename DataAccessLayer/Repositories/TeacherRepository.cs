@@ -1,6 +1,4 @@
-﻿
-using DataAccessLayer.Exceptions;
-using System.Linq;
+﻿using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {

@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LMSApi\LMSApi.csproj" />
+    <ProjectReference Include="..\SharedClasses\SharedClasses.csproj" />
   </ItemGroup>
 
   <ItemGroup>

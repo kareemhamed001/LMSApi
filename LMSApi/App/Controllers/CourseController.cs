@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DataAccessLayer.Exceptions;
 
 namespace LMSApi.App.Controllers
 {

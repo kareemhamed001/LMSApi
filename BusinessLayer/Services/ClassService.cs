@@ -1,5 +1,4 @@
-﻿
-using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Interfaces;
 using AutoMapper;
 
 

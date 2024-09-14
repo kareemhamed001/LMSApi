@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Exceptions
+﻿namespace SharedClasses.Exceptions
 {
     public class ForbidenException: Exception
     {
